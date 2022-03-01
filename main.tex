@@ -1,14 +1,73 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
+% Geometry setup
+\documentclass[14pt,a4paper]{article}
+\usepackage[margin=1.5cm]{geometry}
 
-\title{thalg-notes}
-\author{viktoria.nemkin }
-\date{February 2022}
+% Language setup
+\usepackage[T1]{fontenc} % Output character encoding
+\usepackage[utf8]{inputenc} % Input character encoding
 
+% Spacing setup
+\setlength{\parindent}{0pt} % No paragraph indenting
+\setlength{\parskip}{5pt} % Set spacing between paragraphs
+\frenchspacing
+\newcommand{\rmspace}{\vspace{-19pt}}
+
+% Dependency setup
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage[comma,authoryear]{natbib}
+\usepackage[shortlabels]{enumitem}
+
+% Code pretty print
+\usepackage{minted}
+
+% Hyperlink format
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+% Title setup
+\title{Practice Session Notes: Theory of Algorithms}
+\author{Viktória Nemkin (nemkin@cs.bme.hu)}
+\date{}
+
+% Custom commands
+\newcommand{\lineparagraph}[1]{\paragraph{#1}\mbox{}\\}
+
+% Document
 \begin{document}
-
 \maketitle
 
-\section{Introduction}
+These are my practice session notes for the Wednesday 16:15 - 18:00 sessions. \textbf{Mistakes are possible}, if you spot any, please contact me at nemkin@cs.bme.hu or in MS Teams.
+
+\section{First}
+
+\section{Second}
+
+\section{Regular expressions, context-free languages}
+
+\input{03/01}
+\input{03/02}
+\input{03/03}
+\input{03/04}
+\input{03/05}
+\input{03/06}
+\input{03/07}
+\input{03/08}
+\input{03/09}
+\input{03/10}
+\input{03/11}
+\input{03/12}
+
+
 
 \end{document}

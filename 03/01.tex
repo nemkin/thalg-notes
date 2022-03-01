@@ -1,0 +1,50 @@
+\subsection{}
+\label{3.1}
+
+\lineparagraph{Exercise}
+
+Let $\Sigma = \{a,b\}$ and let language $L$ consist of words
+that contain the same number of $a$'s and $b$'s. Is $L$ regular?
+
+\lineparagraph{Solution}
+
+\textbf{Gut feeling} (This is not yet a proof!)
+
+Not regular.
+
+This language is similar to $a^nb^n$ (studied in the lecture). The
+main issue with it will be similar: we would need to remember the difference
+of the number of $a$'s and $b$'s we have read in so far and only
+accept the word if the difference is $0$ after reading in the entire
+word.
+
+For every possible difference, we will need a separate state, however the
+difference can be arbitrarily large, while we can only have a finite
+number of states using Finite Automata, so it won't be possible
+to construct such a machine.
+
+\textbf{Proof}
+
+We will do proof by contradiction:
+
+\begin{itemize}
+    \item Let's assume that $L$ is regular.
+    \item Then, that means that there exists a Deterministic Finite Automata, that accepts the language $L$.
+    \item Let's take one such automata, and name it $M$.
+    \item Let's count the number of states in $M$ and name this number $n$.
+    \item Now let's list exactly $n+1$ specifically chosen words from the $L$ language: $ab$, $aabb$, $a^3b^3$, $\dots$, $a^{n+1}b^{n+1}$.
+    \item Then imagine feeding these $n+1$ words into $M$. For all of them, let $M$ read in the $a$ letters and then stop and take note of which state the word is at the moment, halfway-through the operation.
+    \item After reading in $a$, $aa$, $a^3$, $\dots$, $a^{n+1}$, since these are $n+1$ cases, while $M$ only has $n$ states, we can use the \href{https://en.wikipedia.org/wiki/Pigeonhole_principle}{Pigeonhole Principle} and say, that there exists at least two different half-words $a^i$ and $a^j$ $(i\neq{}j)$, for which $M$ arrived at the same state after feeding it these inputs. Let's name this state $S$.
+    \item Since $a^ib^i$ is in language $L$, it must be accepted by $M$. This means that when we continue from state $S$ and feed in the $b$'s of the word, the machine must arrive in an accepting state. So there exists a path from state $S$ to an accepting state that is traversed by the input $b^i$.
+    \item However, $M$ also arrives in state $S$ when it reads $a^j$. We just noted, that if from $S$ it reads $b^i$ it will arrive in an accept state. If we put these two together, it means that $M$ accepts the word $a^ib^j$, where $i\neq{}j$, which is \textbf{not} in $L$, since it doesn't have the same number of $a$'s and $b$'s.
+    \item We stated in the beginning that $M$ is a machine whose language is $L$, however we just found a word that is not in $L$, but accepted by $M$, so this is a contradiction.
+\end{itemize}
+
+Notes:
+
+\begin{itemize}
+    \item This is symmetric, we could also prove that $M$ accepts $a^ib^j$, for $i\neq{}j$ which is also a contradiction, since that word is also not in $L$.
+    \item To put it shortly: the machine cannot distinguish $a^i$ and $a^j$ $(i\neq{}j)$ and since $a^ib^i$ and $a^jb^j$ are accepted, so are $a^ib^j$ and $a^jb^i$, which are not in $L$, which is a contradiction.
+    \item Note, that this proof is exactly the same as the proof for language $a^nb^n$ studied in the lecture. This is due to the fact, that these languages are similar, for both of them the issue is keeping track of the number of $a$'s to (eventually or simultaneously) compare them to the number of $b$'s.
+    \item It is \textbf{not true}, that ''the proof works because $a^nb^n$ is a subset of $L$''. For example, $a^nb^n$ is also a subset of $\Sigma^*$, which is regular!
+\end{itemize}
