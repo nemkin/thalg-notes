@@ -1,4 +1,6 @@
-\subsection{}
+\subsection{Session 3, Exercise 6}
+
+\lineparagraph{Exercise}
 
 Give regular expressions that are shorter than the following ones but give the same languages.
 
@@ -7,3 +9,11 @@ Give regular expressions that are shorter than the following ones but give the s
 \item $((0+\varepsilon)(0+\varepsilon))^*$
 \item $(0+1)^*01(0+1)^*+1^*0^*$
 \end{enumerate}
+
+\lineparagraph{Solutions}
+
+$(0+\varepsilon)^*$ can match at every recurrence either a $0$ or an empty string, repeated any number of times. We can either not match any $0$'s, then this results in the empty string, or we can match any number of $0$'s as well (with any number of empty strings in-between them, which do not add anything to the result), so this is the same as $0^*$.
+
+For $((0+\varepsilon)(0+\varepsilon))^*$, the inner expression can match the empty string, $0$, or $00$. Repeated any number of times allows for matching any number of $0$'s, including the empty string as well. So this is also the same as $0^*$.
+
+$(0+1)^*01(0+1)^*+1^*0^*$ is an interesting one: The word either contains a $0$, followed by a $1$ (in the first part of the sum), or... it does not: $1^*0^*$ matches words where the $1$'s can only be before the $0$'s, not after them, while $(0+1)^*01(0+1)^*+1^*0^*$ matches words where there is a $0$ that is followed by a $1$. All possible $0$/$1$ strings fit into either of these categories, so these two together match anything from $(0+1)^*$.

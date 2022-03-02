@@ -1,3 +1,24 @@
-\subsection{}
+\subsection{Session 3, Exercise 7}
 
-Give a regular expression whose language consists of all words over $\{0,1\}$ without the subword 110.
+\lineparagraph{Exercise}
+
+Give a regular expression whose language consists of all words over $\{0,1\}$ without the subword $110$.
+
+\lineparagraph{Solution}
+
+Unfortunately there is no method to take the complementer of a language when dealing with regular expressions (as opposed to DFA's).
+
+The main thinking behind this is ''where can we stop before we end up with a $110$''?
+
+\begin{itemize}
+    \item If we start with any number of $0$'s, we are in the clear: $0^*$
+    \item If we add a $1$, we are getting closer to the fire, however we can quickly correct it by adding at least one $0$ right after: $0^*+0^*(10^*0)$.
+    \item We can repeat this step as many times as we want to: $0^*+0^*(10^*0)^*$, since that mandatory $0$ between the $1$'s will make sure no two $1$'s follow each other.
+    \item However, if we add two $1$'s, right after each other, we can not follow by a $0$, or that would result in a $110$. We can either end the string there, or we can still follow with more $1$'s, however no more $0$'s are allowed at that point. So we can either end the string here with as many $0$'s or $1$'s as we want: $0^*+0^*1(0^*01)^*(0^*+1^*)$
+\end{itemize}
+
+There is a more elegant form available, equivalent to the previous form:
+
+$(0+10)^*1^*$.
+
+The main idea behind this, is that we can repeat $0$'s, or $1$'s followed immediately by a $0$ as many times and in whichever order we like. Then, we can one time decide to put down two consecutive $1$'s, at which point we can no longer put down $0$'s.

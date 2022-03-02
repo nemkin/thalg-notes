@@ -1,4 +1,6 @@
-\subsection{}
+\subsection{Session 3, Exercise 4}
+
+\lineparagraph{Exercise}
 
 Let $\Sigma=\{0,1\}$. Determine the languages of the following regular expressions.
 
@@ -7,3 +9,13 @@ Let $\Sigma=\{0,1\}$. Determine the languages of the following regular expressio
 \item $1(0+1)^*0$
 \item $((0+1)(0+1))^*$
 \end{enumerate}
+
+\lineparagraph{Solution}
+
+$(0+1)^*$ is a regular expression that accepts any string from $\Sigma^*$, since $0+1$ accepts either a $0$ or a $1$, and the $^*$ operator allows any number of repeats, including zero.
+
+Thus, $(0+1)^*011(0+1)^*$ is a regular expression that accepts strings that can begin anyhow (including the empty string), then contain the word $011$, then end anyhow, including the empty string. Or, simply put, it accepts all words that contain the string $011$.
+
+For $1(0+1)^*0$, the string must begin with a $1$ and must end with a $0$, while anything, including the empty string can be in between. So this regular expression accepts words that begin with a $1$ and end with a $0$.
+
+For $((0+1)(0+1))^*$, the inner regular expression $(0+1)(0+1)$ accepts any strings with a length of two. Using the $^*$ operator on this allows this to repeat any number of times, allowing for any even length to be accepted, including the length of $0$, which is the empty string.

@@ -1,0 +1,27 @@
+\subsection{Session 3, Exercise 10}
+
+\lineparagraph{Exercise}
+
+Give CF-grammar for the language of properly matched parentheses sequences.
+
+\lineparagraph{Solution}
+
+Again, apply the ''one to the left, one to the right'' method, and generate the matching pairs of parentheses at the same time!
+
+Starting out with something like this, which is not yet correct:
+
+\begin{align*}
+S &\rightarrow (S)|\varepsilon
+\end{align*}
+
+However, this only generates $((((\dots))))$, while we can also add properly matched parentheses next to each other:
+
+\begin{align*}
+S &\rightarrow SS|(S)|\varepsilon
+\end{align*}
+
+Proof that this is correct:
+
+To generate a string of properly matched parentheses, we start by counting the number of the outermost parentheses pairs, and use the first rule to generate an equal number of $S$ variables. Then, we use the second rule once on all of them, to put down the outer parentheses. Then, we repeat for the inner strings, which must be also properly matched parentheses. When there is no more inner string, we use the third rule to terminate the generation.
+
+No improper strings can be generated, since the second rule guarantees that only matched pairs are generated in that step, while the inner string will also be a properly matched parentheses sequence, since it is generated from $S$ as well. The first rule is correct also, since properly matched parentheses can be concatenated to arrive at another properly matched parentheses string.

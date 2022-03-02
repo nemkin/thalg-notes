@@ -1,0 +1,62 @@
+\subsection{Session 3, Exercise 9}
+
+\lineparagraph{Exercise}
+
+Give CF-grammars for the following regular languages from Exercise 4:
+
+Let $\Sigma=\{0,1\}$.
+
+\begin{enumerate}[a.)]
+\item Contains $011$ as a substring: $(0+1)^*011(0+1)^*$
+\item Starts with $1$, ends with $0$: $1(0+1)^*0$
+\item Is of even length: $((0+1)(0+1))^*$
+\end{enumerate}
+
+\lineparagraph{Solutions}
+
+\subsubsection{Contains $011$ as a substring}
+
+Let's make a variable for producting $(0+1)^*$:
+
+\begin{align*}
+A &\rightarrow 0A|1A|\varepsilon
+\end{align*}
+
+$A$ generates any string from left-to right, using the first rule if the next character is a $0$ and the second rule if the next character is a $1$. When we reach the end of the string, with no more characters left, the third rule is applied and the production is completed.
+
+Using $A$, we can now do
+
+\begin{align*}
+S &\rightarrow A011A\\
+A &\rightarrow 0A|1A|\varepsilon
+\end{align*}
+
+where $S$ creates the required $011$ substring and puts an $A$ at the beginning and at the end $A$ to generate any optional characters.
+
+\subsubsection{Starts with $1$, ends with $0$}
+
+Using the same $A$, and the same logic as before:
+
+\begin{align*}
+S &\rightarrow 1A0\\
+A &\rightarrow 0A|1A|\varepsilon
+\end{align*}
+
+\subsubsection{Is of even length}
+
+Change up the wording a little: We generate a string that consists of two parts, that are of equal length.
+
+Any time we need to generate something of equal length to something (or any numerical relationship between their lengths) the only way it will work, is if we generate them by the ''one (some) to the left and one (some) to the right'' method.
+
+Right now, any characters are allowed, the only thing that matters is that they are of the same length, so we can do:
+
+\begin{align*}
+S &\rightarrow 0S0|0S1|1S0|1S1|\varepsilon
+\end{align*}
+
+Or some might prefer this form, may be a bit more cleaner:
+
+\begin{align*}
+S &\rightarrow TST|\varepsilon\\
+T &\rightarrow 0|1
+\end{align*}
