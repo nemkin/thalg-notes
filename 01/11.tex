@@ -1,0 +1,31 @@
+\subsection{Sesssion 1, Exercise 11}
+
+Note: this is a hard exercise, using probability theory as well, it is not included in the exam!
+
+\lineparagraph{Exercise}
+
+Prove that the expected running time of Simple search is $O(n)$, when both the text and pattern are random $0$ - $1$ sequences (the bits are independent of each other and probabilities of $0$ and $1$ are both $\frac{1}{2}$). What happens if only the pattern is random?
+
+\lineparagraph{Solution}
+
+The pattern is denoted by $M$ and its length is $m=|M|$, the text is denoted by $S$ and its length is $n=|S|$.
+
+Let's denote with the random variable $t_i$ the number of comparisons made by the Simple search algorithm for a pattern position with a shift of $i$ number of characters.
+
+Then, in total the number of comparisons made is $\sum\limits_{i=0}^{n-m}t_i$, so the expected number of comparisons is $E(\sum\limits_{i=0}^{n-m}t_i)$.
+
+$E(\sum\limits_{i=0}^{n-m}t_i) = \sum\limits_{i=0}^{n-m}E(t_i)$, due to the Linearity of Expectation. It is important to remember, that this holds true even when the variables are correlated, like in our case!
+
+Now, the only thing left to find is $E(t_i)$.
+
+For a given position $k$ in the pattern, the probability of it matching the current position in the text, or $P(S[k+i] = M[k])$ is $\frac{1}{2}$, since both the pattern and the text is random, and they match for $S[k+i] = M[k] = 0$ and $S[k+i] = M[k] = 1$ while not match for $S[k+i] = 0, M[k] = 1$ and $S[k+i] = 1, M[k] = 0$, all four of these happen with $\frac{1}{4}$ probability, and two of these are the desired.
+
+Now, the comparisons are made up until the point one of them fails, and we care about the number of them. This would be a geometric distribution, if the number of possible positions would be infinite. While this is not true, since the pattern and the text are both finite, since we only care about an upper bound, we can over-estimate the expectation value with the geometric distribution's expectation value.
+
+$E(t_i) \leq{} \sum\limits_{j=1}^{\infty}j2^{-j} = 2$.
+
+Then we plug this back in:
+
+$E(\sum\limits_{i=0}^{n-m}t_i) = \sum\limits_{i=0}^{n-m}E(t_i) \leq{} \sum\limits_{i=0}^{n-m}2 = 2(n-m+1) \in{} O(n)$.
+
+When only the pattern is random, the only thing changing here is how we calculate $P(S[k+i] = M[k])$. If the text's character is a $0$, or $S[k+i]=0$ then the probability of a random $M[k]$ matching it is $\frac{1}{2}$, when $M[k]=0$. Similarly, if the text's character is a $1$, or $S[k+i]=1$ then the probability of a random $M[k]$ matching it is $\frac{1}{2}$, when $M[k]=1$. So the probability is the same and the same result holds here as well.

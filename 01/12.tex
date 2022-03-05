@@ -1,0 +1,21 @@
+\subsection{Session 1, Exercise 12}
+
+Note: this is a hard exercise, it is not included in the exam!
+
+\lineparagraph{Exercise}
+
+Algorithm A solves the problem of pattern matching for $0$ - $1$ sequences, in case of pattern of $m$ bits and text of $n$ bits it uses $T(n, m)$ steps to give all occurrences of the pattern (in increasing order). How can this be used to find all occurrences of a length $m$ pattern in a length $n$ text over an arbitrary alphabet $\Sigma$ using $O((n + T(n, m))log_2|\Sigma|)$ time?
+
+\lineparagraph{Solution}
+
+Let's just say that $O((n + T(n, m))log_2|\Sigma|)$ is suspiciously specific. Especially the $log_2|\Sigma|$ part indicates that we should encode the alphabet in binary form, then a length of an original character in binary will be $log_2|\Sigma|$ in this new alphabet.
+
+However, an issue with this approach will be, that only whole-character shifts should be allowed. We can not allow the algorithm to shift the pattern by half a binary-encoded character's length and find a match there. There is another issue, where this would also result in $T(log_2|\Sigma|n, log_2|\Sigma|m)$ runtime for $A$ and we have no idea about the inner workings of $T$ to somehow estimate this using $T(n,m)$.
+
+Both of these issues will be solved, if we instead create $k = \lceil log_2|\Sigma| \rceil$ number of different pattern matching tasks, and the $i$th task will contain the original task's characters replaced by their $i$th bits.
+
+Now if we let the algorithm find all the occurrences, if it finds let's say an occurrence with shift $a$ in all of the $k$ tasks, that means that all of the bits of the characters match, so the original pattern matches the original text with shift $a$ as well!
+
+To keep track of the results of the $k$ tasks, we create an array $Z$ of length $n$, initialized with $0$'s at the beginning. If the algorithm on the $i$th task finds an occurrence with shift $a$, it increments $Z[a]$ with $1$. Then, at the end when all algorithms finished we read $Z$ and if the value at position $a$ is $k$ that means that all of the $k$ tasks found that as a match, so the original pattern matches with shift $a$ as well.
+
+Finally, the number of steps required to run $A$ on $k$ tasks with the same length as the original string but in binary is $kT(n, m)$, while initializing and incrementing the $Z$ array (of size $n$) is at most $nk$, so in total we are at $O((n+T(n,m))k)$ steps, which is $O((n+T(n,m))log_2|\Sigma|)$.
