@@ -12,3 +12,49 @@ Let $f_1(n) = 1.5n!$ and $f_2(n)=200(n-1)!$. Which of the following is true?
 \end{enumerate}
 
 \lineparagraph{Solution}
+
+$n! = n(n-1)!$, so we can already see that $f_1(n) \approx nf_2(n)$.
+
+Let's prove that $f_2 \in{} O(f_1)$:
+
+$f_2(n) = 200(n-1)! \leq{} 200n(n-1)! = 200n! = \frac{200}{1.5}1.5n! = \frac{200}{1.5}f_1(n)$. So $c=\frac{200}{1.5}$ and $n_0=1$ works.
+
+Let's also prove that $f_1 \notin{} O(f_2)$, $1.5n! \notin{} O(200(n-1)!)$.
+
+Let's assume indirectly that $1.5n! \in{} O(200(n-1)!)$.
+
+That means that there exists $c>0$ and $n_0\in{}\mathds{Z}^+$ such that
+
+$1.5n! \leq{} c200(n-1)!$ for $\forall{}n\geq{}n_0$.
+
+Let's use $n!=n(n-1)!$:
+
+$1.5n(n-1)! \leq{} c200(n-1)!$ for $\forall{}n\geq{}n_0$.
+
+Let's divide by $(n-1)!$:
+
+$1.5n \leq{} c200$ for $\forall{}n\geq{}n_0$.
+
+And move the constants to the right:
+
+$n \leq{} c\frac{200}{1.5}$ for $\forall{}n\geq{}n_0$.
+
+This is a contradiction, since we would want to upper bound $n$ with a constant, however $n$ can be arbitrarily large.
+
+Thus the indirect statement is false, the original statement is true, so $f_1 \notin{} O(f_2)$.
+
+Let's look at the questions now:
+
+\begin{enumerate}[a.)]
+    \item $f_1=O(f_2)$, we proved this to be false.
+    \item $f_2=O(f_1)$, we proved this to be true.
+    \item $f_1=\Omega(f_2)$, this is true, because $f_2=O(f_1)$ implies that $f_1=\Omega(f_2)$.
+    \item $f_2=\Omega(f_1)$, this is false, because this would imply $f_1=O(f_2)$, which is false.
+\end{enumerate}
+
+
+Note:
+\begin{itemize}
+    \item It is very important to not only prove that $f_2 \in{} O(f_1)$, but also separately prove that $f_1 \notin{} O(f_2)$, since both $f_2 \in{} O(f_1)$ and $f_1 \in{} O(f_2)$ could be true, for example in the case of $f_1 = f_2$.
+    \item $f\in{}O(g)$ implies that $g\in{}\Omega(f)$, since both definitions require us to come up with a $c$ and an $n_0$ and if we used the same $n_0$s and $c_2 = \frac{1}{c_1}$ or the reciprocal of the constants we can quickly arrive at $g\in{}\Omega(f)$ from $f\in{}O(g)$.
+\end{itemize}

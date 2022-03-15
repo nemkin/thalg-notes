@@ -15,6 +15,144 @@ Let $L(n)$ denote the worst case running time of an algorithm on an input of len
     \item $L(n) = 4L(\ceil*{\frac{n}{2}}) + 3$
 \end{enumerate}
 
+(For exercises e)-h), we can assume that $n=2^m$.)
+
 What happens if instead of equality we have $\leq{}$ or $\geq{}$?
 
 \lineparagraph{Solution}
+
+Let's start from the end: What happens if instead of equality we have $\leq{}$ or $\geq{}$?
+
+When there is $\leq{}$, it means that we only have an upper estimate on $L(n)$, which means that we can only talk about $O$, however we can say nothing about $\Omega$.
+
+When there is $\geq{}$, it means that we only have a lower estimate on $L(n)$, which means that we can only talk about $\Omega$, however we can say nothing about $O$.
+
+\textbf{a)}
+
+$L(n) = L(n-1) + 3 = L(n-2) + 3 + 3 = L(n-3) + 3*3 = ... = L(n-i) + i*3$.
+
+The base case is when $n-i=1$, or $i=n-1$.
+
+$ L(n-i) + i*3 = L(n-(n-1)) + (n-1)*3 = L(1) + 3(n-1) = 3n - 3 + 2 = 3n-1$.
+
+So $L(n) = 3n-1$ for $n>1$.
+
+$3n-1 \in{} \Theta(n)$ (proof is left to the reader).
+
+\textbf{b)}
+
+$L(n) = L(n-1) + 5 = L(n-2) + 5 + 5 = L(n-3) + 3*5 = ... = L(n-i) + i*5$.
+
+The base case is when $n-i=1$, or $i=n-1$.
+
+$ L(n-i) + i*5 = L(n-(n-1)) + (n-1)*5 = L(1) + 5(n-1) = 5n - 5 + 2 = 5n-3$.
+
+So $L(n) = 5n-3$ for $n>1$.
+
+$5n-3 \in{} \Theta(n)$ (proof is left to the reader).
+
+\textbf{c)}
+
+$L(n) = L(n-1) + 3n = L(n-2) + 3n + 3(n-1) = L(n-3) + 3*(n+(n-1)+(n-2)) = ... = L(n-i) + 3*(n+(n-1)+(n-2)+...+(n-(i-1)))$.
+
+The base case is when $n-i=1$, or $i=n-1$.
+
+$ L(n-i) + 3*(n+(n-1)+(n-2)+...+(n-(i-1))) = L(n-(n-1)) + 3*(n+(n-1)+(n-2)+...+(n-(n-1-1))) = L(1) + 3*(n+(n-1)+(n-2)+...+2) = 2 + 3*(n+(n-1)+(n-2)+...+2) = 3*(n+(n-1)+(n-2)+...+2+1)-1 = \frac{n(n+1)}{2}-1$.
+
+We can use the Gauss Summation: $n+(n-1)+(n-2)+...+2+1 = \frac{n(n+1)}{2}$
+
+So $L(n) = \frac{n(n+1)}{2}-1$ for $n>1$.
+
+$\frac{n(n+1)}{2}-1 \in{} \Theta(n^2)$ (proof is left to the reader).
+
+This is one of those cases when calculating the exact value of $L(n)$ is a bit tedious, however an upper estimate is much simple, which allows us to reason about $O$! (But not $\Omega$, since that would require a lower estimate.)
+
+$L(n) = L(n-1) + 3n = L(n-2) + 3n + 3(n-1) \leq{} L(n-2) + 3n + 3n = L(n-3) + 3n + 3n + 3(n-2) \leq{} L(n-3) + 3*(3n) \leq{} L(n-i) + i*(3n)$.
+
+The base case is when $n-i=1$, or $i=n-1$
+
+$L(n-i) + i*(3n) \leq{} L(n-(n-1)) + (n-1)*(3n) = L(1) + (n-1)*(3n) = 3n*(n-1) + 2 = 3n^2-3n+2$.
+
+$L(n) \leq{} 3n^2-3n+2$
+
+Now, we can only use this to estimate $O$, since that would continue the upper estimation:
+
+$L(n) \leq{} 3n^2-3n+2 \leq{} 3n^2+2 \leq{} 3n^2+2n^2 = 5n^2$, so $c=5$ and $n_0=1$ works for $O(n^2)$.
+
+\textbf{d)}
+
+$L(n) = 2L(n-1) + 3 = 2^2L(n-2) + 2*3 + 3 = 2^3L(n-3) + 2^2*3 + 2*3 + 3 = ... = 2^iL(n-i)+3*(2^{i-1}+...+2^0)$.
+
+For $2^{i-1}+...+2^0$ we can use the formula for the sum of the geometric progression: $2^{i-1}+...+2^0 = \frac{2^i-1}{2-1} = 2^i-1$.
+
+$2^iL(n-i)+3*(2^{i-1}+...+2^0) = 2^i*L(n-i)+3*2^i-3$.
+
+The base case is when $n-i=1$, or $i=n-1$
+
+$2^i*L(n-i)+3*2^i-3 = 2^{n-1}*L(n-(n-1))+3*2^{n-1}-3 = 2^{n-1}*L(1)+3*2^{n-1}-3 = 2^{n-1}*2+3*2^{n-1}-3 = 5*2^{n-1}-3 = \frac{5}{2}2^n-3$.
+
+So $L(n) = \frac{5}{2}2^n-3$ for $n>1$.
+
+$\frac{5}{2}2^n-3 \in{} \Theta(2^n)$ (proof is left to the reader).
+
+\textbf{e)}
+
+We can assume that $n=2^m$.
+
+$L(2^m) = L(2^{m-1}) + 3 =  L(2^{m-2}) + 3 + 3 = L(2^{m-3}) + 3 + 3 + 3 = ... = L(2^{m-i}) + 3*i$.
+
+The base case is when $2^{m-i}=1$, or $m-i=0$, or $i=m$.
+
+$L(2^{m-i}) + 3*i = ... = L(2^{0}) + 3*m = L(1) + 3*m = 3m + 2$.
+
+$L(2^m) = 3m + 2$.
+
+Now using that $n=2^m$, we also know that $m=\log_2(n)$.
+
+$L(n) = 3\log_2(n) + 2$.
+
+$3\log_2(n) + 2 \in{} \Theta(\log_2(n))$ (proof is left to the reader).
+
+\textbf{f)}
+
+We can assume that $n=2^m$. (This is going to be really tedious, but I will show a simpler solution after the complicated one. Don't worry, you won't have to do anything like this on the exam.)
+
+$L(2^m) = L(2^{m-1}) + 2^{mk} = L(2^{m-2}) + 2^{(m-1)k} + 2^{mk} = L(2^{m-3}) + 2^{(m-2)k} + 2^{(m-1)k} + 2^{mk} = ... =  L(2^{m-i}) + 2^{(m-(i-1))k} + ... + 2^{mk}$.
+
+The base case is when $2^{m-i}=1$, or $m-i=0$, or $i=m$.
+
+$L(2^{m-i}) + 2^{(m-(i-1))k} + ... + 2^{mk} = L(2^{m-m}) + 2^{(m-(m-1))k} + ... + 2^{mk} = L(1) + 2^{1k} + ... + 2^{mk} = 2 + 2^{1k} + ... + 2^{mk}$.
+
+For $2^{1k} + ... + 2^{mk} = (2^k)^m+...+(2^k)^1$, we can use the formula for the sum of the geometric progression again: 
+
+$(2^k)^m+...+(2^k)^1 = (2^k)^m+...+(2^k)^1+(2^k)^0-(2^k)^0$
+
+$(2^k)^m+...+(2^k)^1+(2^k)^0 = \frac{(2^k)^{m+1}-1}{2^k-1}$
+
+$(2^k)^m+...+(2^k)^1+(2^k)^0-(2^k)^0 = \frac{(2^k)^{m+1}-1}{2^k-1}-(2^k)^0 =\frac{(2^k)^{m+1}-1}{2^k-1}-1$.
+
+So putting this back we arrive at:
+
+$L(2^m) = 2+\frac{(2^k)^{m+1}-1}{2^k-1}-1 = \frac{(2^k)^{m+1}-1}{2^k-1} + 1$.
+
+Now using that $n=2^m$, we also know that $m=\log_2(n)$.
+
+$L(n) = \frac{(2^k)^{\log_2(n)+1}-1}{2^k-1} + 1 = \frac{(2^{\log_2(n)+1})^k-1}{2^k-1} + 1 = \frac{(2n)^k-1}{2^k-1} + 1$. If we assume that $k$ is a constant then $\frac{(2n)^k-1}{2^k-1} + 1 \in{} \Theta(n^k)$.
+
+\textbf{This was REALLY tedious.} However, if we only want to reason about $O$, then we can use upper bounds to arrive at an $O$ much easier:
+
+$L(2^m) = L(2^{m-1}) + 2^{mk} \leq{} L(2^{m-2}) + 2^{mk} + 2^{mk} \leq{} L(2^{m-3}) + 2^{mk} + 2^{mk} + 2^{mk} \leq{} ... \leq{} L(2^{m-i}) + i*2^{mk}$.
+
+The base case is when $2^{m-i}=1$, or $m-i=0$, or $i=m$.
+
+$ L(2^{m-i}) + i*2^{mk} \leq{} L(2^{m-m}) + m*2^{mk} = L(1) + m*2^{mk} = m*2^{mk} + 2$.
+
+$L(2^m) \leq{} m*2^{mk} + 2$.
+
+Now using that $n=2^m$, we also know that $m=\log_2(n)$.
+
+$L(n) \leq{} \log_2(n)*2^{\log_2(n)k} + 2 = \log_2(n)*n^k + 2$.
+
+$L(n) \leq{} \log_2(n)*n^k + 2$, and then $\log_2(n)*n^k + 2 \in{} O(\log_2(n)*n^k)$.
+
+Yes, we did not arrive at the exact solution of $O(n^k)$, but $O(\log_2(n)*n^k)$. Our upper estimates in this case happened to break the boundary of the $O(n^k)$ set, since we upper estimated $\log_2(n)$ number of times with $n^k$. Sometimes it is better to arrive at a bit worse estimate quicker, than to have a more precise one, but suffer a lot of math for it.
