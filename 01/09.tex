@@ -12,3 +12,15 @@ Let both the pattern and the text consist of only $0$'s, let the length of the p
 \end{enumerate}
 
 \lineparagraph{Solution}
+
+\begin{enumerate}[a.)]
+    \item $m$, since the first position is immediately a match.
+    \item All positions match. There are $n-m+1$ positions, the pattern will be checked on all characters, so $m(n-m+1)$.
+    \item $m$, since the first position is immediately a match.
+    \item All positions match. There are $n-m+1$ positions, the pattern will be checked on all characters, so $m(n-m+1)$.
+\end{enumerate}
+
+Note:
+\begin{itemize}
+    \item In this case there is no difference between what Simple search and what Quick search does. Quick search is able to skip \textbf{some} definitely non-matching positions based on a heuristic. In this case, all positions match, there is nothing to skip.
+\end{itemize}

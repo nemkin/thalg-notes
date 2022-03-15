@@ -5,3 +5,7 @@
 Give text $S$ of length $n$ such that for a pattern consisting of $m>2$ $0$'s Simple search uses $O(n)$ comparisons on $S$, independently of $m$.
 
 \lineparagraph{Solution}
+
+If the first character doesn't match every position will fail after $1$ comparison. There will be $n-m+1$ positions, which is $O(n)$, because $n-m+1 \leq{} n+1 \leq{} n+n \leq{} 2n$, constants $c=2$, $n_0=1$ work.
+
+So let's make a text in which no character is a $0$, e.g. all characters are $1$'s, so the first $0$ of the pattern will never match.
