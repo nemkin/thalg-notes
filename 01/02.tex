@@ -11,3 +11,128 @@ Which of the following functions are $O(n^2)$ and which are $\Omega(n^2)$?
 \end{enumerate}
 
 \lineparagraph{Solution}
+
+Definitions:
+
+\begin{itemize}
+    \item $f(n)\in{}O(g(n))$ if there exists $c>0$ and $n_0\in{}\mathds{Z^+}$ so that $f(n) \leq{} cg(n)$ for $\forall{}n\geq{}n_0$.
+    \item $f(n)\in{}\Omega(g(n))$ if there exists $c>0$ and $n_0\in{}\mathds{Z^+}$ so that $f(n)\text{ }\color{red}\mathbf{\geq{}}\color{black} cg(n)$ for $\forall{}n\geq{}n_0$.
+\end{itemize}
+
+To prove that something is $\in{}O(g(n))$ or $\in{}\Omega(g(n))$, give one $c$ and $n_0$ and show that the above requirement is holds true.
+
+To prove that something is not $\in{}O(g(n))$ or $\in{}\Omega(g(n))$, prove that no possible $c$ and $n_0$ combination would make the above requirement hold true.
+
+Fist look at the given function, and figure out whether you think the definition is true or not and then based on that choose the appropriate proof.
+
+\textbf{a)}
+
+$f(n) = 11n^2 + 100000$.
+
+Gut feeling: The most significant component here is $n^2$, so we believe it is asymptotically similar to $n^2$, so both $f(n)\in{}O(n^2)$ and $f(n)\in{}\Omega(n^2)$.
+
+First let's show that $f(n)\in{}O(n^2)$:
+
+Start from the function and give \textbf{upper} bounds until we reach something in the form of $\text{const}*n^2$.
+
+$f(n) = 11n^2 + 10^5 \leq{} 12n^2$ if $n^2 \geq{} 10^5$, or $n \geq{} 10^{5/2}$, where we can be generous and just say $n \geq{} 1000$, since it is not necessary to find the smallest possible $n_0$, only one sufficient.
+
+We have arrived at: $f(n) \leq{} 12n^2$ if $n\geq{}1000$.
+
+Then by choosing $n_0=1000$ and $c=12$, this turns into $f(n) \leq{} cn^2$ if $n\geq{}n_0$, which by definition means that $f(n) \in{} O(n^2)$.
+
+Now let's show that $f(n)\in{}\Omega(n^2)$:
+
+Start from the function again, however now we give \textbf{lower} bounds until we reach something in the form of $\text{const}*n^2$.
+
+$f(n) = 11n^2 + 10^5 \geq{} 11n^2$, since $10^5\geq{}0$.
+
+We have arrived at: $f(n) \geq{} 11n^2$. Now $c=11$, and there was no requirement for $n$, so we can choose $n_0=1$, and then this turns into $f(n) \geq{} cn^2$ if $n\geq{}n_0$, which by definition means that $f(n)\in{}\Omega(n^2)$.
+
+Note:
+\begin{itemize}
+    \item Since we have shown that $f(n)\in{}O(n^2)$ and also $f(n)\in{}\Omega(n^2)$, the combination of the two is that $f(n)\in{}\Theta(n^2)$, so $11n^2+100000$ and $n^2$ are asymptotically similar.
+\end{itemize}
+
+\textbf{b)}
+
+$f(n) = 8n^2\log_2(n)$
+
+Gut feeling: This is going to be asymptotically bigger than $n^2$, since it is also multiplied with $\log_2(n)$. So we believe $f(n)\in{}\Omega(n^2)$, however $f(n)\notin{}O(n^2)$.
+
+Let's start with showing that $8n^2\log_2(n)\notin{}O(n^2)$:
+
+In this case we want to show that there is no possible choice of $c$ and $n_0$, which is done using indirect proof and arriving at a contradiction.
+
+Let's indirectly state that $8n^2\log_2(n)\in{}O(n^2)$, which is equivalent to saying:
+
+There exists some $c>0$ and $n_0\in{}\mathds{Z^+}$ constants, so that
+
+$8n^2\log_2(n) \leq{} cn^2$ for $\forall n\geq{}n_0$.
+
+Let's divide the left and the righthand side with $n^2$:
+
+$8\log_2(n) \leq{} c$ for $\forall n\geq{}n_0$.
+
+Let's move the $8$ to the right:
+
+$\log_2(n) \leq{} \frac{c}{8}$ for $\forall n\geq{}n_0$.
+
+And this is a contradiction, since $\frac{c}{8}$ is a constant, while $\log_2(n)$ can be arbitrarily large for a given $n\geq{}n_0$, and we cannot give an upper bound to something arbitrarily large with a constant.
+
+This means that the indirect statement was wrong so that $8n^2\log_2(n)\notin{}O(n^2)$.
+
+Now let's show that $f(n)\in{}\Omega(n^2)$:
+
+Start from the function again and give \textbf{lower} bounds until we reach something in the form of $\text{const}*n^2$.
+
+$f(n) = 8n^2\log_2(n) \leq{} 8n^2$ when $n\geq{}2$, since $\log_2(n) \geq{} 1$ when $n\geq{}2$.
+
+We have arrived at $f(n) \leq{} 8n^2$ when $n\geq{}2$, so we can choose $c=8$ and $n_0=2$, which gives $f(n) \leq{} cn^2$ when $n\geq{}n_0$, which is the definition of $f(n)\in{}\Omega(n^2)$.
+
+
+\textbf{c)}
+
+$f(n) = 1.5n + 3\sqrt{n}$
+
+Gut feeling: This is going to be asymptotically smaller than $n^2$, since the most significant component is only $n$. So we believe $f(n)\in{}O(n^2)$, however $f(n)\notin{}\Omega(n^2)$.
+
+Let's show that $f(n)\in{}O(n^2)$:
+
+Start from the function and give \textbf{upper} bounds until we reach something in the form of $\text{const}*n^2$. (Actually, in this case, an even stonger statement will be made.)
+
+$f(n) = 1.5n + 3\sqrt{n} \leq{} 4.5n$, since $\sqrt{n} \leq{} n$ (for $n\geq{}1$, which is a given).
+
+We have arrived at $f(n) \leq{} 4.5n$, which means that $c=4.5$ and since there is no lower bound on $n$, we can choose $n_0=1$, to turn it into $f(n) \leq{} cn$ for $\forall{}n\geq{}n_0$, which means by definition that $f(n)\in{}O(n)$. 
+
+Now since we know that $O(n)\subset{}O(n^2)$, this also proves that $f(n)\in{}O(n^2)$.
+
+Let's continue with showing that $1.5n + 3\sqrt{n}\notin{}\Omega(n^2)$:
+
+In this case we want to show that there is no possible choice of $c$ and $n_0$, which is done using indirect proof and arriving at a contradiction.
+
+Let's indirectly state that $1.5n + 3\sqrt{n}\in{}\Omega(n^2)$, which is equivalent to saying:
+
+There exists some $c>0$ and $n_0\in{}\mathds{Z^+}$ constants, so that
+
+$1.5n + 3\sqrt{n} \geq{} cn^2$ for $\forall n\geq{}n_0$.
+
+How we handle this situation is by giving something that is larger than $1.5n + 3\sqrt{n}$ and show that even this larger thing still cannot upper bound $cn^2$, so the smaller, original function can not either:
+
+Borrowing from the previous proof, we know that $4.5n \geq{} 1.5n + 3\sqrt{n}$:
+
+$4.5n \geq{} 1.5n + 3\sqrt{n} \geq{} cn^2$ for $\forall n\geq{}n_0$.
+
+Now let's just look at the two sides:
+
+$4.5n \geq{} cn^2$ for $\forall n\geq{}n_0$.
+
+Let's divide both sides by $n$:
+
+$4.5 \geq{} cn$ for $\forall n\geq{}n_0$.
+
+And move the constant to the left:
+
+$\frac{4.5}{c} \geq{} n$ for $\forall n\geq{}n_0$.
+
+And here is the contradiction: this can not be true, since $n$ is arbitrarily large, while it should be upper bound by a constant: $\frac{4.5}{c}$. This shows that $4.5n$ can not be an upper bound for $cn^2$, so an even smaller function, $1.5n + 3\sqrt{n}$ definitely can't be either for any given $c$ and $n_0$ pair.

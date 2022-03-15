@@ -11,3 +11,14 @@ There are two algorithms for the same problem, $A$ and $B$. Let the functions de
 \end{enumerate}
 
 \lineparagraph{Solution}
+
+The answer is \textbf{no}, in all three cases.
+
+A few good counterexamples:
+\begin{itemize}
+    \item $f_A(n) = 2n$ and $f_B(n)=n$. Even though $f_A(n)\in{}O(f_B(n))$, actually $f_A(n) > f_B(n)$, so $A$ is worst case slower than $B$.
+    \item Any functions where $f_a(n) = f_b(n) = f(n)$, since $f(n)\in{}O(f(n))$.
+    \item For just exercise $a.)$, $f_A(n) = n$ and $f_B(n)=\frac{n^2}{4}$, since $n\in{}O(\frac{n^2}{4})$, however for $n=1,2,3$ $f_A(n)>f_B(n)$.
+\end{itemize}
+
+
