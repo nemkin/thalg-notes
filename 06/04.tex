@@ -2,4 +2,26 @@
 
 \lineparagraph {Exercise}
 
+Let language L consist of words over $\{0,1\}$ whose middle character is $0$. Prove that L is CF.
+
 \lineparagraph {Solution}
+
+We prove that $L$ is CF by giving a CF-grammar. (We could also give a PDA.)
+
+\begin{align*}
+    S \rightarrow& 0S0 | 0S1 | 1S0 | 1S1 | 0
+\end{align*}
+
+This grammar is similar to the odd-palindrome one, however we allow all possible combinations of letters. But the middle one must be a $0$.
+
+Proof: this CF-grammar generates $L$.
+
+Any word in the language has to be of odd length. We look at the first and last characters and use one of the four transitions from $S \rightarrow 0S0 | 0S1 | 1S0 | 1S1$ to generate them, then we remove those from the word and keep repeating until $1$ character is left. This character is the middle one, since we removed an equal number of characters before and after it ($1$-$1$ in each step), so it has to be a $0$, which can be generated using production rule $S \rightarrow 0$.
+
+Any word outside of this language is either:
+\begin{itemize}
+    \item of even length, in which case there is no possilbe way for this grammar to generate it, since rules  $S \rightarrow 0S0 | 0S1 | 1S0 | 1S1$ generate an even number of characters, while the  $S \rightarrow 0$ rule ends the derivation and can be used only once, which results in an odd lenght word. This includes the $\varepsilon$ (empty string), which cannot be generated, since there is no $S \rightarrow \varepsilon$ rule.
+    \item of odd length, but with the $1$ middle character. Using the previous explanation, since there is no  $S \rightarrow 1$ rule, there is no way to put a $1$ in the middle, so these words can't be generated either.
+\end{itemize}
+
+We have shown that this grammar generates \textbf{the correct words} and \textbf{only the correct words = does not generate words outside of the language}.
