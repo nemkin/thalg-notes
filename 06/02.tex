@@ -1,53 +1,33 @@
-\subsection{Session 6, Exercise 2}
+\subsection {Session 6, Exercise 2}
 
-\lineparagraph{Exercise}
+\lineparagraph {Exercise}
 
-A 2-szalagos $M$ Turing-gép átmeneti függvényét a következő táblázat írja le, ahol * jelöli a szalagon az üres jelet és $q_{0}$ a kezdő állapotot:
+Let the transition function of the 1-tape Turing-machine be
 
-\begin{tabular}{|c|c|c||cc|cc|c|}
-\hline állapot & 1. szalag & 2. szalag & 1. szalag & 2. szalag & új állapot \\
-\hline$q_{0}$ & 0 & $*$ & 0 & $\mathrm{H}$ & $\mathrm{X}$ & $\mathrm{J}$ & $q_{1}$ \\
-& 1 & $*$ & 1 & $\mathrm{H}$ & $\mathrm{X}$ & $\mathrm{J}$ & $q_{1}$ \\
-& $*$ & $*$ & $*$ & $\mathrm{H}$ & $*$ & $\mathrm{H}$ & $q_{5}$ \\
-\hline$q_{1}$ & 0 & $*$ & 0 & $\mathrm{~J}$ & 0 & $\mathrm{~J}$ & $q_{1}$ \\
-& 1 & $*$ & 1 & $\mathrm{~J}$ & 1 & $\mathrm{~J}$ & $q_{1}$ \\
-& $*$ & $*$ & $*$ & $\mathrm{H}$ & $*$ & $\mathrm{~B}$ & $q_{2}$ \\
-\hline$q_{2}$ & $*$ & 0 & $*$ & $\mathrm{H}$ & 0 & $\mathrm{~B}$ & $q_{2}$ \\
-& $*$ & 1 & $*$ & $\mathrm{H}$ & 1 & $\mathrm{~B}$ & $q_{2}$ \\
-& $*$ & $\mathrm{X}$ & $*$ & $\mathrm{~B}$ & $\mathrm{X}$ & $\mathrm{J}$ & $q_{3}$ \\
-\hline$q_{3}$ & 0 & 0 & 0 & $\mathrm{H}$ & 0 & $\mathrm{~J}$ & $q_{4}$ \\
-& 1 & 1 & 1 & $\mathrm{H}$ & 1 & $\mathrm{~J}$ & $q_{4}$ \\
-\hline$q_{4}$ & 0 & 0 & 0 & $\mathrm{~B}$ & 0 & $\mathrm{H}$ & $q_{3}$ \\
-& 0 & 1 & 0 & $\mathrm{~B}$ & 1 & $\mathrm{H}$ & $q_{3}$ \\
-& 1 & 0 & 1 & $\mathrm{~B}$ & 0 & $\mathrm{H}$ & $q_{3}$ \\
-& 1 & 1 & 1 & $\mathrm{~B}$ & 1 & $\mathrm{H}$ & $q_{3}$ \\
-& 0 & $*$ & 0 & $\mathrm{H}$ & $*$ & $\mathrm{H}$ & $q_{5}$ \\
-& 1 & $*$ & 1 & $\mathrm{H}$ & $*$ & $\mathrm{H}$ & $q_{5}$ \\
-\hline
-\end{tabular}
+\begin{align*}
+    \delta(q_0,1) = (q_1,1,R)\\
+    \delta(q_0,*) = (q_2,*,R)\\
+    \delta(q_1,1) = (q_3,1,R)\\
+    \delta(q_3,1) = (q_0,1,R)
+\end{align*}
 
-(a) Mi a 2. szalag tartalma, amikor a gép $q_{2}$ állapotba kerül?
 
-(b) Mi az $L(M)$ nyelv, ha $q_{5}$ az egyetlen elfogadó állapot?
+start state is $q_0$, accept state is $q_3$. What is the language recognized by this machine?
 
-(c) Legfeljebb hány lépést tehet a gép egy $n$ hosszú bemeneten, mielőtt megáll?
+\lineparagraph {Solution}
 
-\lineparagraph{Solution}
+It's easier to see what's happening if we draw the machine:
 
-Nézzük, mi történik:
+\includegraphics[width=0.5\linewidth]{06/6_2.png}
 
-$q_{0}:$ Ha nem üres a bemenet, akkor egy $X$ kerül a 2. szalagra (ez jelzi majd a szalag elejét).
+It the $q_0, q_1, q_3$ cycle reads the input word on the tape from left to right and counts the number of $1$'s modulo $3$. In $q_0$ the remainder is $0$, in $q_1$ the remainder is $1$ and in $q_3$ the remainder is $2$.
 
-$q_{1}$ : Lemásolja az 1. szalagon talált karaktert a 2. szalagra. Akkor lép csak ki innen, ha a bemenet végére ért (ekkor, ha az elsö szalagon a $w$ szó van, akkor a 2. szalagon $X w$ ). Ilyenkor következik a $q_{2}$ állapot, ahova úgy lépünk át, hogy az 1. szalagon maradunk az első üres mezón, a 2. szalagon visszalépünk az utolsónak írt karakterre.
+When the input is $\varepsilon$ (the empty string) the $q_0 \xrightarrow{(*) \rightarrow (*);\text{ }R} q_2$ transition will move the machine to $q_2$ and it will halt there, since there is no transitions defined, thus reject the empty string input. (This transition could have been left out, since then the machine would remain in $q_0$ and reject the empty string input similarly.)
 
-$q_{2}:$ Az első szalagon nem mozdulunk, mialatt visszamegyünk a 2 . szalag elejére. Végül úgy lépünk át $q_{3}$-ba, hogy az 1. szalagon egyet visszalépünk (az utolsó nem üres mezóre), a 2. szalagon egyet elóre lépünk (az elsö nem $X$ karakterre). $q_{3}$ : Ha ugyanazt látjuk mindkét szalagon, akkor az elsőn nem mozdulunk, a másodikon egyet előre lépünk és átkerülünk $q_{4}$-be. (Elsớ alkalommal tehát az 1. szalag utolsó és a 2. szalag $X$ utáni elsö karakterét, azaz a $w$ első és utolsó karakterét hasonlítjuk össze. Ha nem egyeznek, akkor ebben a nem elfogadó állapotban leállunk.)
+Since the accept state is $q_3$, words containing $3k+2$ number of $1$'s will be accepted, where $k\geq{}0$.
 
-$q_{4}$ : Ha nem értük el a 2. szalag végét, akkor semmit nem változtatva az 1. szalagon visszafelé lépünk egyet, a 2. szalagon helyben maradunk és a $q_{3}$-ban folytatjuk. Azaz a $q_{3}$-beli hasonlítás és a $q_{4}$-beli lépés felváltva addig történik, amíg el nem érünk a 2. szalag végére. Ekkor átlépünk a q elfogadó állapotba és a számítás sikeresen véget ért.
+Notice how the above Turing-machine does exactly the same thing as this Finite Automaton:
 
-Az üres szón érdemi munka nélkül egyból átjutunk az elfogadó állapotba.
+\includegraphics[width=0.6\linewidth]{06/6_2_b.png}
 
-(a) Ha $w$ a bemeneti szó, akkor $X w$.
-
-(b) A palindromok nyelve.
-
-(c) Egy $n$ hosszú palindromon a lépések száma: $1+(n+1)+(n+1)+(2 n-1)+1=4 n+3$. Ha a szó nem palindrom, akkor elóbb elakadhat (de a másolás és a 2. szalag elejére visszalépegetés akkor is megtörténik, $2 n+3$ lépés akkor is lesz, amennyiben $n>0)$.
+We have seen similar modulo counter automatons on the first practice session.

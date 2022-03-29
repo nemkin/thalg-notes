@@ -1,15 +1,5 @@
-\subsection{Session 6, Exercise 8}
+\subsection {Session 6, Exercise 8}
 
-\lineparagraph{Exercise}
+\lineparagraph {Exercise}
 
-Legyen $\Sigma=\{1\}$, az 1-szalagos Turing-gép átmeneti függvénye $\delta\left(q_{0}, 1\right)=\left(q_{1}, 1, J\right), \delta\left(q_{0}, *\right)=\left(q_{2}, *, J\right)$, $\delta\left(q_{1}, 1\right)=\left(q_{3}, 1, J\right), \delta\left(q_{3}, 1\right)=\left(q_{0}, 1, J\right)$, kezdő állapot a $q_{0}$, elfogadó a $q_{3}$. Mi a gép által elfogadott nyelv?
-
-\lineparagraph{Solution}
-
-Vegyük észre, hogy ez a Turing-gép nem változtatja meg a szalag tartalmát, mindig az ott talált karaktert írja vissza és mindig tovább lép jobbra.
-
-Az üres szóra a $\delta\left(q_{0}, *\right)=\left(q_{2}, *, J\right)$ szabállyal $q_{2}$-be lép, és mivel ott nincs átmenet definiálva, megáll. A q ${ }_{2}$ nem elfogadó állapot, ezért nem fogadja el az üres szót.
-
-Az 1 karakterek hatására a $q_{0}, q_{1}, q_{3}$ állapotokon mozog körbe-körbe. Akkor fogad el, ha ez a $q_{3}$-ban áll le, azaz az elfogadott nyelv: $\left\{1^{k}: k \equiv 2(\bmod 3)\right\}$.
-
-(És mi a nyelv, ha $\{0,1\}$ az ábécé?)
+\lineparagraph {Solution}
