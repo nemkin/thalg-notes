@@ -45,3 +45,17 @@ Accepting / rejecting states, accepted / rejected words:
     \item If the word contains no $\#$ character then it stops in state $m$ and gets rejected.
     \item If the word contains a $\#$ character, the characters coming after should match what characters were before. So any word in the form $w\#w$ is accepted, however any $w\#h$, where $w\neq{}h$ will stop in state $h$ and will be rejected. This includes the words that contain more $\#$'s (in $h$) and words that contain only $0$'s and $1$'s in $h$, but not match $w$, since the only possible way to activate transition 11 is to have matching characters before the $\#$ and after it. State $e$ accepts these words.
 \end{itemize}
+
+Upper bound for the running time: the longest running time will be an accepted word that reachers state $e$. If the word is $w\#w$, of lenght $n=2k+1$, so that $w$ is of length $k$, then:
+
+\begin{itemize}
+    \item Transitions 1-2: $1$ step, to put down an $X$.
+    \item Transitions 3-4: $k$ steps, to copy $w$ to the second tape.
+    \item Transition 5: $1$ step to detect the $\#$ and position.
+    \item Transitions 6-7: $k$ steps to move the second head to the first position on the second tape.
+    \item Transition 8: $1$ step to detect the beginning of the second tape and position the heads.
+    \item Transitions 9-10: $k$ steps to compare the two parts.
+    \item Transition 11: $1$ step to see that they end at the same time.
+\end{itemize}
+
+$1+k+1+k+1+k+1 = 3k+4$ steps, where $n=2k+1$, so $k=\frac{n}{2}-1$, so $3k+4 = 3(\frac{n}{2}-1)+4 = \frac{3n}{2}+1 \in{} O(n)$. For accepted words this is $\Theta(n)$, for rejected words not necessarily, for example the input word $\#0^k$, for any large $k$ will be rejected after $1$ step, in $u1$.
