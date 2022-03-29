@@ -1,0 +1,29 @@
+\subsection {Session 7, Exercise 3}
+
+\lineparagraph {Exercise}
+
+Sketch a $1$-tape Turing machine for the language $\{0^{2^n} | n \geq{} 0\}$.
+
+\lineparagraph {Solution}
+
+We have to implement a TM that can divide by $2$ on a single tape.
+
+We will be moving back and forth on the single tape, so we need to make sure we do not fall off
+at the beginning of the tape. We can achieve this by two ways:
+
+\begin{itemize}
+    \item By replacing the first $0$ with a special character, for example $Z$, which indicates both that that is a $Z$, but also indicates the beginning of the tape. The empty string is not accepted, since $0^{2^0} = 0^1$, so that can immediately go to a special trap state to be rejected.
+    \item By just replacing the first zero with an $X$ and moving the head to the first empty cell, writing a $0$ it, then moving back on the $X$. Handle the empty string similarly as previously.
+\end{itemize}
+
+I will be using the first method, since it will allow for an easier success check later.
+
+We then move the head to the left and at every second step we replace the $0$ with a character $R$, to mark it as removed. This is done by cycling between two states, the first transition just stepping over a $0$, the second replacing it with the $R$. If there is no $0$ to be replaced, the division fails (the current number of $0$'s is odd), which means that we should reject).
+
+When we reach the empty cell we move our head left until we reach $Z$.
+
+In the upcoming runs we have to do the same thing as previously, however now we need to ignore $R$'s already placed, which can be done by adding two loops on the two states mentioned that just skip over any $R$ characters on the tapes.
+
+Every single run of our subprocess results in dividing the number of $0$'s by two, which if the number was a power of $2$ should end up with a single zero: the specially marked $Z$ character at the beginning of the tape.
+
+When we move to the right from the $Z$ cell and we find an empty cell, that means that we are done and can accept the input.

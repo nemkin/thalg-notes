@@ -1,0 +1,21 @@
+\subsection {Session 7, Exercise 4}
+
+\lineparagraph {Exercise}
+
+Sketch a Turing-machine for the language $\{ww | w \in \{0,1\}^*\}$.
+
+\lineparagraph {Solution}
+
+This is similar to \ref{6_5}, however we do not have the $\#$ to mark the middle of the two words.
+
+This issue can be fixed, in the following way, making a similar 2-tape TM:
+
+\begin{itemize}
+    \item We treat the empty string separately and accept it.
+    \item We mark the beginning of the second tape with an $X$.
+    \item We copy the \textbf{entire} input to the second tape.
+    \item We step backwards on the second tape, but only step backwards on the first tape every second step on the second tape.
+    \item When the second head reaches the $X$ the first head will be in the middle. (And won't fall off the tape, since the empty string is treated for separately, and for every other input, the first head moves less than the second head.)
+    \item Now we can move to the right with both heads and compare the first half of the input (on the second tape) with the second half of the input (on the second tape).
+    \item When the first head reaches the first empty cell it means that all comparisons were successfull and we can move to a separate accept state.
+\end{itemize}
