@@ -19,8 +19,10 @@ We first check whether the given input is a Turing-machine code. If it is not, w
 
 If it is, then we will simulate the Turing-machine based on its code. This is done, by copying the input word to a second tape, which will act as the input tape for the simulated TM. The third tape will keep track of the current state of the simulated TM. In every step, the code of the TM (on the first tape) will tell us what the next step must be, given the contents of the 2nd and the 3rd tapes. We execute this step (change the 2nd simulated input tape accordingly and move the head accordingly on it) and change the simulated current state tape as well.
 
+If the simulated TM halted, we halt as well and we check whether it halted in an accepting state: if it did, we accept, if it did not we reject.
+
+Since it easy to construct a TM, that will end up in an infinite loop for any given input, including its own code, this means that in this case the above simulation will never halt either. This is okay, since the TM that never halts rejected its input and the simulator never halts, so it also rejects the input correctly (TMs that reject their own code are not in $\overline{L_d}$. Thus this TM will not halt for every possible input.
+
 The details of the construction of such TM are out of scope for this class, if you are interested you can look up ''Universal Turing machine'' for further details.
 
 Side note: we assumed that the input Turing machine code codes a TM that has a single tape. Since there exists a single tape TM that accepts the same language for any multitape TM's, this assumption is acceptable in this case, we could define the TM coding method in a way that we must contruct an equivalent single-tape TM in order to encode any TM.
-
-Since it easy to construct a TM, that will end up in an infinite loop for any given input, including its own code, this means that the above simulation will never halt either, thus this TM will not halt for every possible input.

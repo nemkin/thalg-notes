@@ -86,10 +86,9 @@ Now let's show that $f(n)\in{}\Omega(n^2)$:
 
 Start from the function again and give \textbf{lower} bounds until we reach something in the form of $\text{const}*n^2$.
 
-$f(n) = 8n^2\log_2(n) \leq{} 8n^2$ when $n\geq{}2$, since $\log_2(n) \geq{} 1$ when $n\geq{}2$.
+$f(n) = 8n^2\log_2(n) \geq{} 8n^2$ when $n\geq{}2$, since $\log_2(n) \geq{} 1$ when $n\geq{}2$.
 
-We have arrived at $f(n) \leq{} 8n^2$ when $n\geq{}2$, so we can choose $c=8$ and $n_0=2$, which gives $f(n) \leq{} cn^2$ when $n\geq{}n_0$, which is the definition of $f(n)\in{}\Omega(n^2)$.
-
+We have arrived at $f(n) \geq{} 8n^2$ when $n\geq{}2$, so we can choose $c=8$ and $n_0=2$, which gives $f(n) \geq{} cn^2$ when $n\geq{}n_0$, which is the definition of $f(n)\in{}\Omega(n^2)$.
 
 \textbf{c)}
 
