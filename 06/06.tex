@@ -1,0 +1,15 @@
+\subsection{Session 6, Exercise 6}
+
+\lineparagraph{Exercise}
+
+Az $M_{1}$ Turing-gép az $L_{1} \subseteq\{0,1\}^{*}$, az $M_{2}$ Turing-gép az $L_{2} \subseteq\{0,1\}^{*}$ nyelvet fogadja el, a gépeknek egy-egy szalagja van. Ezek segítségével vázoljon egy olyan (akár több szalagos) Turing-gépet, ami az $L_{1} \cap L_{2}$ nyelvet fogadja el!
+
+\lineparagraph{Solution}
+
+Az ötlet, hogy egymás után futtatjuk a két gépet. Legyen az $M$ gépnek 3 szalagja, a 2 . szalagon az $M_{1}$, a 3. szalagon az $M_{2}$ múködését követjük majd. Az állapotok az $M_{1}$ és az $M_{2}$ állapotai és még néhány :). $\mathrm{Az} M_{2}$ elfogadó állapotai lesznek az elfogadó állapotok.
+
+Először lemásoljuk a bemenetet a 2. és 3. szalagra (mindkettőn elé rakunk egy $X$-et is, $X$ egy új karakter, nem szerepel az $M_{i}$ gépek szalag ábécéjében).
+
+Ez után lépünk $M_{1}$ eredeti kezdő állapotába, és az $M_{1}$ szabályait figyelembe véve futtatjuk az $M_{1}$ gépet (csak a 2. szalagot használja, a többin helyben marad, nem változtat). Az $M_{1}$-ben az eredetileg elfogadó állapotoknál a hiányzó átmeneteket irányítsuk az $M_{2}$ gép eredeti kezdő állapotába, innen az $M_{2}$ szabályaival tudunk továbblépni (csak a 3. szalagon változtatva). Az így vázolt Turing-gép csak akkor fogad el egy szót, ha $M_{1}$ elfogadó állapotban akadt volna el (ekkor lépünk át az $M_{2}$-részbe) és $M_{2}$ is elfogadna, azaz amikor a bemeneti szó az $L_{1} \cap L_{2}$ egy eleme.
+
+Megjegyzés: Ha az $M_{1}$ nem áll meg az adott bemeneten, akkor az $M$ gépünk sem fog megállni, és az $M{ }_{2}$-re nem is kerül benne sor. De ez ebben az esetben nem baj, mert a szó biztos nincs a két nyelv metszetében (már $L_{1}$-ben sincs benne).

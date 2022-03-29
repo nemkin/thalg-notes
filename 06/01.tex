@@ -1,0 +1,35 @@
+\subsection {Session 6, Exercise 1}
+
+\lineparagraph {Exercise}
+
+Create a PDA for the CF-grammar $ S \rightarrow \mathrm {a} S \mathrm {a} | \mathrm {b} S \mathrm {~ b} | \mathrm {aa} | \mathrm {bb} | \mathrm {a} \mid \mathrm {b} $ and give the accepting computation for the word \textit{ababa}, if there is any.
+
+\lineparagraph {Solution}
+
+All you have to do is follow the scheme learned in the lecture:
+
+\begin{itemize}
+    \item $Q = \left \{q_ {0}, q, q_ {e} \right \}$
+\end{itemize}
+
+$q_ {0} $ a starting state, $ F = \left \{q_ {e } \right \} $, $ \Gamma = \Sigma \cup V \cup \{Z \} $.
+
+State transitions:
+
+\begin{align*}
+\delta \left (q_ {0}, \varepsilon, Z \right) & = \{(q, S Z) \} \\
+\delta (q, \mathrm {a}, \mathrm {a}) & = \{(q, \varepsilon) \} \\
+\delta (q, \mathrm {~ b}, \mathrm {~ b}) & = \{(q, \varepsilon) \} \\
+\delta (q, \varepsilon, S) & = \{(q, \mathrm {a} S \mathrm {a}), (q, \mathrm {~ b} S \mathrm {~ b}), (q , \mathrm {aa}), (q, \mathrm {bb}), (q, \mathrm {a}), (q, \mathrm {~ b}) \} \\
+\delta (q, \varepsilon, Z) & = \left \{\left (q_ {e}, Z \right) \right \}
+\end{align*}
+
+
+Configuration series for an accept calculation:
+
+$$
+\begin {gathered}
+\left (q_ {0}, \mathrm {ababa}, Z \right) \Rightarrow (q, \mathrm {ababa}, SZ) \Rightarrow (q, \mathrm {ababa}, \mathrm {a} S \mathrm {a} Z) \Rightarrow (q, \mathrm {baba}, S \mathrm {a} Z) \Rightarrow (q, \mathrm {baba}, \mathrm {b} S \mathrm {ba} Z) \Rightarrow \\
+(q, \mathrm {aba}, S \mathrm {ba} Z) \Rightarrow (q, \mathrm {aba}, \mathrm {aba} Z) \Rightarrow (q, \mathrm {ba}, \mathrm {ba } Z) \Rightarrow (q, \mathrm {a}, \mathrm {a} Z) \Rightarrow (q, \varepsilon, Z) \Rightarrow \left (q_ {e}, \varepsilon, Z \right)
+\end {gathered}
+$$

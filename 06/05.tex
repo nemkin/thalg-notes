@@ -1,0 +1,27 @@
+\subsection{Session 6, Exercise 5}
+
+\lineparagraph{Exercise}
+
+Vázoljon Turing-gépet az alábbi nyelvekhez! Nem szükséges precízen megadni az átmeneteket, elegendó a múködés elvét (részletesen) leírni.
+
+(a) $\left\{\mathrm{a}^{n} \mathrm{~b}^{2 n} \mid n \geq 1\right\}$
+
+(b) $\left\{\mathrm{a}^{i} \mathrm{~b}^{j} \mathrm{c}^{k}: i+j=k\right.$ és $\left.i, j, k \geq 1\right\}$
+
+(c) $\left\{\mathrm{a}^{i} \mathrm{~b}^{j} \mathrm{c}^{k}: i \cdot j=k\right.$ és $\left.i, j, k \geq 1\right\}$
+
+\lineparagraph{Solution}
+
+(a) Csináljuk 2 szalaggal: Elóször, a korábbi példák szerint az első szalagon helyben maradva a második elejére írjunk egy $X$ jelet és ezzel átmegyünk egy $A 1$ állapotba.
+
+A következőkben az a betúket dolgozzuk fel, mindegyik olvasásakor két újabb a betüt írunk a 2 . szalagra. Ezt két lépésben tudjuk megtenni, $\delta(A 1, \mathrm{a}, *)=(A 2, \mathrm{a}, \mathrm{a}, H, J)$ és $\delta(A 2, \mathrm{a}, *)=(A 1, \mathrm{a}, \mathrm{a}, J, J)$.
+
+Az első b érkezésekor a $\delta(A 1, \mathrm{~b}, *)=(B, \mathrm{~b}, *, H, B)$ szabállyal átlépünk a $B$ állapotba, ahol minden, az 1 . szalagon olvasott b karakterre balra lépünk a 2. szalagon. Ha egyszerre érünk el az 1 . szalagon a szó végére és a 2. szalag elejére írt $X$ jelhez, akkor elfogadunk. (Megoldható 1 szalaggal is az előző feladat mintájára, csak most egy a karakter feldolgozásakor két b karaktert írunk felül.)
+
+(b) Szintén egy 2 szalagos megoldás: Az előzöhöz hasonlóan a 2 . szalagra rakunk egy $X$ karaktert, majd rámásoljuk az első szalagon levő a betúket. Az első b karakternél új állapotba lépünk, minden b karakternél továbbra is egy-egy a-t írunk a 2. szalagra. Az első c-töl kezdve (egy újabb állapotban) az elsö szalagon levő minden c-nél balra lépünk a 2. szalagon. Ha egyszerre érünk el az $1 .$ szalagon a szó végére és a $2 .$ szalagon az elejére írt $X$ jelhez, akkor elfogadunk.
+
+(c) Legyen most 3 szalagunk. Elöször a 2. és 3. szalagra is írunk egy-egy $X$-et, hogy megjelöljük az elejüket. Ez után a 2. szalagra lemásoljuk az a betúket. Az első b-nél egy újabb állapotba lépünk, az elsö szalagon helyben maradunk, a másodiknál meg visszamegyünk az $X$-ig. A cél az, hogy innentől minden, a 2 . szalagon levő a-ra lemásoljuk az első szalag b-jeit a 3. szalagra.
+
+A másolás fő lépései: a 2. szalagon levő a hatására átkerülünk az m másoló állapotba, amikor az 1. és 3. szalagon haladunk, a 3. üres mezöibe b betǘt írva. Ha az 1 . szalagon egy c jön, akkor átlépünk egy $v$ állapotba, ahol az 1. szalagon visszamegyünk az elsö b elé. Ezen, és a 2 . szalagon is jobbra lépve bekerülünk újra az $m$ állapotba.
+
+Amire a 2. szalag a betüjei elfogynak, összesen $i \cdot j$ darab b kerül a 3. szalagra, amiknek a számát a szokásos módon össze tudjuk vetni az 1. szalagon levő c-k számával.

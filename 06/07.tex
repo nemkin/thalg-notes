@@ -1,0 +1,23 @@
+\subsection{Session 6, Exercise 7}
+
+\lineparagraph{Exercise}
+
+Legyen $L_{r}$ egy tetszóleges reguláris nyelv és legyen $L_{c}$ egy tetszöleges környezetfüggetlen nyelv.
+
+(a) Mutasson olyan példát, amikor $L_{r} \cap L_{c}$ nem reguláris!
+
+(b) Igazolja, hogy $L_{r} \cap L_{c}$ mindig környezetfüggetlen!
+
+(c) Mutasson olyan példát, amikor $L_{1}$ és $L_{2}$ is környezetfüggetlen, de $L_{1} \cap L_{2}$ nem az!
+
+\lineparagraph{Solution}
+
+(a) Ha $L_{r}=\{\mathrm{a}, \mathrm{b}\}^{*}$ és $L_{c}=\left\{a^{n} b^{n}: n \geq 0\right\}$, akkor $L_{r} \cap L_{c}=L_{c}$, ami nem reguláris.
+
+(b) Legyen $M_{1}=\left(Q_{1}, \Sigma, q_{1}, F_{1}, \delta_{1}\right)$ egy DVA az $L_{r}$ nyelvhez, és $M_{2}=\left(Q_{2} . \Sigma, \Gamma, q_{2}, Z_{0}, F_{2}, \delta_{2}\right)$ egy veremautomata az $L_{c}$ nyelvhez. A kettőból elkészíthetjük azt az $M$ veremautomatát, amelynek állapothalmaza $Q_{1} \times Q_{2}$, kezdőállapota $\left(q_{1}, q_{2}\right)$, elfogadó állapotainak halmaza $F_{1} \times F_{2}$, az átmeneteiben az állapot elsó koordinátájában $\delta_{1}$ szerint lép, a másodikban $\delta_{2}$ szerint. Amennyiben a veremautomata nem olvas a bemenetrôl, akkor az állapot első koordinátája nem változik ( $M_{1}$ nem lép). Ha a veremautomata nem tud lépni, akkor $M$ számítása elakad. A veremben mindig történjen az, ami az $M_{2}$ megfeleló lépésében történik.
+
+Ez az automata lényegében párhuzamosan futtatja az $M_{1}$ és $M_{2}$ automatát, akkor fogad el, ha mindkettő elfogadó.
+
+(c) $\mathrm{Az} L_{1}=\left\{\mathrm{a}^{n} \mathrm{~b}^{n} \mathrm{c}^{k}: n \geq 0\right\}$ és $L_{2}=\left\{\mathrm{a}^{n} \mathrm{~b}^{k} \mathrm{c}^{n}: n \geq 0\right\}$ nyelvek környezetfüggetlenek (lásd 5 . gyak. 1(b)), a metszetük az $\left\{\mathrm{a}^{n} \mathrm{~b}^{n} \mathrm{c}^{n}: n \geq 0\right\}$ nyelv, ami nem $\mathrm{CF}$.
+
+(A (b)-ben vázolt konstrukció az automatákra most azért nem múködik, mert két vermet kellene eggyel szimulálni.)

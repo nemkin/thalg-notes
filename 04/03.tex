@@ -2,7 +2,7 @@
 
 \lineparagraph{Exercise}
 
-Give CF-grammar for the following languages. Are these unambiguous?
+Give CF-grammars for the following languages. Are these unambiguous?
 
 \begin{enumerate}[(a)]
 \item $L = \{a^nb^{n+1}| n\geq{}0\}$
@@ -12,3 +12,65 @@ Give CF-grammar for the following languages. Are these unambiguous?
 \end{enumerate}
 
 \lineparagraph{Solution}
+
+(Multiple solutions can be correct here, we give one example for each.)
+
+a)
+
+\begin{align*}
+    S \rightarrow& Tb\\
+    T \rightarrow& aTb|\varepsilon
+\end{align*}
+
+$L_T = \{a^nb^n | n\geq{}1\}$, and $S$ just adds one more $b$ at the end. This language is unambiguous, since for \textbf{any} word in the grammar there is only a single possible (leftmost) derivation: we must always first use the $S \rightarrow Tb$ production rule, then the number of $a$'s and $b$'s determines the number of times the  $T \rightarrow aTb$ production rule is used, finally the $T \rightarrow \varepsilon$ must end the derivation.
+
+Another good solution is $S \rightarrow aSb | b$, which does exactly the same thing with less rules.
+
+b)
+
+\begin{align*}
+    S \rightarrow& aSbb|\varepsilon
+\end{align*}
+
+Since we now need twice as many $b$'s as $a$'s. This grammar is also unambiguous, since there is only one possible (leftmost) derivation for any word in the language: we use the $S \rightarrow& aSbb$ as many times as there are $a$'s in the word, and then finally use $S \rightarrow \varepsilon$.
+
+c)
+
+\begin{align*}
+    S \rightarrow& aSa | bSb | a | b |\varepsilon
+\end{align*}
+
+The matching characters in the palindromes are generated with rules $S \rightarrow aSa$ and $S \rightarrow bSb$, then if the palindrome is of odd length, the middle character is generated with rules $S \rightarrow a$ and $S \rightarrow b$, while if the palindrome is of even length, then no middle character is needed, so $S \rightarrow \varepsilon$ is used.
+
+This grammar is unambiguous, since for any given palindrome, there is only one possible leftmost derivation for it: we read the input word from left-to-middle and when we see a character $a$ we must use production rule $S \rightarrow aSa$, when we see a $b$ we must use $S \rightarrow bSb$, then we take care of the middle character as we said before.
+
+d)
+
+$L$ is the union of $L_1 = \{a^ib^ic^k | i,k \geq{} 0\}$ and $L_2 = \{a^ib^jc^i | i,j \geq{} 0\}$. So we can create a grammar by creating two independent grammars for $L_1$ and $L_2$ and combining them:
+
+For $L_1$:
+\begin{align*}
+    X \rightarrow& TC\\
+    T \rightarrow& aTb|\varepsilon\\
+    C \rightarrow& cC|\varepsilon
+\end{align*}
+
+For $L_2$:
+\begin{align*}
+    Y \rightarrow& aYc|B\\
+    B \rightarrow& bB|\varepsilon
+\end{align*}
+
+For $L=L_1\cup{}L_2$:
+
+For $L_1$:
+\begin{align*}
+    S \rightarrow& X|Y\\
+    X \rightarrow& TC\\
+    T \rightarrow& aTb|\varepsilon\\
+    C \rightarrow& cC|\varepsilon\\
+    Y \rightarrow& aYc|B\\
+    B \rightarrow& bB|\varepsilon
+\end{align*}
+
+This grammar is ambiguous, since the words of $a^ib^ic^i$ can be derived from both variable $X$ and variable $Y$ as well, so they have at least two leftmost derivations or parse trees.

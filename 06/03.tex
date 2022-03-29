@@ -1,0 +1,16 @@
+\subsection{Session 6, Exercise 3}
+
+\lineparagraph{Exercise}
+
+Álljon $L$ azokból a $\{0,1\}$ feletti sorozatokból, melyekben a középső karakter 0. Igazolja, hogy $L$ környezetfüggetlen nyelv!
+
+\lineparagraph{Solution}
+
+Két lehetöségünk is van: megadhatunk egy környezetfüggetlen nyelvtant a nyelvhez vagy egy veremautomatát.
+
+A nyelvtan ötlete, hogy ha $w \in L$ legalább 3 hosszú, akkor az első és utolsó karakterét levágva a maradék is L-ben lesz (és ez a két karakter tetszóleges). Ha 3-nál rövidebb, akkor meg csak $w=0$ lehet. Egy ezt tükrözö nyelvtan: $S \rightarrow 0 S 0|0 S 1| 1 S 0|1 S 1| 0$.
+
+A veremautomata meg múködhet úgy, hogy 0-t rak a verembe, amíg el nem éri a közepét (ezt nem kell tudni, mikor következik be, erre jó a nemdeterminizmus!), ha ez 0 , akkor a továbbiakban kiszedegeti a 0-kat a veremből. Akkor fogad el, ha a szó végénél a veremböl is épp kifogytak a 0
+
+![](https://cdn.mathpix.com/cropped/2022_03_23_c86c88fa24d5c87623acg-2.jpg?height=144&width=449&top_left_y=723&top_left_x=721)
+karakterek.

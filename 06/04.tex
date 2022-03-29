@@ -1,0 +1,32 @@
+\subsection{Session 6, Exercise 4}
+
+\lineparagraph{Exercise}
+
+Adjon Turing-gépet a $\left\{w \# w: w \in\{0,1\}^{*}\right\}$ nyelvhez! Adjon felsó becslést a Turing-gép lépésszámának nagyságrendjére!
+
+\lineparagraph{Solution}
+
+Lássunk előbb egy 2 szalagos gépet! Az ötlet, hogy a 2. szalagra lemásoljuk a szó elejét (az $m=$ másolás állapotban). A # jelhez érve átlépünk egy újabb $v$ állapotba, amivel visszamegyünk a 2 . szalag elejére (v=vissza állapot), és onnan kezdve majd ezt hasonlítjuk az 1. szalagon levő szó második feléhez ( $h$ állapot). Arra most is figyelni kell, hogy a 2. szalag elejére tegyünk egy jelet $(s \rightarrow m)$, hogy visszafelé jövet tudjuk, hol az eleje.
+
+Azt az esetet is kezelni kell, ha a $w$ az üres szó, az egyetlen # karakterból álló bemenetet is el kell fogadni, ez történik az $u 1$ és $u 2$ állapot segítségével.
+
+$(0, *) \rightarrow(0, X), \mathrm{H}, \mathrm{J}$
+
+$(0, *) \rightarrow(0, X), \mathrm{H}, \mathrm{J}$
+$(1, *) \rightarrow(1, X), \mathrm{H}, \mathrm{J}$
+
+![](https://cdn.mathpix.com/cropped/2022_03_23_c86c88fa24d5c87623acg-2.jpg?height=108&width=1046&top_left_y=1271&top_left_x=109)
+
+$(0, *) \rightarrow(0,0), \mathrm{J}, \mathrm{J} \quad(\#, 0) \rightarrow(\#, 0), \mathrm{H}, \mathrm{B} \quad(0,0) \rightarrow(0,0), \mathrm{J}, \mathrm{J}$
+
+$\begin{array}{ll}(1, *) \rightarrow(1,1), \mathrm{J}, \mathrm{J} & (\#, 1) \rightarrow(\#, 1), \mathrm{H}, \mathrm{B} \quad(1,1) \rightarrow(1,1), \mathrm{J}, \mathrm{J}\end{array}$
+
+![](https://cdn.mathpix.com/cropped/2022_03_23_c86c88fa24d5c87623acg-2.jpg?height=128&width=291&top_left_y=1476&top_left_x=142)
+
+Lépésszám: Az $n$ hosszú bemeneteken az $m, v$ és $h$ állapotok bármelyikében legfeljebb $n$ lépést töltünk, ezeken kívül csak konstans sok lépés van, tehát a lépésszám $O(n)$. (Könnyú látni, hogy az elfogadott szavakra $\Theta(n)$ is igaz. Miért nem igaz ez minden bemenetre?)
+
+Egy másik megoldás 1 szalaggal: most azt csináljuk, hogy oda-vissza mozogva a szalagon hasonlítjuk a párokat, amiken túl vagyunk, azokat átírjuk $X$-re. Részletesebben: az első karaktert felülírjuk, és attól függóen, hogy ez 0 vagy 1 volt, megyünk az $n$ vagy e állapotba. A két ágon hasonlóan járunk el, az $n$ és $e$ állapotban elmegyünk a # jelig, majd a bemenet második felében átlépjük az esetleges $X$ jeleket (ln, le). Ha az ez után jövö elsố karakter megfelel annak, amit várunk (az $n$ ágon o, az e ágon 1), akkor a szó eddig jó, ezt a karaktert felülírjuk, és visszamegyünk az $X$-eken a # jelig, ami után a # állapotban átlépkedünk a szó elsố felében még megmaradt 0 és 1 karaktereken. Amikor elérjük az elsố $X$ jelet, akkor az s állapotból folytathatjuk a következố karakterpár ellenórzését. Ha ide érve a # karaktert látjuk, akkor a szó elsố felét feldolgoztuk. Ha ilyenkor a második felében sem maradt $X$-en kívül semmi, akkor elfogadunk. (Ugyanez történik, ha $w=\varepsilon$ ).
+
+![](https://cdn.mathpix.com/cropped/2022_03_23_c86c88fa24d5c87623acg-3.jpg?height=584&width=950&top_left_y=415&top_left_x=91)
+
+A lépésszám becsléséhez elég azt észrevenni, hogy egyrészt minden állapotban egyfolytában legfeljebb $n$ lépésig maradunk (hiszen a nem $X$ karakterek száma minden körben eggyel csökken), másrészt az $s$ állapotba legfeljebb $n$-szer térünk vissza. Ezért a lépésszám összesen $O\left(n^{2}\right)$.

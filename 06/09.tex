@@ -1,0 +1,15 @@
+\subsection{Session 6, Exercise 9}
+
+\lineparagraph{Exercise}
+
+Legyen $\Sigma=\{0,1,+,=\}$. Vázoljon egy Turing-gépet ahhoz a nyelvhez, amelyik az olyan $x+y=z$ alakú szavakból áll, ahol $x, y, z \in\{0,1\}^{*}$ nem üres bitsorozatok, és ha ezeket binárisan felírt számoknak tekintjük, akkor valóban $z$ az $x$ és $y$ összege. Adjon becslést a Turing-gép lépésszámára!
+
+\lineparagraph{Solution}
+
+Az egyszerúség kedvéért használjunk 4 szalagot. Elöször a bemenetrơl a + -ig terjedô részt $(x)$ a szokott módon lemásoljuk a 2. szalagra (elơtte megjelölve a szalag elejét). Majd az = -ig a következö részt (y) hasonlóan átmásoljuk a 3. szalagra. Álljunk vissza a fejjel a 2. és 3. szalag utolsó nem üres mezójére (azaz $x$ és $y$ utolsó bitjére), hiszen az összeadát az utolső bitnél jó kezdeni.
+
+A 4. szalagra írjuk az összeget a szám végéról kezdve. Az összeadásnál két állapotot használunk, az egyik jelképezi, hogy volt átvitel az elơzó számjegy összeadásából, a másik meg, hogy nem volt. Ennek megfelelöen a két állapotban mást-mást írunk a 4. szalagra ugyanannál az olvasott karakterpárnál.
+
+Ha az összeadás véget ért, össze lehet hasonlítani az eredményt, azaz a 4. szalag tartalmát visszafelé, az első szalagon az $=$ utáni $(z)$ résszel.
+
+(Az összeg felírását el is kerülhetjük, ha a keletkezö karaktereket egyből a z rész megfelelő karakterével összehasonlítjuk.)
