@@ -1,0 +1,74 @@
+\subsection {Session 7, Exercise 1}
+
+\lineparagraph {Exercise}
+
+Let language $L$ consist of undirected graphs that do not contain cycles. Prove that $L\in{}P$.
+
+\lineparagraph {Solution}
+
+At first glance, we can use the definition of the $P$ language class:
+
+If there exists a...
+\begin{itemize}
+    \item \textbf{deterministic} Turing-machine
+    \item that accepts the language \textbf{$L$}
+    \item that \textbf{stops on all} possible inputs
+    \item and given a specific input finishes its computation in \textbf{polynomial time} relative to the input's size
+\end{itemize}
+... then we say that $L \in{} P$ (''$L$ is in $P$'').
+
+Note:
+\begin{itemize}
+    \item When a Turing-machine accepts the language $L$ and stops on all possible inputs, we say that it decides $L$.
+    \item Versus when a Turing-machine accepts the language $L$ and stops on all \textbf{accepted} inputs, we say that it recognizes $L$. We say that this type of TM can reject a word by never stopping computation on it. However this type of rejection cannot be detected, since we can never know whether the TM will finish eventually or if it is indeed in an infinite computation.
+\end{itemize}
+
+However constructing a Turing-machine can be cumbersome, so we are going to apply the Church-Turing thesis: the TM described above exists if and only if a polynomial-time bound algorithm exists for the problem.
+
+So according to the Church-Turing thesis we can prove that $L \in{} P$, by describing the algorithm that solves the problem and showing that it's runtime complexity is indeed polynomial relative to the input's size.
+
+Specifically: $L =$ undirected graphs that do not contain cycles.
+
+Three types of inputs are possible:
+\begin{itemize}
+    \item A description of an undirected graph that does not contain a cycle. $\rightarrow$ These must be accepted.
+    \item A description of an undirected graph that contains a cycle. $\rightarrow$ These must be rejected.
+    \item An input that does not represent an undirected graph. $\rightarrow$ These must be rejected.
+\end{itemize}
+
+The task did not specify, so we can select the input format: let's say that we want to represent graph $G$ via its adjacency matrix: for $n$ vertices that is an $n \times n$ square matrix containing $0$'s and $1$'s, and in row $i$ column $j$ there is a $1$ if $\{i,j\}$ is an edge of the graph, and a $0$ if it's not an edge. We can set the alphabet to be binary: $\Sigma = \{0,1\}$.
+
+The algorithm is as follows:
+
+Step 1: (In later exercises we will neglect this step.)
+
+Check the input word's format:
+
+\begin{itemize}
+    \item If the number of the input characters is not a square number, then it does not represent an adjacency matrix of a graph. Reject this type of input.
+    \item If the input is a square matrix, however it is not symmetric (the undirected graph's square matrix must be symmetric), it means that it is a directed graph. Reject this type of input as well.
+\end{itemize}
+
+Step 2:
+
+Check whether the input undirected graph contains a cycle.
+
+This can be accomplished by running a BFS = Breadth First Search (or a DFS = Depth First Search). These algorithms will output a spanning tree of the graph.
+
+\begin{itemize}
+    \item If they also find non-tree edges = cross-edges, that means there is a cycle in the graph. The cycle is given by: the cross-edge plus the paths from the two vertices of the cross-edge up to the first common ancestor (the root vertex in the furthest case). $\rightarrow$ Reject these types of inputs.
+    \item If these algorithms find only tree-edges, then the graph is a forest (tree, if connected) and has no cycles as a result. $\rightarrow$ Accept these types of inputs.
+\end{itemize}
+
+Time complexity analysis:
+\begin{itemize}
+    \item We know that if the input graph contains $n$ vertices, then the size of the input is $n\times{}n$.
+    \item We know from the subject \textbf{Introduction to the Theory of Computing 1/2} that the BFS algorithm runs in $O(n^2)$ ($O(|V| + |E|)$ in general, but in our case the edges are given in an adjacency matrix format).
+    \item Additionally, the format checking step can also be completed in linear time: counting the characters on the input, then checking $\frac{n^2}{2}$ pairs of cells if they contain the same value.
+    \item This means that our algorithm is linear, so for a size $m$ input, it will run in $O(m)$.
+\end{itemize}
+
+Note:
+\begin{itemize}
+    \item If we were to do this on a Turing-machine, while the time complexity will still be polynomial, but it won't be linear. This is due to the fact that the TM is unable to ''index the adjacency matrix'' in constant time. It needs $O(n^2)$ time to seek a specific location. We say that the polynomial time complexity class is robust, meaning that it does not depend on the ''architecture'' of the machine we use to implement the algorithm on.
+\end{itemize}
