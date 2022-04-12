@@ -2,48 +2,27 @@
 
 \lineparagraph {Exercise}
 
-Sketch a Turing machine for the following languages. It is not neccessary to give the transition function precisely, it is enough to describe (in details) the idea of the working of the TM.
-
-\begin{enumerate}[a)]
-    \item $L_1 = \{a^nb^m | 2n = m \geq{} 1\}$
-    \item $L_2 = \{a^ib^jc^k | i,j,k \geq{} 1, i+j = k\}$
-    \item $L_3 = \{a^ib^jc^k | i,j,k \geq{} 1, i \cdot j = k\}$
-\end{enumerate}
+Sketch a Turing machine that recognizes the complement of the diagonal language. Does it stop on every
+input?
 
 \lineparagraph {Solution}
 
-I'm giving the TM's precisely, but you could just describe them. (Basically what the itemized list contains below, without referencing the specific index of the transitions.)
+$L_d$, the diagonal language consists of Turing-machine codes that do \textbf{not} accept their own codes.
 
-a) Similar to \ref{4_9} a), but now we need to give a TM, instead of a PDA:
-
-\includegraphics[width=\linewidth]{06/6_7_canvas.png}
-
+The complement of the diagonal language, $\overline{L_d}$ consits of $0,1$ bit words, where the words are either:
 \begin{itemize}
-    \item Transition 1: We mark the beginning of the second tape with an $X$, so we don't fall off later.
-    \item Transitions 2-3: For every $a$ character on the first tape we copy it twice to the second tape. Pay attention: in transition 2 the first head doesn't move, but in transition 3 it does.
-    \item Transition 4: When the $a$'s are done and the $b$'s are coming we position the second head to the end of the copied $a$'s.
-    \item Transition 5: We compare the number of $a$'s and $b$'s on the second and first tape. They have to be equal, which means that the original input had to have half as many $a$'s as $b$'s.
-    \item Transition 6: If the first head reaches the end of the input at the same time the second head reaches the beginning of the second tape (marked with the $X$), it means that the number of $a$'s and $b$'s is correct and the word can be accepted.
+    \item The word does not code a Turing-machine (given a selected specific coding method).
+    \item The word does code a Turing-machine, however it accepts its own code as an input.
 \end{itemize}
 
-b) Same as \ref{4_7}, but now we need to give a TM, instead of a PDA:
+We first check whether the given input is a Turing-machine code. If it is not, we halt and accept it.
 
-\includegraphics[width=\linewidth]{06/6_7_b_canvas.png}
+If it is, then we will simulate the Turing-machine based on its code. This is done, by copying the input word to a second tape, which will act as the input tape for the simulated TM. The third tape will keep track of the current state of the simulated TM. In every step, the code of the TM (on the first tape) will tell us what the next step must be, given the contents of the 2nd and the 3rd tapes. We execute this step (change the 2nd simulated input tape accordingly and move the head accordingly on it) and change the simulated current state tape as well.
 
-\begin{itemize}
-    \item Transition 1: We mark the beginning of the second tape with an $X$, so we don't fall off later.
-    \item Transition 2: Copy the $a$'s to the second tape.
-    \item Transition 3: Detect that the $b$'s are coming.
-    \item Transition 4: Copy the $b$'s to the second tape, copy them as $a$'s since we only care about their collective numbers and this spares us one extra transition (similar to transition 6, but for a $b$).
-    \item Transition 5: Detect that the $c$'s are coming.
-    \item Transition 6: Compare the number of $a$'s and $b$'s = the number of $a$'s on the second tape to the number of $c$'s.
-    \item Transition 7: If we run out of $a$'s and $c$'s at the same time it means that there were an equal number of them, so we can accept the input.
-\end{itemize}
+If the simulated TM halted, we halt as well and we check whether it halted in an accepting state: if it did, we accept, if it did not we reject.
 
-Important: Transition 1,3 and 5 enforce that $i,j,k \geq{} 1$.
+Since it easy to construct a TM, that will end up in an infinite loop for any given input, including its own code, this means that in this case the above simulation will never halt either. This is okay, since the TM that never halts rejected its input and the simulator never halts, so it also rejects the input correctly (TMs that reject their own code are not in $\overline{L_d}$. Thus this TM will not halt for every possible input.
 
-c) 
+The details of the construction of such TM are out of scope for this class, if you are interested you can look up ''Universal Turing machine'' for further details.
 
-The idea is to: Use 3 tapes, mark the beginning of the second and third tape. Copy the $a$'s to the first tape. Then step on the first $a$ on the second tape and run through the first tape copying all of the $b$'s to the third tape. Now step to the left on the second tape, and do the same for the next $a$, and do it until there are $a$'s left. When you reach the $X$ mark on the second tape, the third tape will contain $i \cdot j$ $b$'s. Now compare the number of $b$'s on the third tape to the remaining $c$'s on the first tape.
-
-It is important to keep in mind that for an odd number of $a$'s the head on the first tape will be at the last $b$ (next to the $c$), while for an even number of $a$'s the head on the first thape will be at the first $b$ (not next to the $c$). Handle the latter case by moving the first head to the right until it sees a $c$.
+Side note: we assumed that the input Turing machine code codes a TM that has a single tape. Since there exists a single tape TM that accepts the same language for any multitape TM's, this assumption is acceptable in this case, we could define the TM coding method in a way that we must contruct an equivalent single-tape TM in order to encode any TM.

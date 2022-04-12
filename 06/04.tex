@@ -2,26 +2,20 @@
 
 \lineparagraph {Exercise}
 
-Let language L consist of words over $\{0,1\}$ whose middle character is $0$. Prove that L is CF.
+Sketch a Turing-machine for the language $\{ww | w \in \{0,1\}^*\}$.
 
 \lineparagraph {Solution}
 
-We prove that $L$ is CF by giving a CF-grammar. (We could also give a PDA.)
+This is similar to \ref{6_5}, however we do not have the $\#$ to mark the middle of the two words.
 
-\begin{align*}
-    S \rightarrow& 0S0 | 0S1 | 1S0 | 1S1 | 0
-\end{align*}
+This issue can be fixed, in the following way, making a similar 2-tape TM:
 
-This grammar is similar to the odd-palindrome one, however we allow all possible combinations of letters. But the middle one must be a $0$.
-
-Proof: this CF-grammar generates $L$.
-
-Any word in the language has to be of odd length. We look at the first and last characters and use one of the four transitions from $S \rightarrow 0S0 | 0S1 | 1S0 | 1S1$ to generate them, then we remove those from the word and keep repeating until $1$ character is left. This character is the middle one, since we removed an equal number of characters before and after it ($1$-$1$ in each step), so it has to be a $0$, which can be generated using production rule $S \rightarrow 0$.
-
-Any word outside of this language is either:
 \begin{itemize}
-    \item of even length, in which case there is no possilbe way for this grammar to generate it, since rules  $S \rightarrow 0S0 | 0S1 | 1S0 | 1S1$ generate an even number of characters, while the  $S \rightarrow 0$ rule ends the derivation and can be used only once, which results in an odd lenght word. This includes the $\varepsilon$ (empty string), which cannot be generated, since there is no $S \rightarrow \varepsilon$ rule.
-    \item of odd length, but with the $1$ middle character. Using the previous explanation, since there is no  $S \rightarrow 1$ rule, there is no way to put a $1$ in the middle, so these words can't be generated either.
+    \item We treat the empty string separately and accept it.
+    \item We mark the beginning of the second tape with an $X$.
+    \item We copy the \textbf{entire} input to the second tape.
+    \item We step backwards on the second tape, but only step backwards on the first tape every second step on the second tape.
+    \item When the second head reaches the $X$ the first head will be in the middle. (And won't fall off the tape, since the empty string is treated for separately, and for every other input, the first head moves less than the second head.)
+    \item Now we can move to the right with both heads and compare the first half of the input (on the second tape) with the second half of the input (on the second tape).
+    \item When the first head reaches the first empty cell it means that all comparisons were successfull and we can move to a separate accept state.
 \end{itemize}
-
-We have shown that this grammar generates \textbf{the correct words} and \textbf{only the correct words = does not generate words outside of the language}.

@@ -50,6 +50,6 @@ U \rightarrow& 0U00|\#
 
 In this grammar for any given word in the language:
 
-If the word contains $1$ $\#$'s, then we must use production rule $S \rightarrow U$ at the beginning, then we must repeat $U \rightarrow& 0U00$ as many times as there are $0$'s before the $\#$, finally the $U \rightarrow \#$ rule must be used to end the leftmost derivation, there is no other way to generate these types of words.
+If the word contains $1$ $\#$'s, then we must use production rule $S \rightarrow U$ at the beginning, then we must repeat $U \rightarrow 0U00$ as many times as there are $0$'s before the $\#$, finally the $U \rightarrow \#$ rule must be used to end the leftmost derivation, there is no other way to generate these types of words.
 
-If the word contains $2$ $\#$'s, then we must use production rule $S \rightarrow N\#N\#N$ at the beginning, then for each individual variable $N$ we must use the rule $N \righarrow 0N$ as many times as there are $0$'s in that section, and finally use $N \rightarrow \varepsilon$ at the end.
+If the word contains $2$ $\#$'s, then we must use production rule $S \rightarrow N\#N\#N$ at the beginning, then for each individual variable $N$ we must use the rule $N \rightarrow 0N$ as many times as there are $0$'s in that section, and finally use $N \rightarrow \varepsilon$ at the end.

@@ -1,0 +1,42 @@
+\subsection {Session 5, Exercise 6}
+
+\lineparagraph {Exercise}
+
+Let $L_r$ be an arbitrary regular language and let $L_c$ be an arbitrary CF language.
+\begin{enumerate}
+    \item Show an example when $L_r \cap L_c$ is not regular.
+    \item Prove that $L_r \cap L_c$ is always context-free.
+    \item Show an example when $L_1$ and $L_2$ are both context-free but $L_1 \cap L_2$ is not.
+\end{enumerate}
+
+\lineparagraph {Solution}
+
+a)
+
+For example if we take $L_r = \Sigma^*$, which is regular. Then, we take a known non-regular, but CF language, $L_c = \{a^nb^n | n \geq{} 0\}$. Ther instersection is $L_c$ itself, which is not regular, but CF.
+
+b) If $L_r$ is regular, there exists a DFA that accepts it, let's call this $M_r$. Then, since $L_c$ is CF, there exists a PDA that accepts it, let's call this $M_c$. To show that $L_r \cap L_c$ is CF we construct a PDA from $M_r$ and $M_c$ that accepts it.
+
+The main idea is to take all the possible pairs of states, where one state comes from $M_r$ and the other from $M_c$. For a given input character, we define the transition function, so that ''it keeps track of what's happening in both $M_r$ and $M_c$ at the same time'', for each statepair $(q_r, q_c)$, by checking what $M_r$ would do for the given input character in state $q_r$ and what would $q_c$ do, and moving to that statepair (or, since the PDA can have a set of possible states it moves into, the set of all statepairs).
+
+We keep track of what's happening in $M_c$'s stack in the stack we have (this is why we cannot do this for two CF-languages, we would need to keep track of two stacks).
+
+The starting statepair is going to be the statepair which contains the starting states from their respective machines.
+
+The accepting statepairs will be the ones for which both states accept in their respective machines, since we need $L_r \cap L_c$.
+
+The PDA constructed in this way will accept $L_r \cap L_c$, which means that the language is CF.
+
+c)
+
+These languages are both CF:
+
+$L_1 = \{a^nb^nc^k | n,k \geq{} 0\}$ (Number of $a$'s and $b$'s is equal.)
+
+$L_2 = \{a^ib^jc^j | i,j \geq{} 0\}$ (Number of $b$'s and $c$'s is equal.)
+
+(See \ref{4_3_d} for a CF-grammar for $L_1$, and based on that $L_2$ can be constructed in a similar manner.)
+
+$L_1 \cap L_2 = \{a^nb^nc^n\}$  (Number of $a$'s and $b$'s and $c$'s is equal.)
+
+Which is known to be non-CF. (The idea behind this is that we would need to use the stack to keep track of the number of $a$'s, but we would throw them out when comparing them with the number of $b$'s and there will be nothing left to compare to when the $c$'s come. The formal proof is more complicated and outside of the scope of this class.)

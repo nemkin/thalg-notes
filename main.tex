@@ -1,5 +1,5 @@
 % Geometry setup
-\documentclass[14pt,a4paper]{article}
+\documentclass[a4paper]{article}
 \usepackage[margin=1.5cm]{geometry}
 
 % Language setup
@@ -47,6 +47,10 @@
 
 % Custom commands
 \newcommand{\lineparagraph}[1]{\paragraph{#1}\mbox{}\\}
+\newcommand{\titlemath}[1]{\texorpdfstring{#1}{Lg}}
+
+% Supress warnings
+\hbadness=99999 % Underfull hbox
 
 % Document
 \begin{document}
@@ -61,7 +65,7 @@ This is a work in progress, I am updating these whenever I have time.
 \tableofcontents
 \pagebreak
 
-\section{O, $\Omega$, $\Theta$, pattern matching}
+\section{O, \titlemath{$\Omega$, $\Theta$}, pattern matching}
 \input{01/01}\pagebreak
 \input{01/02}\pagebreak
 \input{01/03}\pagebreak
@@ -118,10 +122,19 @@ This is a work in progress, I am updating these whenever I have time.
 \input{04/11}\pagebreak
 \input{04/12}\pagebreak
 
-% Session 5 had the same sheet as 4.
-\setcounter{section}{5}
-
 \section{Turing-machines}
+\input{05/01}\pagebreak
+\input{05/02}\pagebreak
+\input{05/03}\pagebreak
+\input{05/04}\pagebreak
+\input{05/05}\pagebreak
+\input{05/06}\pagebreak
+\input{05/07}\pagebreak
+\input{05/08}\pagebreak
+\input{05/09}\pagebreak
+
+
+\section{Turing-machines 2}
 \input{06/01}\pagebreak
 \input{06/02}\pagebreak
 \input{06/03}\pagebreak
@@ -130,17 +143,5 @@ This is a work in progress, I am updating these whenever I have time.
 \input{06/06}\pagebreak
 \input{06/07}\pagebreak
 \input{06/08}\pagebreak
-\input{06/09}\pagebreak
-
-
-\section{Turing-machines 2}
-\input{07/01}\pagebreak
-\input{07/02}\pagebreak
-\input{07/03}\pagebreak
-\input{07/04}\pagebreak
-\input{07/05}\pagebreak
-\input{07/06}\pagebreak
-\input{07/07}\pagebreak
-\input{07/08}\pagebreak
 
 \end{document}
