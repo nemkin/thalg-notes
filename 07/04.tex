@@ -2,4 +2,89 @@
 
 \lineparagraph {Exercise}
 
+Prove that the following two languages belong to NP. Can you prove for any of them that it is in P? Can you prove for any of them that it is in coNP?
+
+\begin{enumerate}[a.)]
+    \item Language of undirected graphs that contain a cycle of length at most 100.
+    \item Language consisting of pairs $(G,k)$, where $G$ is an undirected graph that has a cycle of length at most $k$.
+\end{enumerate}
+
 \lineparagraph {Solution}
+
+The definition of a language belonging to $NP$ is that there exists a \textbf{nondeterministic} Turing-machine for that can \textbf{decide} $L$ (accept $L$ and stop on all possible inputs) in polynomial time.
+
+\begin{itemize}
+    \item Polynomial time for a nondeterministic TM means that the length of the longest computational branch is upper bound by a polynomial of the input size.
+\end{itemize}
+
+To prove that a language is in $L$ we could give such a TM as described above, however it would be cumbersome. Instead, we will apply the \textbf{Witness Theorem}.
+
+The Witness Theorem in short says that if we can find a polynomial time ''verifier'' algorithm for a problem, that can check whether a word is in the language, then the language is in NP.
+
+The connection to the nondeterministic TM is as follows:
+\begin{itemize}
+    \item If we can check a verifying witness in polynomial time, then we can construct a nondeterministic $TM$, to first ''nondeterministically'' generate all possible witnesses (in parallel computational branches), then use the polynomial algorithm (=deterministic TM) to check it. This in total will run in polynomial time as well.
+    \item If there exists a nondeterministic TM that can decide $L$ in polynomial time, then a good witness for this problem is the description of how to find the accepting branch in the computational tree for any given input. (For example, in every branching step, the index of the chosen branch.) If we are given a witness, we can escape the multiple computational branches and simply navigate into the accepting state, which turns our computation deterministic.
+\end{itemize}
+
+In practice the witness theorem means that a problem is in NP, if we are given a possible solution, we can at least verify its correctness efficiently. The following Youtube video explains this nicely: \href{https://youtu.be/YX40hbAHx3s}{P vs. NP and the Computational Complexity Zoo by hackerdashery}.
+ 
+How to construct a proof using the Witness Theorem:
+
+We need to give the following items:
+\begin{itemize}
+    \item Witness:
+        \begin{itemize}
+        \item It must exist for all accepted words.
+        \item It must NOT exist for any of the rejected words.
+        \item Length must be polynomial (relative to the corresponding input size).
+        \end{itemize}
+    \item Witness checking algorithm:
+        \begin{itemize}
+        \item It must be able to verify the witness for a given input.
+        \item Runtime must be polynomial (relative to the input + witness size together).
+        \end{itemize}
+\end{itemize}
+
+For task a):
+
+\begin{itemize}
+    \item Witness:
+        \begin{itemize}
+            \item A description of a cycle in the graph: a list of nodes, in the same order as they are in the cycle: $\{v_1,v_2,\dots,v_m\}$.
+            \item If the graph is accepted, then there exists a cycle in it (and the witness checking algorithm will be able to verify, that it is indeed a cycle in the graph).
+            \item If the graph is rejected, then there exists no cycle in it: no witness exists for these inputs (and the witness checking algorithm will figure out if we are trying to fool it by giving it a faulty witness - something that is not actually a cycle!).
+            \item Since the maximum length of the cycle is $100$, and a single vertex's index can be described using $O(\log_{2}n)$ bits, where $n$ is the total number of vertexes, then the witness' length is $100*O(\log_{2}n)$, or simply $O(\log_{2}n)$. The input's length is $O(n^2)$, so if we take $k=n^2$, then $\sqrt{k} = n$ and $\log_{2}\sqrt{k} = \log_{2}n$. So the witness' length relative to the input size is $O(\log_{2}\sqrt{k})$, better than polynomial.
+        \end{itemize}
+    \item Witness checking algorithm:
+        \begin{itemize}
+            \item Count that the number of vertices does not exceed $100$, and check that all of them exist in the graph (their index is not too big). This is a constant step, since the moment we counted the $101$th vertex, we can reject the witness.
+            \item Look up the following cells in the adjacency matrix: $\{v_1,v_2\}$, $\{v_2,v_3\}$, $\{v_3,v_4\}$, ..., $\{v_{m-1},v_{m}\}$ and finally $\{v_m,v_1\}$. (Don't forget the last edge closing the cycle!)
+            \item If all of these are edges of the graph (contain a $1$ in every cell), then this is a cycle.
+            \item This step can be done in $O(m)$, where $m$ is the number of vertices in the cycle, which can not exceed $100$. This is a constant step.
+            \item The witness checking algorithm runs in constant time!
+        \end{itemize}
+\end{itemize}
+
+For task b):
+
+Similar to task a), except that the cycle's length is replaced by $k$ instead of $100$. Since $k$ can be upper bound by $n$, the corresponding space (witness size) and time (witness checking algorithm runtime) complexity calculations will still result in a polynomial Big-O.
+
+Are these in P?
+
+Both of these languages are in fact in $P$. To show this, we give a polynomial time algorithm that can find the shortest cycle in a graph. Then, if we check the size of this cycle and it is within limits (either $100$ or $k$), then we can accept, and if it is outside of the limits, since this is the shortest possible cycle in the graph we reject.
+
+We can use the BFS algorithm to find cycles in the graph. When the BFS is started from a given vertex, it will find all cycles that contain that specific vertex. To find all possible cycles we start a BFS from all vertexes one-by-one. When a non-tree edge is found, we can qucikly calculate the corresponding cycle's length, by tracing back to the first common parent. Then we keep track of the currently found minimum length cycle.
+
+The runtime of this algorithm:
+\begin{itemize}
+    \item The BFS will be executed $n$ times, once for all vertices in the graph.
+    \item Then during a single BFS, when a non-tree edge is found, we trace our steps back. A slightly large upper limit for the number of possible non-tree edges is $n^2$, and the number of steps required to trace back is also $n^2$, since in both cases we will touch all edges at most once.
+    \item In total this is still $O(n^5)$, for an input of size $O(n^2)$ which is a very generous upper estimation, but still polynomial.
+\end{itemize}
+
+Are these in coNP?
+
+$coNP$ means that the complementer of the language is in NP. Or, that an efficient verifier = witness / witness checking algorithm can be found for the 'NO' answer.
+
+Since we know that $P \subseteq{} coNP$, and we have just shown that these languages are in $P$ this also proves that these languages are also in $coNP$.

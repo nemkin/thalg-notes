@@ -2,4 +2,39 @@
 
 \lineparagraph {Exercise}
 
+Prove that
+\begin{enumerate}[a)]
+\item Language $MAXCLIQUE = \{(G,k) : \text{undirected graph G has a clique of size k}\}$ is in NP.
+\item Language $5CLIQUE = \{G : \text{undirected graph G has a clique of size 5}\}$ is
+    \begin{itemize}
+        \item in NP,
+        \item in coNP,
+        \item in P
+    \end{itemize}
+\end{enumerate}
+
 \lineparagraph {Solution}
+
+a) Using the Witness Theorem:
+
+\begin{itemize}
+    \item Witness: a description of a $k$-clique in the graph.
+    \begin{itemize}
+        \item If the graph is in the language, the witness exists.
+        \item If the graph is not in the language, the witness doesn't exist.
+        \item The size of a description of a clique in the graph will be a list of vertex indexes that constitute the clique. This is of size $O(n\log_2n)$ (at most $n$ vertex indexes in binary form), which is polyinomial relative to the $O(n^2)$ input size.
+    \end{itemize}
+    \item Witness checking algorithm:
+    \begin{itemize}
+        \item Check that the witness consits exactly $k$ vertices, all of them exist in the graph (their index is not too big), and check for all $n\choose{}2$ pairs of vertices in the witness that the edge exists between them.
+        \item This in total is $O(n+n^2) = O(n^2)$ time, which is polynomial to the input + witness size.
+    \end{itemize}
+\end{itemize}
+
+b)
+
+\begin{itemize}
+    \item in NP: Same as above, for $k=5$.
+    \item in P: Yes, because we can check all ${n\choose{}5} = O(n^5)$ possible 5 vertices if they form a clique.
+    \item in coNP: Yes, because it is in P also.
+\end{itemize}

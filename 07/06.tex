@@ -1,5 +1,44 @@
 \subsection {Session 7, Exercise 6}
 
+The 3 theorems used in this exercise are all studied in \textbf{Introduction to the Theory of Computing 1/2}.
+
 \lineparagraph {Exercise}
 
+Prove that the following languages belong to coNP.
+\begin{enumerate}[a)]
+    \item Language of those bipartite graphs that have complete (perfect) matching.
+    \item Language of those garphs that have complete (perfect) matching.
+    \item Language of planar graphs.
+    \item Language of graphs that whichever way their edges are colored using 2 colors, there is a monochromatic triangle.
+\end{enumerate}
+
 \lineparagraph {Solution}
+
+a) Using the Witness Theorem (witness for no answer).
+
+According to Hall's marriage theorem there exists a complete matching in a bipartite graph \textbf{if and only if} there is no set of $X$ vertices coming from one side of the bipartite graph for which $|X| > |N(X)|$. (The number of their neighbours is less than their number.)
+
+\begin{itemize}
+    \item Witness: A set of $X$ vertices, breaking Hall's condition.
+        \begin{itemize}
+            \item Since Hall's theorem states that the existence of such a set is equivalent to the bipartite graph having no complete matching, this means that the witness exists for all rejected words, but no accepted words.
+            \item The size of the witness is at most $O(n\log_{2}n)$.
+        \end{itemize}
+    \item Witness checking algorithm:
+    \begin{itemize}
+        \item Check that all vertices exist, are on the same side of the bipartite graph and count their neigbhours.
+        \item It can be shown that this runs in polynomial time.
+    \end{itemize}
+\end{itemize}
+
+b) Using the Witness Theorem: Similar to the previous one, using Tutte's Theorem.
+
+Tutte's Theorem: A (generic) graph has a perfect matching if and only if for every subset $U$ its vertices, removing that $U$ from the graph: $G \setminus{} U$ falls apart to having at most $|U|$ odd components.
+
+Then, the witness is such an $U$, etc.
+
+c) Using the Witness Theorem: Similar to the previous one, using Kuratowski's Theorem.
+
+Kruskal's Theorem: A graph is planar if and only if it does not contain a subgraph that is a subdivision of $K_5$ or $K_{3,3}$.
+
+Then, the witness is such a subgraph, etc.

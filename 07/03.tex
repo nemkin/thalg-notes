@@ -2,4 +2,12 @@
 
 \lineparagraph {Exercise}
 
+Let language $L$ consist of pairs $(n,m)$ where $n$ and $m$ are positive integers written in binary and the two numbers are coprime (their greatest common divisor is $1$). Is it true that $L \in{} P$?
+
 \lineparagraph {Solution}
+
+The Euclidean algorithm we know from the subject \textbf{Introduction to the Theory of Computing 1/2} can find the greatest common divisor of its input $n$ and $m$ integers in $O(min(log_2(n), log_2(m)))$ time.
+
+The input size, if the input is given in binary is $O(log_2(n) + log_2(m))$. This means that the algorithm runs in linear (sublinear) time.
+
+The details of the proof can be done based on \ref{7_1}.

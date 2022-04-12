@@ -2,6 +2,12 @@
 
 \lineparagraph {Exercise}
 
-
+Let $L$ consist of triplets $(G,s,t)$ such that $G$ is a directed graph, $s$ and $t$ are two vertices of $G$ and there exists a path from $s$ to $t$. Prove hat $L \in{} P$.
 
 \lineparagraph {Solution}
+
+The details of the proof are similar to that of \ref{7_1}.
+
+The main difference is that we are looking for a path between $s$ and $t$, not a cycle. To find a path, we can use a $BFS$ started from vertex $s$. If this $BFS$ finds $t$ on a path from $s$ then we accept, otherwise reject.
+
+The less important difference is that the input can now be directed, so we don't check for adjacency matrix symmetry during the first step of the algorithm.
