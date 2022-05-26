@@ -4,7 +4,20 @@
 \lineparagraph {Exercise}
 
 
+Give a Karp-reduction from $SUBSETSUM$ to $PARTITION$ .
 
 \lineparagraph {Solution}
+
+\begin{itemize}
+    \item Now we must do the opposite as in \nameref{8_7}: we must solve $SUBSETSUM$, using $PARTITION$.
+    \item Let's say that the input is $\{s_1, s_2, \dots{}, s_n\}$ and $b$. We need to find a subset of this, that sums up to $b$.
+    \item Let's calculate the total sum again! This will be $S$.
+    \item Let's add two additional items to the set: $S+b$ and $2S-b$ and give this to $PARTITION$: $\{s_1, s_2, \dots{}, s_n, S+b, S-b\}$
+    \item What will $PARTITION$ do with these? It cannot put $S+b$ and $2S-b$ in the same part, since their sum is $S+b+2S-b$, which is $3S$, so even adding everything else to the other part, that would still become only $S$, which is too small.
+    \item Instead $S+b$ and $2S-b$ will be in separate parts. For the remaining elements in $\{s_1, s_2, \dots{}, s_n\}$, $PARTITION$ will try to arrange them in the two sets, so that their sum is equal.
+    \item The total sum of everything in $\{s_1, s_2, \dots{}, s_n, S+b, S-b\}$ is $S + S + b + 2S - b = 4S$, so $PARTITION$ will divide these into $2S$ sized sums. Whatever goes next to $2S-b$, has to sum up to $b$ then. The remaining parts then will sum up to $S-b$, which added to $S+b$ will result in a sum of $2S$ also.
+    \item This means that the items that went next to $2S-b$ are the solution to the $SUBSETSUM$, if it exists, and if it doesn't then there is no way we can arrange them in this way.
+    \item We used $O(n)$ additions in our transformation algorithm only, so this was done in polynomial time too.
+\end{itemize}
 
 

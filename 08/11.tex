@@ -3,8 +3,19 @@
 
 \lineparagraph {Exercise}
 
-
+Let us assume that we have a procedure that decides about any boolean formula whether it belongs to $SAT$
+or not in polynomial time. How can this procedure be used to find a substitution of variables for a given
+formula $\Phi(x_1,x_2, \dots{},x_n)$ in polynomial time that makes the formula true?
 
 \lineparagraph {Solution}
 
-
+\begin{itemize}
+    \item This exercise is important, because this is where we convert solvers of decision problems, to solvers that actually tell you the solution (which is usually what we need, not just a yes or no answer).
+    \item The first step is to run the $SAT$ solver on the original formula and see if it can be satisfied.
+    \item If not, then we are sad, but done.
+    \item If it can be, then we take $x_1$ and assign it, for example a $False$ value and give it to the $SAT$ solver again.
+    \item If the answer is still yes, that means that we can keep $x_1 = False$ and continue to substitute other variables.
+    \item If the answer is no, this means that while the original formula was satisfiable, that cannot happen if $x_1 = False$. This immediately means that $x_1$ must be $True$! And this is where the exponential boom does not happen, because we do not have to try $x_1 = True$, we know it is satisfiable!
+    \item Now we know the value of $x_1$ for which the formula is still satisfiable, and we continue to do the same thing for the rest of the variables.
+    \item Since we ran the $SAT$ solver for all variables only once, so $n$ times in total, this results in a polynomial solution that finds the correct variable assignment.
+\end{itemize}

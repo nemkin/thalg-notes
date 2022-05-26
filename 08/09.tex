@@ -3,8 +3,23 @@
 
 \lineparagraph {Exercise}
 
-
+Prove that if $coNP \neq{} NP$, then $MAXCLIQUE \notin{} P$.
 
 \lineparagraph {Solution}
 
-
+\begin{itemize}
+    \item Let's indirectly state that $MAXCLIQUE \in{} P$, while $coNP \neq{} NP$!
+    \item $MAXCLIQUE$ is an $NP$-complete language, which means that it's $NP$-hard.
+    \item This means that all languages in $NP$ can be Karp-reduced onto it.
+    \item $MAXCLIQUE \in{} P$ means that we have found a polynomial solution to it.
+    \item This means that using all the existing Karp-reductions, we can insert the 'missing piece', the polynomial $MAXCLIQUE$ solver into them, to achieve completely polynomial solvers for all languages in $NP$.
+    \item This means that $NP\subseteq{}P$.
+    \item $P\subseteq{}NP$ already, so this leads to $P = NP$.
+    \item Now since any language in $NP$ can be solved (decided) in polynomial time, this also means that the complementer language (which only inverts the $YES$ / $NO$ answer) can be solved the same way as well.
+    \item The complementer languages of the languages in $NP$ comprise the $coNP$ set, which now means that all languages in $coNP$ have polynomial solutions too.
+    \item This means that $coNP \subseteq{} P$.
+    \item $P\subseteq{}coNP$ also, so now we achieved $NP = P= coNP$. (And we are rich too! :) )
+    \item Actually the last steps were not needed for $coNP$, but I wanted to show that too.
+    \item We could have stopped at $P = NP$, which means that since $MAXCLIQUE \in{} NP$, it is now also in $P$, which is a contradiction to the original indirect assumption.
+    \item So we have proven the original statement to be true.
+\end{itemize}

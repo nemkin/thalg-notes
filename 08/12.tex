@@ -3,8 +3,18 @@
 
 \lineparagraph {Exercise}
 
-
+Let us assume that we have a procedure that decides about any n-vertex graph whether it has a Hamiltonian
+cycle. How can this procedure be used to find a Hamiltonian cycle of a given graph $G$ in polynomial time?
 
 \lineparagraph {Solution}
 
+\begin{itemize}
+    \item Similar to \nameref{8_11}.
+    \item We iterate over the edges of the graph. For each edge, we remove it from the graph and ask the solver if the graph still has a Hamiltonian-cycle.
+    \item If the answer is yes, then we don't need that edge, so we forget about it. :)
+    \item If the answer is no, then we put the edge back and never touch it again.
+    \item Repeat this for all edges.
+    \item The edges remaining after all of this will be exactly one of the Hamiltonian-cycles of the graph.
+    \item We ran the $HAM$ solver as many times as there were edges, exactly once, so this is a polynomial time algorithm.
+\end{itemize}
 
