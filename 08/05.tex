@@ -3,8 +3,20 @@
 
 \lineparagraph {Exercise}
 
-
+It is known that $L_1 \prec L_2$ and the complement of $L_2$ can be Karp-reduced to language $PARTITION$. Prove that $L_1 \in{} coNP$.
 
 \lineparagraph {Solution}
 
-
+\begin{itemize}
+    \item As we have seen in \nameref{8_2}, $L_1 \prec L_2$ means $\overline{L_1} \prec \overline{L_2}$ is also true.
+    \item We know that Karp-reduction is transitive, so $\overline{L_1} \prec \overline{L_2} \prec PARTITION$, so this also means $\overline{L_1} \prec PARTITION$.
+    \item $PARTITION$ is $NP-complete$, which means it is both in $NP$ and in $NP-hard$.
+    \item It might be tempting to use the fact that $PARTITION$ is $NP-hard$, so all languages in $NP$ must have a Karp-reduction onto it, however this does not necessarily mean that if a language has a Karp-reduction onto it, then it must be in $NP$. (Well, it does, but we need to show it, and here is how:)
+    \item We will use the fact that $PARTITION$ is in $NP$! This means that there exists a witness, that is polynomial in size and a witness checking algorithm that runs in polynomial for every single word that is in the language and none that is outside of the language.
+    \item Let's take an input word $w$ for $\overline{L_1}$ and let's use the $f$ polynomial time transformation function on it that comes from the $\overline{L_1} \prec PARTITION$ Karp-reduction!
+    \item If $w \in{} \overline{L1}$ if and only if $f(w)\in{}PARTITION$. Since $f$ can be computed in polynomial time, it also means that the size of $f(w)$ is polynomial relative to $w$.
+    \item We know that $f(w)\in{}PARTITION$ if and only if a witness exists for $f(w)$, that is polynomial in size relative to $f(w)$, which is polynomial in size relative to $w$. A polynomial's polynomial is also a polynomial, so the witness' size is polynomial relative to $w$ too. The witness checking algorithm runs in polynomial time, for similar reasons, relative to the size of $w$ also.
+    \item This means that a witness for $w\in{}\overline{L1}$ is going to be the same witness that is for $f(w)\in{}PARTITION$ and the witness checking algorithm is exactly the same.
+    \item This shows that $\overline{L1} \in{} NP$ (using the Witness Theorem).
+    \item And the definition of $coNP$ is: the complementer of the languages in $NP$. So $\overline{\overline{L1}} \in{} coNP \rightarrow L_1 \in{} coNP$. 
+\end{itemize}
