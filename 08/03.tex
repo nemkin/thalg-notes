@@ -3,8 +3,25 @@
 
 \lineparagraph {Exercise}
 
-
+Let language $L$ consist of simple graphs $G$, such that a proper coloring of its vertices uses at least $4$ colors. Show that the $PRIME \prec L$ Karp-reduction exists.
 
 \lineparagraph {Solution}
 
+\begin{itemize}
+    \item What does it mean that a proper coloring of a graph's vertices uses at least $4$ colors? $\rightarrow$ It means that the graph is not 3-colorable, or not in $3-COLOR$.
+    \item So $L = \overline{3-COLOR}$.
+    \item $PRIME$ is the language of primes. The complementer of this language is $COMPOSITE$, so $PRIME = \overline{COMPOSITE}$.
+    \item So the question is actuall, does the $\overline{COMPOSITE} \prec \overline{3-COLOR}$ Karp-reduction exist?
+    \item In \nameref{8_2} we have shown that a Karp-reduction exists between two languages if and only if the Karp-reduction exists between the complementer languages as well.
+    \item So $\overline{COMPOSITE} \prec \overline{3-COLOR}$ exists if and only if $COMPOSITE \prec 3-COLOR$.
+    \item Now we can prove that $COMPOSITE \in{} NP$, using the witness theorem: a goot witness for a composite number is a real divisor (e.g. a divisor other than the number itself, or the number $1$). The witness checking algorithm is division. The witness size is polynomial (a smaller number, so at most as many bits as the larger one), and the witness checking algorithm runs in polynomial (the division algorithm we have learned in primary school for example).
+    \item We know that $3-COLOR$ is $NP$-complete, which means it's both in $NP$ and $NP$-hard. Let's use the fact that it's $NP$-hard.
+    \item The situation is the same as in \nameref{8_1}, the left side is in $NP$, the right side is $NP$-hard, the definition of $NP$-hard states that a Karp-reduction must exist from all languages in $NP$ onto the $NP$-hard language, so this one should too.
+\end{itemize}
 
+Side note:
+\begin{itemize}
+    \item You may have noticed, that we have slightly rushed over the fact, that a number that is not prime may not necessarily be composite either, for example the number $0$ and the number $1$ are neither.
+    \item This is not that important, but for the sake of completeness, we can define the encoding of the numbers so that $0$ and $1$ get no codes.
+    \item For example, if we used a binary alphabet $\Sigma = \{0, 1\}$, we could say that the code $0$ represents the number $2$, code $1$ represents number $3$, and so on.
+\end{itemize}

@@ -3,8 +3,16 @@
 
 \lineparagraph {Exercise}
 
+Prove that if $X \prec Y$, then $\overline{X} \prec \overline{Y}$.
 
 
 \lineparagraph {Solution}
 
-
+\begin{itemize}
+    \item If $X \prec Y$, then a polynomial time computabe $f$ function exists, that will convert all inputs of $X$ into inputs of $Y$, such that if the answer is YES for a particular input word $w$ in $X$, then the answer will be YES for $f(w)$ if checked by $Y$ and if the answer is no for $w$ in $X$, then the answer is $NO$ for $f(w)$ in $Y$.
+    \begin{itemize}
+        \item This, but with more math: $\exists f: \Sigma^*\rightarrow\Sigma^*$, so that $f$ is polynomial time computable and $w\in{}X \Leftrightarrow f(w) \in{}Y$.
+    \end{itemize}
+    \item $\overline{X}$ is the complementer of the $X$ language, so for anything that $X$ returns a $YES$ it will return a $NO$ and for anything that returns a $NO$ in $X$ it will return a $YES$. Similarly for $\overline{Y}$ and $Y$.
+    \item This means that the \textbf{same $f$ function} can be used for the $\overline{X} \prec \overline{Y}$ Karp-reduction, since it transforms inputs so the original-transformed pair returns $YES$ or $NO$ at the same time. The answer will be inverted in both $\overline{X}$ and $\overline{Y}$, so they still result in the same answer anyways!
+\end{itemize}
