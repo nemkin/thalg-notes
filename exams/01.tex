@@ -1,0 +1,42 @@
+\subsection {Exams, Exercise 1}
+
+Let $\mathcal{A}, \mathcal{B}, \mathcal{C}$, be decision problems. Prove that if there exists a Karp-reduction $\mathcal{A} \prec \mathcal{B}$ of $O(n^2)$ time and Karp-reduction $\mathcal{B} \prec \mathcal{C}$ of $O(n^5)$ time, then there exists also a Karp-reduction $\mathcal{A}\prec{}\mathcal{C}$ of $O(n^10)$ time.
+
+\lineparagraph {Exercise}
+
+\begin{itemize}
+    \item The first thing we can realize is that we can run the first transformation algorithm from the first Karp-reduction and the second algorithm from the second on the output of the previous one to transform the input from $\mathcal{A}$ to $\mathcal{C}$.
+    \item The only question is what is the runtime of this transformation?
+    \item I will show you how I first tried to solve this, why I couldn't finish it that way and how I fixed it.
+\end{itemize}
+
+\lineparagraph {Solution}
+
+\textbf{First try, the bad one}
+
+\begin{itemize}
+    \item If we have a Karp-reduction $\mathcal{A} \prec \mathcal{B}$ that runs in $O(n^2)$ time, it also means that whatever the output it gives, for an input of size $n$, it will also be of \textbf{size} $O(n^2)$, since you cannot output more than how many steps you are allowed to make.
+    \item So there exists some function, let's call this $m(n)$ with which we can give an upper estimation on the size of the output of the first Karp-reduction.
+    \item Due to that $O(n^2)$ limit, we know that $m(n) = c_0n^2$ if $n>n_0$, for some $c_0$ and $n_0$ constants.
+    \item Then, similarly due to the $\mathcal{B} \prec \mathcal{C}$ Karp-reduction, there exists some function, let's call it $k(m)$, which gives an upper bound on the estimation of the size of.
+    \item Due to that $O(m^5)$ limit, we know that $k(m) = c_1m^5$ if $m>m_0$, for some $c_1$ and $m_0$ constants.
+    \item So we can put these two together and say that  $k(m(n)) = c_1(c_0n^2)^5 = c_1c_0^5n^10$ is $n > n_0$ and $m(n) > m_0$.
+    \item This would be almost good, but there is a catch: due to $m(n) > m_0$, we would need a lower limit on $m(n)$, and we can only use a lower limit of $n$ to achieve that, which we cannot really do, $m(n)$ can be arbitrarily small, we only know an upper limit of it.
+    \item The whole issue comes from the $n_0$ and $m_0$ constants, so let's get rid of them!
+\end{itemize}
+
+\textbf{Round 2}
+
+\begin{itemize}
+    \item If we have a Karp-reduction $\mathcal{A} \prec \mathcal{B}$ that runs in $O(n^2)$ time, it also means that whatever the output it gives, for an input of size $n$, it will also be of \textbf{size} $O(n^2)$, since you cannot output more than how many steps you are allowed to make.
+    \item So there exists some function, let's call this $m(n)$ with which we can give an upper estimation on the size of the output of the first Karp-reduction.
+    \item Due to that $O(n^2)$ limit, we know that $m(n) = c_0n^2$ if $n>n_0$, for some $c_0$ and $n_0$ constants.
+    \color{red}
+    \item Also, if $n<n_0$, a.k.a. 'the size of the input is limited by $n_0$', then the number of possible inputs is finite, since the alphabet is also finite. For a finite number of inputs, the finite number of outputs has some maximum size, let's call that $S_n$.
+    \item Let's add this $S_n$ number to $m(n)$! $m(n) = c_0n^2 + S_n$. This is going to be an upper estimation for both $>n_0$ and $<=n_0$ input sizes, since either the left or the right hand side is going to be bigger than the resulting output size.
+    \item We got rid of $n_0$! :)
+    \color{black}
+    \item Do the same thing for $k(m)$, we get $k(m) = c_1m^5 + S_m$.
+    \item Then substitute in: $k(m) = c_1(c_0n^2 + S_n)^5 + S_m = c_1c_0^5n^{10} + c_1S_n^5 + S_m$.
+    \item Then, just upper estimate again by multiplying the constant parts with $n^10$ as well: $k(m) = c_1c_0^5n^{10} + c_1S_n^5 + S_m \leq{} c_1c_0^5n^{10} + c_1S_nn^{10} + S_mn^{10} = (c_1c_0^5 + c_1S_n+S_m)n^{10}$. Choose $c = (c_1c_0^5 + c_1S_n+S_m)$ and $n_0 = 1$ and this proves that $k(n) \in{} O(n^{10})$.
+\end{itemize}
