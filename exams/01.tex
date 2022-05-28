@@ -1,16 +1,16 @@
 \subsection {Exams, Exercise 1}
 
+\lineparagraph {Exercise}
+
 Let $\mathcal{A}, \mathcal{B}, \mathcal{C}$, be decision problems. Prove that if there exists a Karp-reduction $\mathcal{A} \prec \mathcal{B}$ of $O(n^2)$ time and Karp-reduction $\mathcal{B} \prec \mathcal{C}$ of $O(n^5)$ time, then there exists also a Karp-reduction $\mathcal{A}\prec{}\mathcal{C}$ of $O(n^10)$ time.
 
-\lineparagraph {Exercise}
+\lineparagraph {Solution}
 
 \begin{itemize}
     \item The first thing we can realize is that we can run the first transformation algorithm from the first Karp-reduction and the second algorithm from the second on the output of the previous one to transform the input from $\mathcal{A}$ to $\mathcal{C}$.
     \item The only question is what is the runtime of this transformation?
     \item I will show you how I first tried to solve this, why I couldn't finish it that way and how I fixed it.
 \end{itemize}
-
-\lineparagraph {Solution}
 
 \textbf{First try, the bad one}
 
