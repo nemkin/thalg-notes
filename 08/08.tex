@@ -1,5 +1,5 @@
 \subsection {Session 8, Exercise 8}
-\label{8_8}
+\label{8f8}
 
 \lineparagraph {Exercise}
 
@@ -9,7 +9,7 @@ Give a Karp-reduction from $SUBSETSUM$ to $PARTITION$ .
 \lineparagraph {Solution}
 
 \begin{itemize}
-    \item Now we must do the opposite as in \nameref{8_7}: we must solve $SUBSETSUM$, using $PARTITION$.
+    \item Now we must do the opposite as in \nameref{8f7}: we must solve $SUBSETSUM$, using $PARTITION$.
     \item Let's say that the input is $\{s_1, s_2, \dots{}, s_n\}$ and $b$. We need to find a subset of this, that sums up to $b$.
     \item Let's calculate the total sum again! This will be $S$.
     \item Let's add two additional items to the set: $S+b$ and $2S-b$ and give this to $PARTITION$: $\{s_1, s_2, \dots{}, s_n, S+b, S-b\}$

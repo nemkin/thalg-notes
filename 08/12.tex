@@ -1,5 +1,5 @@
 \subsection {Session 8, Exercise 12}
-\label{8_12}
+\label{8f12}
 
 \lineparagraph {Exercise}
 
@@ -9,7 +9,7 @@ cycle. How can this procedure be used to find a Hamiltonian cycle of a given gra
 \lineparagraph {Solution}
 
 \begin{itemize}
-    \item Similar to \nameref{8_11}.
+    \item Similar to \nameref{8f11}.
     \item We iterate over the edges of the graph. For each edge, we remove it from the graph and ask the solver if the graph still has a Hamiltonian-cycle.
     \item If the answer is yes, then we don't need that edge, so we forget about it. :)
     \item If the answer is no, then we put the edge back and never touch it again.

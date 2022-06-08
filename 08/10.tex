@@ -1,5 +1,5 @@
 \subsection {Session 8, Exercise 10}
-\label{8_10}
+\label{8f10}
 
 \lineparagraph {Exercise}
 
@@ -12,10 +12,10 @@ Prove that if language $L$ is $NP$-complete, and $L\in{}NP\cap{}coNP$, then $NP=
     \item If $L$ is $NP$-complete, then it means that it is $NP$-hard, which means that all languages in $NP$ can be Karp-reduced onto it.
     \item So $\forall{}L^{'}\in{}NP$ $\Rightarrow$ $L^{'}\prec{}L$.
     \item Since $L$ is also in $coNP$, this means that a polynomial witness exists for the $NO$ answer of that language.
-    \item The $L^{'}\prec{}L$ gives us a polynomial transformation function, for which the witness can be the witness for the $NO$ answer of $L^{'}$ as well, similarly to how we reasoned in \nameref{8_5}.
+    \item The $L^{'}\prec{}L$ gives us a polynomial transformation function, for which the witness can be the witness for the $NO$ answer of $L^{'}$ as well, similarly to how we reasoned in \nameref{8f5}.
     \item Since we have a witness for the $NO$ answer for $L^{'}$, it means that $L^{'}\in{}coNP$.
     \item So putting everything together $\forall{}L^{'}\in{}NP$ $\Rightarrow$ $L^{'}\prec{}L$ $\Rightarrow$ $L^{'}\in{}coNP$. Everything that is in $NP$ is also in $coNP$, so $NP\subseteq{}coNP$.
-    \item Using $\forall{}L^{'}\in{}NP$ $\Rightarrow$ $L^{'}\prec{}L$ again, we know (from \nameref{8_2}, that the complementer languages also have the same Karp-reduction, so $\overline{L^{'}}\prec{}\overline{L}$ is also true.
+    \item Using $\forall{}L^{'}\in{}NP$ $\Rightarrow$ $L^{'}\prec{}L$ again, we know (from \nameref{8f2}, that the complementer languages also have the same Karp-reduction, so $\overline{L^{'}}\prec{}\overline{L}$ is also true.
     \item If we iterate over the $NP$ set with $L^{'}$, that means that $\overline{L^{'}}$ iterates over the entire $coNP$ set (the definition of $coNP$ is the complementers of all languages in $NP$).
     \item This means that we have just proven that $\forall{}\overline{L^{'}}\in{}coNP$, $\overline{L^{'}}\prec{}\overline{L}$ is true.
     \item If $L \in{} NP\cap{}coNP$, this also means that $\overline{L} \in{} NP\cap{}coNP$, since it was in $NP$, so its complementer is in $coNP$ and it was in $coNP$, so its complementer is also in $NP$.

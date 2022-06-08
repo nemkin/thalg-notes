@@ -1,5 +1,5 @@
 \subsection {Session 8, Exercise 6}
-\label{8_6}
+\label{8f6}
 
 \lineparagraph {Exercise}
 
@@ -22,7 +22,7 @@ Quick rundown here of what is what:
     \item $HAM$ is $NP$-complete, we learned this.
     \item $CONNECTED$ is in $P$, because we run a $BFS$ on a graph from any vertex to see if it's connected, if it reaches all vertices, then it is. $BFS$ is a polynomial time algorithm.
     \item $3-SAT$ is $NP$-complete, we learned this.
-    \item $BIPARTITE$, we have shown in \nameref{8_1} that it is also in $P$.
+    \item $BIPARTITE$, we have shown in \nameref{8f1} that it is also in $P$.
 \end{itemize}
 
 \textbf{a)}
@@ -38,13 +38,13 @@ Quick rundown here of what is what:
 
 \begin{itemize}
     \item Is a language in $P$ Karp-reducible to a language that is $NP$-complete?
-    \item $P$ is a subset of $NP$, so the question is exactly the same as in $a)$: left side is in $NP$, right side is $NP$-hard, so the Karp-reduction must exist. (See \nameref{8_1}, second solution for a different approach, for when you actually have to give the Karp-reduction.)
+    \item $P$ is a subset of $NP$, so the question is exactly the same as in $a)$: left side is in $NP$, right side is $NP$-hard, so the Karp-reduction must exist. (See \nameref{8f1}, second solution for a different approach, for when you actually have to give the Karp-reduction.)
 \end{itemize}
 
 \textbf{c)}
 \begin{itemize}
     \item Is a language in $P$ Karp-reducible to another language in $P$?
-    \item Yes, a language in $P$ is basically Karp-reducible to anything, for similar reasons as in \nameref{8_1}, second solution:
+    \item Yes, a language in $P$ is basically Karp-reducible to anything, for similar reasons as in \nameref{8f1}, second solution:
     \item The Karp-reduction transformation function allows us to run any polynomial algorithm. Since the language on the left side is in $P$, we can start by solving it in polynomial time.
     \item Then When we know the solution, we are faced with one more difficulty: we have to go through the solver algorithm for the language on the right side. We can't directly output the $YES$ or $NO$ answer.
     \item So we will come up with a specific input that we know will make the solver say $YES$ and another that will make the solver say $NO$.

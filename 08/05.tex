@@ -1,5 +1,5 @@
 \subsection {Session 8, Exercise 5}
-\label{8_5}
+\label{8f5}
 
 \lineparagraph {Exercise}
 
@@ -8,7 +8,7 @@ It is known that $L_1 \prec L_2$ and the complement of $L_2$ can be Karp-reduced
 \lineparagraph {Solution}
 
 \begin{itemize}
-    \item As we have seen in \nameref{8_2}, $L_1 \prec L_2$ means $\overline{L_1} \prec \overline{L_2}$ is also true.
+    \item As we have seen in \nameref{8f2}, $L_1 \prec L_2$ means $\overline{L_1} \prec \overline{L_2}$ is also true.
     \item We know that Karp-reduction is transitive, so $\overline{L_1} \prec \overline{L_2} \prec PARTITION$, so this also means $\overline{L_1} \prec PARTITION$.
     \item $PARTITION$ is $NP-complete$, which means it is both in $NP$ and in $NP-hard$.
     \item It might be tempting to use the fact that $PARTITION$ is $NP-hard$, so all languages in $NP$ must have a Karp-reduction onto it, however this does not necessarily mean that if a language has a Karp-reduction onto it, then it must be in $NP$. (Well, it does, but we need to show it, and here is how:)
