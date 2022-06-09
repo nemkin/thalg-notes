@@ -11,4 +11,19 @@ done in $1$ step.)
 
 \lineparagraph{Solution}
 
-
+\begin{itemize}
+    \item This is a dynamic programming problem.
+    \item We need to decompile it into subproblems, which we can conveniently put back together to solve the next subproblem.
+    \item The first subproblem we could come up with, is maybe what is the largest sum we can achieve in the subarray $b_1, \dots{} b_i$.
+    \item However we run into a problem here: How do we move forward and update this sum when the next $b_{i+1}$ number comes? Since we do not know exactly at which element the subsequence ended, only that it was somewhere in $[1,i]$, we cannot check whether it is an increasing subsequence or not.
+    \item This is why the subproblem we define must contain not only what sum we could achieve so far, but exactly what the last element of the subsequence was that achieved this sum.
+    \item So we define the following 1D array: $T[i]$ is the largest sum of subsequence we can achieve, for which the subsequence's last element is $b_i$.
+    \item The update here is as follows $T[i] = \max\limits_{j}\{T[j]+b_i ~|~ j < i \text{ and } b_j < b_i \}$: so we take all $b_j$'s that were before $b_i$ and where adding $b_i$ to that subsequence would still be an increasing subsequence we add $b_i$ to $T[j]$ (the current sum) and then take whatever the maximum of these possibilities is.
+    \item The initial step is $T[1] = b_1$, since that is the only thing we can achieve with a sequence of 1 element. Also let's define $T[0] = 0$, and $b_0 = -\infty{}$, this is so any time the $b_i$ is not larger than anything in $b_1,\dots{},b_{i-1}$, it can still start its own subsequence.
+    \begin{itemize}
+        \item Here you could also define the $\max$ function to return $0$ for an empty set and then add $b_i$ outside of the function.
+    \end{itemize}
+    \item The $T$ table must be filled in the order from left-to-right, so all the necessary cells are already filled when we reach the current cell.
+    \item Finally, the solution is the maximum over $T$, since a maximum subsequence is allowed to end anywhere.
+    \item The size of the $T$ table is $n$, for every cell filling, we take at most $O(n)$ steps, and taking the maximum can be done in linear time, so the runtime is $O(n^2+n) = O(n^2)$.
+\end{itemize}
