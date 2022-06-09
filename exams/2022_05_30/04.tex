@@ -14,4 +14,10 @@ Does that imply
 
 \lineparagraph{Solution}
 
-
+\begin{itemize}
+    \item If $A$ is in $coNP$, then $\overline{A}$ is in $NP$. This is the definition of the coNP set, it contains the complementers of the languages in NP.
+    \item B is NP-complete, which means it is in NP and also NP-hard. The definition of NP-hard is that there exists Karp-reductions from all languages in NP onto B.
+    \item So this means the $\overline{A} \prec B$ Karp-reduction must exist, since $\overline{A}$ is in NP.
+    \item If an $X\prec{}Y$ Karp-reduction exists, so does $\overline{X}\prec{}\overline{Y}$ too, since we can use the same $f$ transformation function to transform their inputs. See \nameref{8f3} for a similar exercise.
+    \item Since $\overline{A} \prec B$ exists, as we have just shown, then so does $\overline{\overline{A}} \prec \overline{B}$, where $\overline{\overline{A}} = A$, so $A\prec{}\overline{B}$ exists too.
+\end{itemize}

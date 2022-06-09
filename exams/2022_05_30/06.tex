@@ -3,8 +3,19 @@
 \lineparagraph{Exercise}
 
 We are given integer numbers $a_1, a_2, \dots{}, a_n$. Give an algorithm, that
-uses $O(n^2\log(n))$ comparisons, which decides whether there exist $4$ pairwise distinct numbers $a,b,c,d\in{}\{a_1,a_2,\dots{},a_n\}$ that satisfy $a-b=c-d$.
+uses $O(n^2\log{}n)$ comparisons, which decides whether there exist $4$ pairwise distinct numbers $a,b,c,d\in{}\{a_1,a_2,\dots{},a_n\}$ that satisfy $a-b=c-d$.
 
 \lineparagraph{Solution}
 
-
+\begin{itemize}
+    \item As a zeroeth step we remove all duplicate numbers. This can be done, by storing the original index of all numbers, sorting, then copying the array to a new one by skipping over the duplicates, then ordering them according to their stored original indexes. All done in $O(n\log{}n)$ time. This step is needed for later, I will explain where when it comes up. If there exists at least $2$ pairs of duplicates, then their difference (both $0$) satisfies the condition, we return them (detect them during duplicate removal) and stop. Otherwise, there is at most one duplicate pair / three copies of a number, which we all removed here.
+    \item First we calculate the difference for all pairs of $a_i$ and $a_j$: $a_i-a_j$.
+    \item This is stored in an $n^2$ sized array, filled up in $O(n^2)$ time. We store the additional information of which $i$ and $j$ indexes the items came from.
+    \item In this new array we need to find $2$ numbers that are the same, and they came from $4$ completely different $i$ and $j$ indexes. To find equal numbers in an array, we can sort it first:
+    \item Then, we stort this array using a merge sort (a comparison based sort that runs in $O(n\log{}n)$ comparisons for an $O(n)$ sized array). For a size $O(n^2)$ array, that is $O(n^2\log{}n^2)$, where $\log{}n^2 = 2\log{}n$, so this is actually $O(n^2\log{}n)$ comparisons.
+    \item Now the equal numbers are arranged next to each other. We can read this sorted array from left to right:
+    \item For every item, we check ahead to see if there is an equal number next to it. However, it can happen that one of the original indexes in the upcoming number is the same as one of the original indexes in the current number. This means that they overlap with each other and we can't choose them. We need to keep looking forward until we see the same number and checking if their original indexes are different to the original number we are checking right now.
+    \item Luckily, we need to look ahead to at most $2$ places. This is because we removed the duplicates in the zeroeth step, so either one or the other original index matches, in both cases only one number exists, that can satisfy that condition.
+    \item This is lucky, because to look the array over, we need to look at $n^2$ items, so we cannot allow an inner loop of another $n^2$ steps. This makes the runtime of this step $O(n^2)$.
+    \item Finally, if we find a unique pair of duplicates, we return them.
+\end{itemize}
