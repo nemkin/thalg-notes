@@ -7,4 +7,24 @@ satisfies $f(n) \in{} O(n^2)$. Does that imply $f(n^2f(n)+3f(n)+5) \in{} O(n^4)$
 
 \lineparagraph{Solution}
 
+It does \textbf{not} imply!
+
+\begin{itemize}
+\item What does it mean that $f(n) \in{} O(n^2)$ implies $f(n^2f(n)+3f(n)+5) \in{} O(n^4)$? It means that in all cases where $f(n) \in{} O(n^2)$ is true, $f(n^2f(n)+3f(n)+5) \in{} O(n^4)$ must also be true. If we can find one example, where $f(n) \in{} O(n^2)$ is true, however $f(n^2f(n)+3f(n)+5) \in{} O(n^4)$ is not, that will prove that the implication is false. This is called a counterexample.
+\item Be careful here: In general giving 2-3 examples is \textbf{not} a proving a statement (What about the infinite other examples where the statement could fail?). However, when the original statement is about ''all things'', for example ''all apples are red'' we can disprove this statement, by showing a single ''green apple'' (the counterexample). All apples cannot be red, since here is a green apple in my hand!
+\item Implication is exactly like this: a statement about all things, for example ''If there are clouds in the sky, does it imply that it will rain today?''. This is the same as saying ''For every day, when there were clouds in the sky, it rained.''. If you can show a single day, when there were clouds in the sky, but it did not rain, that breaks the implication. This day is the counterexample, that disproves the original statement.
+\item So we can give a counterexample here, for which even though $f(n) \in{} O(n^2)$ is true, $f(n^2f(n)+3f(n)+5) \in{} O(n^4)$ is not. Let's use the simplest counterexample $f(n) = n^2 \in{} O(n^2)$, and it is also monotone increasing and non-negative (for $n\geq{}1$)!
+\item $f(n^2f(n)+3f(n)+5) = (n^2f(n)+3f(n)+5)^2 = (n^4+3n^2+5)^2$
+\item To show that this is not $O(n^4)$, we can under-estimate the function and if even this under-estimate is not $O(n^4)$, then the original cannot be either:
+\item $(n^4+3n^2+5)^2\geq{}(n^4)^2\geq{}n^8$
+\item $n^8 \notin{}$, since there do not exist $c>0$ and $n_0\in{}N^+$ constants, for which $n^8\leq{}cn^4$ for all $n>n_0$, since that would require $n\leq{}\sqrt[4]{c}$ to be true, for arbitrarily large $n$'s.
+\end{itemize}
+
+Notes:
+\begin{itemize}
+\item We cannot say that either, that $f(n)\in{}O(n^2)$ implies that $f(n^2f(n)+3f(n)+5) \in{} O(n^4)$ is not true!
+\item For example, take $f(n)=\sqrt{n}$, which is $\in{}O(n^2)$, monotone increasing and non-negative for $n\geq{}1$.
+\item $f(n^2f(n)+3f(n)+5) = \sqrt{n^2f(n)+3f(n)+5} = \sqrt{\sqrt{n}^3+3\sqrt{n}+5} \leq{} \sqrt{n}^3 + 3\sqrt{n} + 5 \leq{}  \sqrt{n}^3 + 3\sqrt{n}^3 + 5\sqrt{n}^3 = 9\sqrt{n}^3 = 9n^{1.5} \in{} O(n^2)$, using $c=9$ and $n_0=1$.
+\item So all we can say is that based on the information that $f(n)\in{}O(n^2)$, we cannot determine whether $f(n^2f(n)+3f(n)+5) \in{} O(n^4)$ is true or false. It does not imply its trueness or faleness either.
+\end{itemize}
 
