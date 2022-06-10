@@ -1,0 +1,249 @@
+\subsection {Exams: 2019. 06. 17., Exercise 4}
+
+\lineparagraph {Exercise}
+
+The Faculty of Electrical Engineering and Informatics works on a grandiose research
+project that has subprojects $Q = \{Q_1, \dots{}, Q_k\}$. It is known for each researcher $R_i$
+of the faculty, which subset $S_i \subseteq{} Q$ of subprojects can she/he work on. A subproject
+can be successfully executed if at least $3$ researchers work on it. Each researcher
+belongs to one of the $10$ departments of the faculty and it is necessary that each
+department take part in the big project. However, we would like to complete the
+project with the minimum number of participating researchers. Which researchers
+should be involved to have at least three people working on each subproject, there
+must be at least one person from each department and we want the number of
+involved researchers to be minimal. Write this problem as an Integer Programming
+problem. \textit{(You do not have to solve the Integer Programming problem you obtained.)}
+
+
+\lineparagraph {Solution}
+
+\begin{itemize}
+    \item This task is about transforming the above text into an Integer Programming problem format.
+    \item The Integer Programming format is the following:
+    \begin{itemize}
+        \item You define your variables first and explain what they mean: $\{x_1,\dots{},x_n\}$.
+        \item Then you list the constraints that the values of the variables must satisfy. Each constraint is a linear combination of the variables (so some variables, multiplied by some constant numbers and added together), which must be less than or equal to some constant number. It is important that you follow this format, since in real life we would be feeding this into a computer, which only understands this format.
+        \item So for example, if you have $k$ number of constraints, then they will be:
+        \begin{align*}
+            a_{1,1}x_1 + a_{1,2}x_2 + \dots{} a_{1,n}x_n \leq{} b_1\\
+            a_{2,1}x_1 + a_{2,2}x_2 + \dots{} a_{2,n}x_n \leq{} b_2\\
+            \vdots{}\\
+            a_{k,1}x_1 + a_{k,2}x_2 + \dots{} a_{k,n}x_n \leq{} b_k
+        \end{align*}
+        \item The $a_{1,1}\dots{}a_{k,n}$ and $b_1,\dots{}b_k$ parameters are constants here.
+        \item Then, you give a target function, which should be maximized:
+        \begin{align*}
+            \text{maximize } c_{1}x_1 + c_{2}x_2 + \dots{} c_{n}x_n
+        \end{align*}
+    \end{itemize}
+\end{itemize}
+
+First, let's summarize the long text of the exercise in an easier to read format:
+
+The input data is the following:
+\begin{itemize}
+    \item There are $k$ subprojects $Q = \{Q_1, \dots{}, Q_k\}$.
+    \item There are $n$ researchers $R = \{R_1, \dots{}, R_n\}$.
+    \item There are $10$ departments $D = \{D_1, \dots{}, D_{10}\}$ (every researcher belongs to exactly one department, $R_i\in{}D_l$).
+    \item The researcher $R_i$ can take up on the subprojects $S_i\subseteq{}Q$.
+\end{itemize}
+
+And the following constrains and optimizations are required:
+\begin{itemize}
+    \item Every subproject must have at least $3$ researchers working on it.
+    \item Every department must have at least $1$ researcher that is working on the big project.
+    \item Minimize the number of participating researchers.
+\end{itemize}
+
+The question is: Which researchers should be involved?
+
+\begin{itemize}
+    \item The first step is figuring out what the variables should represent. When we translated the problem and gave it to the IP solver, the solver will report back an assignment for the variables. Based on this assignment, we should be able to answer the question, so we should be defining our variables, so that we can answer the question from them.
+    \item A good choice would be to create a variable for every single researcher: variable $x_i$ represents the researcher $R_i$, so we have $n$ variables in total. We want to know whether that researcher is involved in the project or not, so these must be \textbf{binary variables}.
+    \item In order to create binary variables, we have to make sure that the solver can only give the values $0$ or $1$ to them. This is done by using constraints:
+    \item $\forall{}i, 1\leq{}i\leq{}n$, we need constraints that will make sure that $0\leq{}x_i\leq{}1$. But we must stick to the less-than format as above, and the $0\leq{}x_i$ part of the constraint is not in this format.
+    \item Whenever we need to implement a greater-than constraint, we multiply it by $-1$, which turns the $\geq{}$ sign into a $\leq{}$. So let's multiply both sides of $0\leq{}x_i$ by $-1$, to get $-x_i\leq{}0$!
+\end{itemize}
+
+So far, our IP problem looks like this:
+
+\fbox{\begin{minipage}{40em}
+\lineparagraph{The variables are:}
+
+$x_1, x_2, \dots{}, x_n$, where $x_i$ represents the $i$th researcher.
+\begin{itemize}
+    \item $x_i=1$ means the researcher is working on the big project.
+    \item $x_i=0$ means they are not working.
+\end{itemize}
+
+\lineparagraph{The constraints are:}
+\begin{itemize}
+    \item All variables are binary:
+    \begin{align*}
+        x_i\leq{}&1    & (1\leq{}i\leq{}n)\\
+        -x_i\leq{}&0   & (1\leq{}i\leq{}n)
+    \end{align*}
+\end{itemize}
+\end{minipage}}
+
+\begin{itemize}
+    \item Then we start adding constraints for every requirement listed.
+\end{itemize}
+
+\lineparagraph{Every subproject must have at least $3$ researchers working on it.}
+
+\begin{itemize}
+    \item We go through each subproject in $Q$, and check which researchers are working on it. Researcher $R_i$ is working on the subproject $Q_j$ if $Q_j$ is in $S_i$.
+    \item How do we count the number of researchers working on $Q_j$? Well, add up all of the variables which represent researchers that can work on that subproject (remember: if $Q_j$ is in $S_i$, it means that the $i$th researcher can work on the $j$th subproject):
+    \begin{align*}
+        \sum\limits_{\forall{}i,~Q_j\in{}S_i}x_i
+    \end{align*}
+    \item We need at least $3$ workers on each project, so the constraint should be:
+    \begin{align*}
+        \sum\limits_{\forall{}i,~Q_j\in{}S_i}x_i \geq{} 3
+    \end{align*}
+    \item Again, we multiply by $-1$ to turn this into a less-than format as required:
+    \begin{align*}
+        \sum\limits_{\forall{}i,~Q_j\in{}S_i}-x_i \leq{} -3
+    \end{align*}
+    \item Finally, add this to our IP problem:
+\end{itemize}
+
+\fbox{\begin{minipage}{40em}
+\lineparagraph{The variables are:}
+
+$x_1, x_2, \dots{}, x_n$, where $x_i$ represents the $i$th researcher.
+\begin{itemize}
+    \item $x_i=1$ means the researcher is working on the big project.
+    \item $x_i=0$ means they are not working.
+\end{itemize}
+
+\lineparagraph{The constraints are:}
+\begin{itemize}
+    \item All variables are binary:
+    \begin{align*}
+        x_i\leq{}&1    & (1\leq{}i\leq{}n)\\
+        -x_i\leq{}&0   & (1\leq{}i\leq{}n)
+    \end{align*}
+    \item All subprojects must have at least $3$ people working on them:
+    \begin{align*}
+        \sum\limits_{\forall{}i,~Q_j\in{}S_i} -x_i \leq{} & -3     & (1\leq{}j\leq{}k)
+    \end{align*}
+    
+\end{itemize}
+\end{minipage}}
+
+\lineparagraph{Every department must have at least $1$ researcher that is working on the big project.}
+
+\begin{itemize}
+    \item This is a very similar requirement, now instead of researchers on a subproject, we are talking about researchers in a department, and the count must be at least $1$, instead of $3$.
+    \item Researcher $i$ works in department $l$, if $R_i \in{} D_l$.
+    \item The count of all researchers that are working on the project from the $l$th department:
+    \begin{align*}
+        \sum\limits_{\forall{}i,~R_i\in{}D_l}x_i
+    \end{align*}
+    \item And it must be at least $1$:
+    \begin{align*}
+        \sum\limits_{\forall{}i,~R_i\in{}D_l}x_i \geq{} 1
+    \end{align*}
+    \item Flip it around as usual:
+    \begin{align*}
+        \sum\limits_{\forall{}i,~R_i\in{}D_l} -x_i \leq{} -1
+    \end{align*}
+    \item And add this to the IP problem as well.
+\end{itemize}
+
+\fbox{\begin{minipage}{40em}
+\lineparagraph{The variables are:}
+
+$x_1, x_2, \dots{}, x_n$, where $x_i$ represents the $i$th researcher.
+\begin{itemize}
+    \item $x_i=1$ means the researcher is working on the big project.
+    \item $x_i=0$ means they are not working.
+\end{itemize}
+
+\lineparagraph{The constraints are:}
+\begin{itemize}
+    \item All variables are binary:
+    \begin{align*}
+        x_i\leq{}&1    & (1\leq{}i\leq{}n)\\
+        -x_i\leq{}&0   & (1\leq{}i\leq{}n)
+    \end{align*}
+    \item All subprojects must have at least $3$ people working on them:
+    \begin{align*}
+        \sum\limits_{\forall{}i,~Q_j\in{}S_i} -x_i \leq{} & -3     & (1\leq{}j\leq{}k)
+    \end{align*}
+    \item All departments must have at least $1$ person working on the big project in them:
+    \begin{align*}
+        \sum\limits_{\forall{}i,~R_i\in{}D_l} -x_i \leq{} & -1     & (1\leq{}l\leq{}10)
+    \end{align*}
+\end{itemize}
+\end{minipage}}
+
+Finally, the optimization part:
+
+\lineparagraph{Minimize the number of participating researchers.}
+
+\begin{itemize}
+    \item We must minimize the total number of researchers working.
+    \item The total number of researchers working is just the sum of all variables:
+    \begin{align*}
+        \sum\limits_{i=1}^{n}x_i
+    \end{align*}
+    \item So the target function should be:
+    \begin{align*}
+        \text{minimize } \sum\limits_{i=1}^{n}x_i
+    \end{align*}
+    \item However, we can only use maximization as a target function. To turn minimization into maximization, again, we multiply by $-1$, so the minimal value of the positive sum turns into the maximal value of a negative sum:
+    \begin{align*}
+        \text{maximize } \sum\limits_{i=1}^{n}-x_i
+    \end{align*}
+    \item Add this to our problem too:
+\end{itemize}
+
+
+\fbox{\begin{minipage}{40em}
+\lineparagraph{The variables are:}
+
+$x_1, x_2, \dots{}, x_n$, where $x_i$ represents the $i$th researcher.
+\begin{itemize}
+    \item $x_i=1$ means the researcher is working on the big project.
+    \item $x_i=0$ means they are not working.
+\end{itemize}
+
+\lineparagraph{The constraints are:}
+\begin{itemize}
+    \item All variables are binary:
+    \begin{align*}
+        x_i\leq{}&1    & (1\leq{}i\leq{}n)\\
+        -x_i\leq{}&0   & (1\leq{}i\leq{}n)
+    \end{align*}
+    \item All subprojects must have at least $3$ people working on them:
+    \begin{align*}
+        \sum\limits_{\forall{}i,~Q_j\in{}S_i} -x_i \leq{} & -3     & (1\leq{}j\leq{}k)
+    \end{align*}
+    \item All departments must have at least $1$ person working on the big project in them:
+    \begin{align*}
+        \sum\limits_{\forall{}i,~R_i\in{}D_l} -x_i \leq{} & -1     & (1\leq{}l\leq{}10)
+    \end{align*}
+\end{itemize}
+
+\lineparagraph{The target function is:}
+\begin{itemize}
+    \item Minimize the number of researchers working:
+    \begin{align*}
+        \text{maximize } \sum\limits_{i=1}^{n}-x_i
+    \end{align*}
+\end{itemize}
+\end{minipage}}
+
+\lineparagraph{Takeaways from this exercise}
+
+\begin{itemize}
+    \item Variables are defined based on what the question asks. Here the question asked which researcher should work on the project, which can be represented by binary variables assigned to each researcher.
+    \item Constraints are defined based on the explicit constraints from the exercise (3 researcher per subproject, 1 researcher per department) and the implicit constraints that come out, for example to set the domain of the variables (binary).
+    \item The target function represents the optimization task of the exercise. Here, we wanted to minimize the number of researchers working on the project, so this became the target function.
+    \item To encode greater-than type of constraints, you multiply them by $-1$, which flips the $\geq{}$ into a $\leq{}$.
+    \item To encode a minimization target function, you multiply it by $-1$, to turn it into a maximization target function.
+    \item If you need to set an interval of possible values for a variable, e.g. $x_i \in{} [a,b]$, then the constraint $a\leq{}x_i\leq{}b$ is turned into $-x_i \leq{} -a$ and $x_i\leq{}b$.
+\end{itemize}
