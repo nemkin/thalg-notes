@@ -1,0 +1,18 @@
+\subsection{Exam: 2022. 06. 13., Exercise 5}
+
+\lineparagraph{Exercise}
+
+We are given the array $A[1:n]$, of length $n$, which contains \textbf{unique} integers. We want to decide, whether or not we can select $100$ different numbers from the array, such that the difference of any pairs will be at most $2022$. Give a $O(n \log n)$ runtime algorithm to solve this problem!
+
+\lineparagraph{Solution}
+
+\begin{itemize}
+    \item The first thought here is: $O(n \log n)$ runtime allowed $\rightarrow$ we can sort! And that will help!
+    \item Using e.g. merge sort, which runs in $O(n \log n)$ time we sort the array.
+    \item It will help, because after sorting, values that are closer to each other in difference, will be places physically closer to each other.
+    \item This means that after sorting, to find $100$ numbers for which all pairs of numbers differ by at most $2022$, we can look at a consecutive subarray of length exactly $100$ and check if the first and the last element of this subarray meet this requirement.
+    \item If they do, then all pairs inside the subarray also do, their difference can be equal or smaller.
+    \item If there is no solution like this, then there is no possible solution either way. If a solution of size $100$ exists, then a solution which is $100$ consecutive numbers in the sorted array must also exist. Any gaps in a non-consecutive solution contain numbers that also meet the criteria.
+    \item So in the sorted array we go from $k=1$ to $k=n-99$ and check if $|A_{\text{sorted}}[k] - A_{\text{sorted}}[k+99]| \leq{} 2022$. If we find such a $k$, then numbers $\{A_{\text{sorted}}[k], \cdots{}, A_{\text{sorted}}[k+99]\}$ are the solution.
+    \item If we find no such $k$, then no solution exists.
+\end{itemize}
