@@ -1,0 +1,24 @@
+\subsection{Exam: 2022. 06. 13., Exercise 1}
+
+\lineparagraph{Exercise}
+
+Prove, that $\sqrt{n}^{\sqrt{n}} \in{} O(2^n)$.
+
+\lineparagraph{Solution}
+
+\begin{itemize}
+    \item The first step is to make the $\sqrt{n}^{\sqrt{n}}$ and the $2^n$ comparable. The problem currently is, that the $2^n$ has a constant for a base, while the $\sqrt{n}^{\sqrt{n}}$ has a non-constant for a base.
+    \item We can apply the logarithmic identity $a = 2^{\log_2(a)}$ to $\sqrt{n}$, to receive $\sqrt{n} = 2^{\log_2{\sqrt{n}}}$.
+    \item So $\sqrt{n}^{\sqrt{n}} = (2^{\log_2\sqrt{n}})^{\sqrt{n}} = 2^{\sqrt{n}\log_2{\sqrt{n}}}$.
+    \item Now we need to find $c>0$ and $n_0\in{}\mathds{N}$, such that $2^{\sqrt{n}\log_2{\sqrt{n}}} \leq{} c\cdot{}2^n$, $\forall{} n\geq{}n_0$.
+    \item Since $\log_2$ is a \textbf{monotone increasing} function, we can apply that to both sides of the above inequality, so that the inequality still holds true.
+    \item $\log_2(2^{\sqrt{n}\log_2{\sqrt{n}}}) \leq{} \log_2(c\cdot{}2^n)$.
+    \item $\sqrt{n}\log_2{\sqrt{n}} \leq{} \log_2(c) + \log_2(2^n)$.
+    \item $\sqrt{n}\log_2{\sqrt{n}} \leq{} \log_2(c) + n$.
+    \item The $c$ part is not going to be helpful to us, since it is no longer multiplying the $n$, just adding a constant value to it, so we just want to get rid of it at this point. Assign $c=1$, so $\log_2(c) = 0$.
+    \item $\sqrt{n}\log_2{\sqrt{n}} \leq{} n$.
+    \item Divide by $\sqrt{n}$.
+    \item $\log_2{\sqrt{n}} \leq{} \sqrt{n}$.
+    \item We know this is true, since we have studied in the lectures that $\log_2(x) \in{} O(x)$, with $c=1$ and $n_0=1$. In this  case we substitute $x = \sqrt{n}$.
+    \item So $n_0=1$, and the previously set $c=1$ are a good choice.
+\end{itemize}

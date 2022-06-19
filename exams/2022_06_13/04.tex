@@ -1,0 +1,73 @@
+\subsection{Exam: 2022. 06. 13., Exercise 4}
+
+\lineparagraph{Exercise}
+
+We are given a sum of positive integers $a_1 + a_2 + \dots{} + a_n$. We can change any addition symbol into a multiplication symbol, if they don't already have a neighbouring multiplication symbol. (So any number can be a part of at most one multiplication.) Give a $O(n)$ runtime algorithm, that returns the maximum possible value of the expression above! For example, from the sum $1+4+3+2+3+4+2$, the maximum possible value is $29=1+4\cdot{}3+2+3\cdot{}4+2$. 
+\lineparagraph{Solution}
+
+\begin{itemize}
+    \item The naive algorithm here would be to check all possible addition and multiplication sign placements, check that that is a valid placement (no neighbouring multiplication signs), calculate the value of that assignment and remember the maximum we have seen at all times. There are $(n-1)$ places where a multiplication or addition sign can be, so without accounting for the other checks and remembering stuff, this is already looking out to be $2^{n-1}$ possible assignments, which is exponential.
+    \item The question is: How do we make this not exponential?
+    \item I've received many heuristic solutions to this problem. A heuristic solution is something that does not account for all $2^{n-1}$ possible assignments, but only checks a subset of these. For example:
+    \begin{itemize}
+        \item Let's try changing the first $+$ sign into a $\cdot{}$. Check what the current value is: $a_1\cdot{}a_2$.
+        \item Then let's move forward and try to change the second $+$ sign into a $\cdot{}$ (so now the first $+$ must stay a $+$): $a_1+a_2\cdot{}a_3$.
+        \item Let's check which one is bigger: $a_1\cdot{}a_2+a_3$ or $a_1+a_2\cdot{}a_3$?
+        \item Move forward with whichever is bigger ... $\rightarrow$ ERROR: HEURISTIC DETECTED!
+    \end{itemize}
+    \item The problem in this solution is that we are making \textbf{locally optimal choices} that remove possible solutions from the available $2^{n-1}$ sized solution pool that should not be removed.
+    \item Just because based on the first $3$ values in the array $a$, we think it is better to choose the $a_1+a_2\cdot{}a_3$ assignment over the $a_1\cdot{}a_2+a_3$ assignment, we cannot make this assumption, since choosing $a_1+a_2\cdot{}a_3$ also means $a_3\cdot{}a_4$ cannot be choosen, so we just thrown out possible solutions!
+\end{itemize}
+
+Whenever we are faced with an exponentially large solution pool, it should pop into our heads, that this could be a task that could be solvable using \textbf{dynamic programming}. Dynamic programming is exactly the algorithmic design technique, that can make something exponential into something fast! So let's try that!
+
+\begin{itemize}
+    \item I like to figure out the dynamic programming solution to a problem, by working backwards, instead of forwards.
+    \item This is going to help, because DP is essentially smart recursion, and whenever we are trying to figure out a recursive formula, we need to work backwards.
+    \item In this case, I will look at the very last $+$ sign, instead of the first one and make the following \textbf{key statement}: \textbf{This sign (in the optimal solution) is either going to be a $+$ or a $\cdot{}$!}
+    \item If the sign is a $+$, then the globally optimal solution is whatever the optimal solution is to the problem $a_1 + \cdots{} + a_{n-1}$, PLUS the $a_n$ value. Let's denote this by \begin{align*}OPT(a_1 + \cdots{} + a_n) = OPT(a_1 + \cdots{} + a_{n-1}) + a_n\end{align*}.
+    \item If the sign is a $\cdot{}$, then the previous sign \textbf{canot be a $\cdot$} as well, since that would be two neighbouring $\cdot$'s.
+    \item So in this latter case, the globally optimal solution is whatever the optimal solution is to the problem $a_1 + \cdots{} + a_{n-2}$, then a $+$ and a $\cdot{}$ sign: $+ a_{n-1}\cdot{}a_n$. Or \begin{align*}OPT(a_1 + \cdots{} + a_n) = OPT(a_1 + \cdots{} a_{n-2}) + a_{n-1} \cdot{} a_n\end{align*}.
+    \item So going back to our \textbf{key statement}: \textbf{The last sign in the optimal solution is either going to be a $+$ or a $\cdot{}$!} resulted in: \begin{align*}OPT(a_1 + \cdots{} + a_n) \stackrel{?}{=} \begin{cases}OPT(a_1 + \cdots{} + a_{n-1}) + a_n \\ OPT(a_1 + \cdots{} a_{n-2}) + a_{n-1} \cdot{} a_n\end{cases}\end{align*}
+    \item The question is, how do we know which one is \textbf{the} optimal solution between these two? It's simple: \textbf{the one that maximizes the value}.
+    \item So \begin{align*}OPT(a_1 + \cdots{} + a_n) = \max(~OPT(a_1 + \cdots{} + a_{n-1}) + a_n,~ OPT(a_1 + \cdots{} a_{n-2}) + a_{n-1} \cdot{} a_n~)\end{align*}.
+    \item If we stored the optimal solutions in an array, called $T$, where $T[i] = OPT(a_1 + \cdots{} + a_i)$ (so the optimal solution up to the number $a_i$), then the above turns into: \begin{align*}T[n] = \max(~T[n-1] + a_n,~ T[n-2]) + a_{n-1} \cdot{} a_n~)\end{align*}
+    \item And there you have it: the recursive formula for a DP problem.
+\end{itemize}
+
+When you have the recursive formula, you only need to fill in the gaps of everything else, this task is going to be easy once you have the formula on hand. It involves $6$ steps:
+
+\begin{itemize}
+    \item \textbf{Step 1}: Define the $T$ DP table. What does $T[i]$ mean?
+    \begin{itemize}
+        \item Let $T$ be a 1 dimensional array, of length $n$. $T[i]$ means the maximum value achieveable to the subproblem $a_1 + \cdots{} + a_{i}$, while not allowing two neighbouring $\cdot{}$'s in the subproblem either.
+    \end{itemize}
+    \item \textbf{Step 2}: Give the recursive formula and explain why it is true.
+    \begin{itemize}
+        \item \begin{align*}T[i] = \max(~T[i-1] + a_i,~ T[i-2]) + a_{i-1} \cdot{} a_i~)\end{align*}
+        \item Since the last sign can either be a $+$ or a $\cdot{}$.
+        \item In case of a $+$, we add $a_i$ to whatever is the best assignment to $a_1 + \dots{} a_{i-1}$.
+        \item In case of a $\cdot{}$, the previous sign must be a $+$, so we add $+ a_{i-1} \cdot{} a_i$ to whatever is the best assignment to $a_1 + \dots{} a_{i-2}$.
+        \item Here we needed the solutions to the previous two values. So this formula only makes sense for $i>3$, since for example for $i=2$, $T[i-2]=T[0]$ does not exist. Hence why the next step is:
+    \end{itemize}
+    \item \textbf{Step 3}: Give the base case for the recursive formula (how do we start filling out the array).
+    \begin{itemize}
+        \item $T[1] = a_1$ (no signs for $i=1$).
+        \item $T[2] = \max(a_1 + a_2, a_1\cdot{}a_2)$.
+        \item Side note: Instead of $T[2]$, you could also say that $T[0] = 0$, and then the generic formula would have a $T[0]$ value available, which would result in exactly the same value as above.
+    \end{itemize}
+    \item \textbf{Step 4}: The order in which $T$ must be filled.
+    \begin{itemize}
+        \item If you look at the generic formula, to calculate $T[i]$, we need to have already calculated $T[i-1]$ and $T[i-2]$. So we must fill $T$ from $i=1$ to $i=n$.
+        \item While this sounds trivial, for more complicated, higher dimensional DP tables, this is also a crucial question. (Along which dimension we step first?)
+    \end{itemize}
+    \item \textbf{Step 5}: Where is the solution in $T$?
+    \begin{itemize}
+        \item In this exercise, the solution is in $T[n]$, which is $OPT(a_1 + \cdots{} + a_n)$.
+        \item In other cases, the solution could be for example the maximum in the entire $T$ table. This was the case for example in \nameref{exam_2022_05_30_exercise_7}.
+    \end{itemize}
+    \item \textbf{Step 6}: What is the runtime of the algorithm?
+    \begin{itemize}
+        \item We fill $T$, a size $n$ array, so so far $n\cdot{}$something. In one step, we check back on two previous values and maximize over those, so one step is constant-time. Then, the solution is reading one cell's value, so this is a $O(n)$ algorithm.
+    \end{itemize}
+\end{itemize}

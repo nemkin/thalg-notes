@@ -1,0 +1,26 @@
+\subsection{Exam: 2022. 06. 13., Exercise 3}
+
+\lineparagraph{Exercise}
+
+Prove, that if $MAXCLIQUE \in{} P$ is true, then $SAT \in{} P$ is also true!
+
+\lineparagraph{Solution}
+
+\begin{itemize}
+    \item Both $MAXCLIQUE$ and $SAT$ are NP-complete languages.
+    \item Many people tried to prove that $MAXCLIQUE \in{} P$ is true. This is not what the task asks (and it would be quite unfair to ask this from you, since \textbf{nobody in the world can prove or disprove this}). The task is asking to \textbf{assume} that $MAXCLIQUE \in{} P$ is true and \textbf{using this assumption} prove that $SAT \in{} P$ is also true.
+    \item It is highly unlikely that you can prove that $MAXCLIQUE \in{} P$ or $SAT \in{} P$ without any assumption. Researchers have been trying to prove this true or false for years, with no success. If someone could prove this (without an assumption), that would lead to $P=NP$, which is one of the \href{https://en.wikipedia.org/wiki/Millennium_Prize_Problems}{Millenium Prize Problems}.
+    \item The reason why it would lead to $P=NP$ is exactly what we are going to use now: The fact that if $MAXCLIQUE \in{} P$, then everything in $NP$ (including $SAT$) will be in $P$, meaning $NP \subseteq{} P$. $P \subseteq{} NP$ is true already, leading to $P = NP$.
+    \item Now let's show specifically for $SAT$, that if $MAXCLIQUE \in{} P$, then $SAT$, another NP-complete language is also in $P$!
+    \item $SAT$ is NP-complete, which means that it is both in NP and NP-hard. Let's remember the fact that $SAT$ is in NP.
+    \item $MAXCLIQUE$ is also NP-complete, so also in NP and NP-hard. Let's remember the fact that $MAXCLIQUE$ is NP-hard.
+    \item The definition of NP-hard means that all Karp-reductions from all languages in NP must exist. Including the Karp-reduction \textbf{from} $SAT$ \textbf{to} $MAXCLIQUE$, denoted by $SAT \prec MAXCLIQUE$. (While the Karp-reduction does exist the other way around as well, this is the order that will be useful to us in a second!)
+    \item The fact that a Karp-reductin exists \textbf{from} $SAT$  \textbf{to} $MAXCLIQUE$ means, that $SAT$ can be solved by applying a polynomial time transformation to its input, then feeding that to whatever solver we have for $MAXCLIQUE$.
+    \item Since we have assumed that $MAXCLIQUE$ is in $P$, this means that we do have a polynomial time solver for $MAXCLIQUE$.
+    \item So putting these together: $SAT$ can be solved by applying a polynomial time transformation to its input, then feeding that to the polynomial time solver we have for $MAXCLIQUE$.
+    \item This means, that we have just solved $SAT$ in polynomial time!
+    \item This means that $SAT$ is in $P$!
+    \begin{itemize}
+        \item But \textbf{only if we make the assumption that $MAXCLIQUE$ is in $P$}!
+    \end{itemize}
+\end{itemize}
