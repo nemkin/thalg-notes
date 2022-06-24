@@ -2,6 +2,18 @@
 
 \lineparagraph {Exercise}
 
+Consider the special case of $BINPACKING$ where each weight is either $\frac{1}{2}$ or $1$. Prove that this version is in $P$.
 
 \lineparagraph {Solution}
+
+\begin{itemize}
+    \item The algorithms we have seen for $BINPACKING$, $FF$ and $FFD$ are not going to give an optimal solution in all cases, they can only approximate the optimal solution. For example, $FFD$ will use at most $\frac{11}{9}OTP + \frac{6}{9}$ bins.
+    \item Now we need to come up with an algorithm that will \textbf{always} give us the optimal solution, \textbf{in polynomial time}, for the special case of having only $0.5$ and $1.0$ weights, in order to prove that this problem is in $P$.
+    \item The optimal solution is the following: place all weights of $1.0$ into separate bins. They will fill their own bin fully.
+    \item Next: pair up the $0.5$ weights and place these pairs into separate bins. $2\cdot{}0.5=1.0$, so these will fill theirs bins fully as well.
+    \item Finally, if the number of $0.5$ weights is odd, there will be a single weight of $0.5$ left, which we will place into a separate bin.
+    \item We can see that this will give us an optimal result, since all of the bins, except (maybe) the last one are completely fully filled, so there is no way to compress this solution further.
+    \item This was indeed a polynomial solution, since we just counted the number of $1.0$ weights and the $0.5$ weights and opened bins according to these numbers.
+    \item By the way, this is exactly what $FFD$ will do if we run it on an input like this, and $FFD$ is also polynomial (sorting can be done in $O(n\log(n))$, so we have just proven, that in the special case of having only $0.5$ and $1.0$ weights, $FFD$ will always give us the optimal solution.
+\end{itemize}
 

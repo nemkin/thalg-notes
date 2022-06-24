@@ -2,6 +2,37 @@
 
 \lineparagraph {Exercise}
 
+Consider the special case of $BINPACKING$ where each weight is larger than $\frac{1}{3}$. Is this special case in $P$ or is it $NP$-complete?
 
 \lineparagraph {Solution}
 
+\textbf{Hint 1}
+
+\begin{itemize}
+    \item It is very important in this exercise, that the weight is \textbf{strictly} larger than $\frac{1}{3}$, it cannot be equal to it.
+    \item This means that we know for a fact that in every single bin, we can but at most $2$ weights. If we put $3$ weights into a bin, all of them being larger than $\frac{1}{3}$, they would sum up to larger than $1.0$, so they wouldn't fit.
+\end{itemize}
+
+\textbf{Hint 2}
+
+\begin{itemize}
+    \item We can represent the weights using a graph. The $i$th vertex of the graph corresponds to the $s_i$ weight, while we say that there is an edge between vertices $i$ and $j$, if the weights $s_i$ and $s_j$ can be placed into a single bin, meaning $s_i+s_j\leq{}1.0$.
+\end{itemize}
+
+\textbf{Solution}
+\begin{itemize}
+    \item To find an optimal placement using this graph, we must find the \href{https://en.wikipedia.org/wiki/Matching_(graph_theory)}{maximum matching} in it. Each $\{i,j\}$ edge in this matching corresponds to a bin that contains the weights $s_i$ and $s_j$, since they have an edge running between them, they will fit into the same bin. The vertices that are not part of this matching will get a separate bin for the corresponding weight.
+    \item If for $n$ weights, the maximum matching contains $k$ edges, then that will result in $k$ bins that have two weights in them, while the remaining $n-2k$ weights will be placed in separate bins. So in total, it will correspond to using $n-k$ bins.
+    \item We can prove that the maximum matching corresponds to the optimal binpacking:
+    \begin{itemize}
+        \item Let's take a set of weights $s_1, \dots{}, s_n$, and a corresponding graph. Let's say that the maximum matching number is $m$, while the optimal binpacking uses $n-k$ bins, where $k$ is the number of bins that have $2$ items in them.
+        \item We can see that $k\leq{}m$, since if we take an optimal binpacking, of these weights and look at the bins that have two items in them, each of these will correspond to an independent edge in the graph. (Since the two items fit into a bin, they have an edge running between them and each item can only be placed to a single bin, so these edges are independent, they don't have common vertices = weights.) This means that we have found an independent set of $k$ edges, so the maximum matching is at least $k$.
+        \item Similarly, we can see that $m\leq{}k$, since if we take a maximum matching, we can iterate over the edges in this matching and put the weights corresponding the edges' vertices into one bin per edge. They will fit, since an edge can only run between vertices for which the corresponding weights' sum is $\leq{}1.0$. Finally, we will put the remaining weights into separate bins, resulting in $n-m$ bins in total ($m$ bins containing $2$ weights and $n-2m$ bins for the rest of the weights). This means that if the optimal binpacking can only be less than or equal to this, so if the optimal uses $n-k$ bins, then $n-k\leq{}n-m$, since this is a correct binpacking. Resulting in $k\geq{}m$.
+        \item Since we have just seen that both $m\leq{}k$ and $k\leq{}m$ is true, this means that $m=k$, so the optimal binpacking corresponds to a maximum matching.
+    \end{itemize}
+    \item So to solve this specific $BINPACKING$ problem, we first generate the corresponding graph. This can be done in $O(n^2)$ time, since we check all pairs of weight, whether they could fit in the same bin or not and add an edge when they fit into the adjacency matrix of the graph.
+    \item Then, we can find a maximum matching in this graph using the \href{https://en.wikipedia.org/wiki/Hungarian_algorithm}{Hungarian method} in polynomial time.
+    \item Finally we iterate the edges of this matching and place the corresponding vertices into one bin per edge, and the remaining weights into separate bins. This can be done in $O(n^2+n)$ time, so all of this is still polynomial.
+    \item We just described a polynomial time algorithm that finds the optimal solution to the $BINPACKING$ problem, in the special case of all weights being strictly greater than $\frac{1}{3}$, which means that this special case of the $BINPACKING$ problem is in $P$.
+    \item Be aware: The general case of the $BINPACKING$ problem is still $NP$-complete! So the fact that the weights are all bigger than $\frac{1}{3}$ made the problem a lot more easier!
+\end{itemize}

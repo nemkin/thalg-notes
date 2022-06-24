@@ -2,6 +2,54 @@
 
 \lineparagraph {Exercise}
 
+In the problem $BINPACKING$, let's have the folowing weights:
+\begin{itemize}
+    \item $6k$ number of objects of weight $0.51$
+    \item $6k$ number of objects of weight $0.27$
+    \item $6k$ number of objects of weight $0.26$
+    \item $12k$ number of objects of weight $0.23$
+\end{itemize}
+
+How are these packed by $FFD$? Is that optimal?
 
 \lineparagraph {Solution}
 
+What will $FFD$ do?
+
+\begin{itemize}
+    \item $FFD$ will pack the weights in decreasing order.
+    \item It will open up new bins for every single item weighing $0.51$, in total $6k$ bins.
+    \item Then, it will be able to put a single weight of $0.27$ next to the first $0.51$ weight, since $0.27+0.51=0.78$. However, it won't be able to put another weight of $0.27$ next to the first $0.27+0.51$, since $2\cdot{}0.27+0.51=1.05$. So it will place a single $0.27$ next to each $0.51$. After placing all of them, we will have $6k$ bins, each containing $0.51+0.27=0.78$.
+    \item Since a weight of $0.26$ won't fit next to the $0.51+0.27=0.78$, as it would become $0.51+0.27+0.26=1.04$, so these will be placed in new bins. $3$ of them will fit into a single one, since $3\cdot{}0.26=0.78$, and $4$ would be too much $4\cdot{}0.26=1.04$. So it will open up, in total $\frac{6k}{3}=2k$ bins, each containing $3$ weights of $0.26$.
+    \item Finally, the $0.23$ will not fit into the type $0.51+0.27=0.78$ bin, neither into the type $3\cdot{}0.26=0.78$ bin, since in both cases the total weight would become $1.01$, so these will also be placed into new bins.
+    \item $4$ of the $0.23$ can be placed into a single bin, since $4\cdot{}0.23=0.92$, but $5$ would be too much. So the algorithm will open $\frac{12k}{4}=3k$ new bins, each of which will contain $4$ weights of $0.23$.
+    \item So the result of $FFD$ will be:
+    \begin{itemize}
+        \item $6k$ bins containing $0.51+0.27=0.78$.
+        \item $2k$ bins containing $3\cdot{}0.26=0.78$.
+        \item $3k$ bins containing $4\cdot{}0.23=0.92$.
+    \end{itemize}
+    \item Using $11k$ bins in total.
+\end{itemize}
+
+What is an optimal solution?
+
+\begin{itemize}
+    \item When we are trying to figure out the optimal solution, we must aim to make as many completely full bins as possible.
+    \item In this case, a type of bin that works well is $0.51+0.26+0.23=1.0$, since this is completely full. We can make $6k$ of these bins, using up all $0.51$ and $0.26$ weights, and half of the $0.23$ weights.
+    \item The remaining $6k$ number of $0.27$ and $6k$ number of $0.23$ weights can be placed into a type of bin with $2\cdot{}0.27+2\cdot{}0.23=1.0$, using up $\frac{6k}{2}=3k$ bins in total.
+    \item Since all of the bins we have are filled completely full, it is easy to see that this is an optimal solution, there is no way to compress this further.
+    \item We can see, that the optimal solution is:
+    \begin{itemize}
+        \item $6k$ bins containing $0.51+0.26+0.23=1.0$.
+        \item $3k$ bins containing $2\cdot{}0.27+2\cdot{}0.23=1.0$.
+    \end{itemize}
+    \item The optimal solution uses $9k$ bins in total.
+\end{itemize}
+
+Notes:
+
+\begin{itemize}
+    \item We can see that $FFD$ used $\frac{11}{9}$ as many as the optimal solution.
+    \item In general, it can be proven, that $FFD$ will use at most $\frac{11}{9}$ times as the optimal, plus $\frac{6}{9}$ bins, which we denote by $FFD \leq{} \frac{11}{9}OPT + \frac{6}{9}$.
+\end{itemize}
