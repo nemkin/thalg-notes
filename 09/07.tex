@@ -2,6 +2,17 @@
 
 \lineparagraph {Exercise}
 
+The input of each problem below is an undirected graph $G(V,E)$ and a subset $S \subseteq{} V$ of its vertices.
+Determine which problem is in P and which is NP-complete.
+\begin{enumerate}[a)]
+    \item Question: does there exist a spanning tree of $G$ such that every element of $S$ is a leaf of the tree?
+    \item Question: does there exist a spanning tree of $G$ whose leaves are exactly the vertices in $S$?
+    \item Question: does there exist a spanning tree of $G$ whose leaves are contained in $S$?
+\end{enumerate}
 
 \lineparagraph {Solution}
 
+\begin{itemize}
+    \item Task a) is in $P$, since we can just remove the vertices of $S$ from $G$, find a spanning tree using $BFS$, then connect back everything form $S$ into one of their neighbours (that are not in $S$). If someone in $S$ only has a neighbour that is also in $S$, then this is not possible.
+    \item Task b) and c) are NP-complete. They are in NP (Witness Theorem) and we can Karp-reduce the $s-t-HAMPATH$ problem onto them, by assigning $S=\{s,t\}$, so these two must be the leaves of the spanning tree. A spanning tree with two leaves is a path, so this will result in an $s-t-HAMPATH$ for b), and for c), here is no tree which only has one or zero leaves, so this is going to result in the same task, nothing can be left out of $S$.
+\end{itemize}

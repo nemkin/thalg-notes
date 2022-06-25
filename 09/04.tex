@@ -2,6 +2,23 @@
 
 \lineparagraph {Exercise}
 
+There are $n$ people working at an organization, where there are $c$ committees. We want to schedule committee
+meetings. Two of the committees may have a meeting on the same day if they have no common members.
+Let positive integer $k$ be given and the lists of members of each committee. We want to determine whether the
+meetings of all committees can be scheduled in a period of $k$ days. Either give a polynomial time algorithm
+that solves this problem or prove that it is NP-complete.
 
 \lineparagraph {Solution}
+
+\begin{itemize}
+    \item It is NP-complete. Scheduling problems are usually related to coloring. In this case, we will solve the $COLOR$ problem using a solver for $L$.
+    \item The Witness Theorem can be used to prove that it is in NP, give a witness, a vertifyer algorithm and prove that the witness is polynomial in size and he verifyer runs in polynomial time.
+    \item The input of $COLOR$ is graph $G$ and the $m$ number of colors we want to use to color it. We will translate each vertex of the graph $G$ into a committee, so $v_i$ vertex to $c_i$ comittee.
+    \item Then, where there is an edge running between two vertices, that will correspond to a person, who is present in both comittees. We assign $p_i$ person to $e_i$, edge, add $p_i$ to the comitees corresponding to both ends of the edge.
+    \item Then, we will say that we want to schedule meetings in $k=m$ days, each day corresponding to a single color of the original graph.
+    \item If two committees can be scheduled to meet at the same day, that means they don't have common members, so there is no edge running between their vertices.
+    \item So a proper scheduling onto $k$ days corresponds to a proper coloring of the graph using $k$ colors.
+    \item If no proper scheduling is possible onto $k$ days, then no $k$ coloring is possible, either. If a coloring was possible, that would correspond to a scheduling as well.
+    \item It can be shown that this transformation is also polynomial.
+\end{itemize}
 

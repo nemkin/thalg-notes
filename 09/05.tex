@@ -2,6 +2,14 @@
 
 \lineparagraph {Exercise}
 
+Consider the problem that what is the maximum weight of a path in a edge weighted undirected graph.
+Give the language that belongs to this problem and show that it is NP-complete.
 
 \lineparagraph {Solution}
 
+\begin{itemize}
+    \item It is NP-complete.
+    \item Use Witness Theorem to prove that this is in NP.
+    \item Then, we will Karp-reduce the HAMPATH problem. We assign weights of $1$ to all edges in the graph, then we will try to find a path of weight $n-1$. This is only possible if that is a Hamiltonian-path.
+    \item We can do this transformation in polynomial time.
+\end{itemize}

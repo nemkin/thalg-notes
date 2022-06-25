@@ -2,6 +2,22 @@
 
 \lineparagraph {Exercise}
 
-
+Prove that there exist Karp-reductions from the following languages to s-t-HamPath.
+\begin{itemize}
+    \item HamPath: Language of graphs that have Hamiltonian path.
+    \item HAM: Language of graphs that have Hamiltonian cycle.
+\end{itemize}
 \lineparagraph {Solution}
 
+\begin{itemize}
+    \item We can use the fact that $s-t-HAMPATH$ is NP-complete and so is $HAM$ and $HAMPATH$.
+    \item This means that all of them are in NP and NP-hard as well.
+    \item Let's use from HAM and HAMPATH that they are in NP nd for $s-t-HAMPATH$ that it is NP-hard, so all Karp-redutions from all languages in NP must exist onto it, namely HAM and HAMPATH too as well.
+\end{itemize}
+
+If we want to give a Karp-reduction, not just prove its existence:
+
+\begin{itemize}
+    \item To solve HAMPATH using s-t-HAMPATH, we can add two more vertices and connect them to all of the other vertices of $G$ but not to each other. Assign these vertices to $s$ and $t$ and give this $G'$ graph to the $s-t-HAMPATH$ solver. If $s-t-HAMPATH$ finds an $s-t-HAMPATH$, then the original graph containd some Hamiltonain path in it, to which we connected $s$ and $t$ If it finds none, then none can exist, otherwise it would result in an $s-t-HAMPATH$.
+    \item To solve $HAM$ using $s-t-HAMPATH$, we can't exactly do the same thing as above, since we need to make sure that the cycle closes, so whatever the neighbours are of $s$ and $t$ in the path, those two are connected to each other as well. You can find the solution in \nameref{8f4}.
+\end{itemize}
