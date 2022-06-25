@@ -1,0 +1,18 @@
+\subsection {Session 11, Exercise 4}
+
+\lineparagraph {Exercise}
+
+An array of pairwise distinct integers is called \textit{bitonic}, if it is increasing up to an index and then it is decreasing, or vise versa, it starts as decreasing and turns into increasing at a point. For example the arrays $(1; 3; 7; 21; 12; 9; 5)$, $(9; 7; 5; 4; 6; 8)$ and $(1; 2; 3; 4; 5)$ are bitonic. Give an $O(n)$-time algorithm that sorts a bitonic array.
+
+\lineparagraph {Solution}
+
+\begin{itemize}
+    \item We have two sorted parts of an array, and we need to combine them into one big sorted array. We can use the merging step of the merge sort algorithm to do this in $O(n)$ time!
+    \item We check which variant of bitonic array we have, let's assume it's first increasing then decreasing.
+    \item Put one pointer at the first and one at the last element of the array.
+    \item Check which elements poitned by one of our pointers is smaller. Put that in a final array and move the pointer closer to the middle.
+    \item The pointers should not run over to the other side of the bitonic array, since that would mean the other side had a smaller element and that pointer should have moved first.
+    \item We will end up with a sorted array.
+    \item If it is the other variant of a bitonic array we can either do a linear search to find the position where the decreasing part turns into an increasing one and place the two pointers there, moving them outwards or we can just sort in decreasing order first, then reverse at the end in $O(n)$ time.
+\end{itemize}
+

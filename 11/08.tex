@@ -1,0 +1,41 @@
+\subsection {Session 11, Exercise 8}
+
+\lineparagraph {Exercise}
+
+Graph $G = (V,E)$ that does not have parallel edges is given by its adjacency list, where the neighbours of each vertex are listed in arbitrary orders. Give a $O(|V | + |E|)$ running time algorithm that creates an adjacency list where neighbours of vertices are listed in increasing order.
+
+\lineparagraph {Solution}
+
+Let's denote the \href{https://en.wikipedia.org/wiki/Adjacency_list}{adjacency list} with $A[1:n]$ ($n=|V|$), where $A[i]$ is an array of size $d_i$ (the degree of vertex $i$), and $A[i,j]$ contains the $j$th successor of $v_i$, but in an arbitrary, unsorted order.
+
+By successor here, we mean a neighbouring vertex, to which the edge points in the direction from $v_i$ to the neighbour.
+
+What won't work:
+\begin{itemize}
+    \item We could try to iterate over $A[1:n]$ and for every $A[i]$ index we use a comparison-based sort on the $A[i]$ array.
+    \item We will run $n$ comparison based-sorts, for the $i$th vertex running in $O(d_i\log{}d_i)$ time.
+    \item In total $\sum\limits_{i=1}^n O(d_i\log{}d_i) = O(\sum\limits_{i=1}^n d_i\log{}d_i)$ time was used.
+    \item We can upper-estimate this sum by taking the maximal $\log{}d_i$ value for all indexes, let's call denote his with $\log{}d_{max}$.
+    \item $\sum\limits_{i=1}^n d_i\log{}d_i \leq{} \sum\limits_{i=1}^n d_i\log{}(d_{max}) = \log{}(d_{max})\sum\limits_{i=1}^n d_i = \log{}(d_{max})\cdot{}|E| \leq{} \log{}(|V|)\cdot{}|E|$.
+    \item This is not going to work unfortunately, we need $O(|V| + |E|)$ and $O(\log{}(|V|)\cdot{}|E|)$ is too much. :(
+    \item Even if we tried to run bucket sort on $A[i]$, a single bucket sort will run on $d_i$ elements and $|V|$ buckets in $O(d_i + |V|)$ time, resulting in total $O(|E| + |V|^2)$ runtime (summing up for all vertices).
+\end{itemize}
+
+Solution 1:
+\begin{itemize}
+    \item Transform the $A[i]$ format into an \href{https://en.wikipedia.org/wiki/Edge_list}{edge list} format, e.g. $E[k]$ contains the $k$th edge of the graph, represented by vertices $(i,j)$.
+    \item We can do this in $O(|V|+|E|)$ time, since we must iterate $A[1:n]$, and for $A[i]$ we read through $d_i$ vertices, so in total we will read in the sum of all degrees, or $|E|$ edges. For each of these we create an item in the resulting $E$ array.
+    \item Then we can run a radix sort on these, (e.g. if the edges are $(i,j)$, sort by $j$ first into $|V|$ buckets, then by $i$ into $|V|$ buckets again).
+    \item This will be the desired order, we only need to get back to the original format.
+    \item We can do this by emptying out the lists in $A[1:n]$ first, then iterating over the sorted $E$ edge list and for edge $(i,j)$ we add $j$ back to $A[i]$.
+    \item This is also done in $O(|E|)$ time and emptying out the lists is $O(|V|+|E|)$.
+\end{itemize}
+
+Solution 2:
+\begin{itemize}
+    \item We already know an algorithm that can reverse the edges of a directed graph.
+    \item This is done by creating a new empty adjacency list $A'$ and filling it by iterating over the original $A[1:n]$ and for the vertex $A[i,j]=u$ (e.g. there is an edge pointing from $i$ to $u$) we put $i$ into the list of $A'[u]$.
+    \item We also know that this will result in ordered edge lists, since the $i$'s that we inserted into the edge lists of $A'$ came from the outer index of the $A$ table, which we iterated over in increasing order.
+    \item This is also done on $O(|V|+|E|)$ runtime, similarly to the previous solution.
+    \item So if we do this edge reversal twice, we will get back the original graph, but now in the desired sorted order.
+\end{itemize}

@@ -1,0 +1,21 @@
+\subsection {Session 11, Exercise 10}
+
+\lineparagraph {Exercise}
+
+ Array $A$ contains positive numbers, not necessarily in sorted order. Give an algorithm that chooses $k$ elements of $A$ so that the sum of the chosen elements is not larger than $k^3$. If there is no such $k$, then the algorithm should note that. The running time must be $O(n\log{}n)$.
+
+\lineparagraph {Solution}
+
+\begin{itemize}
+    \item The value of $k$ is not an input, but also something we have to find during the algorithm. It can be anywhere between $1$ and $n$ (the size of the array).
+    \item It is not required to choose consecutive numbers from $A$, so their placement is irrelevant.
+    \item Since we are allowed $O(n\log{}n)$ time, we can sort the array, using merge sort for example, which runs in $O(n\log{}n)$ time.
+    \item Now, if we wanted to choose $k$ elements, so that their sum is less than or equal to $k^3$, it is always better to choose the $k$ smallest elements, than any other. Choosing any other would only increase the sum, which would be worse for us.
+    \item So we are going to iterate the sorted array $A$, starting from $i=1$ to $i=n$. We will keep track of the current sum, starting with $sum = 0$ and in step $i$ we add $sum = sum + a_i$.
+    \item After doing this, we check whether $sum \leq{} i^3$ is true.
+    \item If this is true, we can return the current $i$ as $k=i$.
+    \item Even if this is not true for a specific $i$, it can still become true later, as we add more elements to the sum, since $i^3$ can increase more than the additional elements added.
+    \item If we reach $i=n$ and we had no success, we return NOT POSSIBLE. This is correct, since we tested all $k=1$ to $k=n$ choices and for each we tested the $k$ smallest elements in the array. If it is not possible using these, then it is definitely not possible using larger elements instead.
+\end{itemize}
+
+

@@ -1,0 +1,39 @@
+\subsection {Session 11, Exercise 6}
+
+\lineparagraph {Exercise}
+
+Give an $O(n)$ running time algorithm that sorts $n$ integers that are from the range
+
+\begin{enumerate}[a)]
+    \item $\{1, \dots{}, 3n\}$
+    \item $\{1, \dots{}, n^3-1\}$
+\end{enumerate}
+
+\lineparagraph {Solution}
+
+\begin{itemize}
+    \item Let's say that the incoming integers are in array $A[1:n]$.
+    \item To sort in $O(n)$ time we need to use bucket/radix sorting. \textbf{This is only available if we know the range of the incoming integers.} So in this task we can do this.
+    \item In general, if we don't have an upper limit on the values in an array, bucket sorting is not possible (the first step is to define an array of size equal to the upper limit).
+    \item For the first task, we can use bucket sort and define the array $B[1:3n]$ and initialize all buckets in it (all cells of the array) to $0$.
+    \item Then, we iterate over $A[1:n]$, for $a_i$ we place that in the $a_i$th bucket, by incrementing the $B[a_i]$ value by $1$.
+    \item In the end, we iterate over $B[1:3n]$ and for every non-zero value, at index $i$ we print the number $i$ $B[i]$ times. This results in a sorted list of the input numbers.
+    \item For the second task we can no longer simply initialize $B[1:n^3-1]$, since that would require $O(n^3)$ time, which is not allowed.
+    \item This is where radix sort comes in: Let's instead imagine that the incoming numbers are in a base-$n$ number system, so $a_i$ becomes $3$ base-$n$ digits: $a_{i,2}a_{i,1}a_{i,0}$, or: $a_i = a_{i,2}\cdot{}n^2 + a_{i,1}\cdot{}n + a_{i,0}$.
+    \item This is convenient, because in a base-$n$ number system, on $3$ digits, the largest possble number is exactly $n^3-1 = (n-1)\cdot{}n^2 + (n-1)\cdot{}n + (n-1)$.
+    \item Then, radix sort is going to do exactly $3$ bucket sorts (corresponding to the $3$ digits or $3$ parts ot the numbers).
+    \item The first bucket sort will order the numbers based on the last digit, or $a_{i,0}$ for all $i$'s.
+    \item Instead of just counting how many times a specific $a_{i,0}$ value appears, we now need to keep track of the other two digits.
+    \item So we initialize the array $B[1:n]$, but now we add stacks in every $B[i]$ cell.
+    \item We iterate the $a_i$'s, then push $a_i$ into the stack at $B[a_{i,0}]$.
+    \item Finally, we read out everything in $B[1:n]$, iterating over the indexes from $1$ to $n$, and for $B[i]$, the stack must be read out and reversed.
+    \item The reversion part is important, because we want to keep the original order in which the $a_i$'s came in, when they are added to the same stack. A stack is a LIFO (last in first out), so we must reverse the order of the numbers as they come out.
+    \item Since in total we have $n$ numbers, the reversion still will be performed in $O(n)$ time.
+    \item We could also read $B[1:n]$ from the last to the first index, without reversing at individual steps: this will result in a decreasing order, and we just reverse the entire result at the end.
+    \item Doing bucket sort like this means that bucket sort is a \href{https://en.wikipedia.org/wiki/Sorting_algorithm#Stability}{stable sort}. So elements that are equal (in the current run) will return in the same order they went into the algorithm.
+    \item We repeate the same procedure using the middle and finally the first digit.
+    \item When we sort based on the first digit: if there is an equality among the first digits, due to the stability of the sorting algorithm the order in which they came in will be the result. The order in which they came in was the sorted order according to the second digit. And when there is an equality among the second digits as well, then the order in which they came in coming into the second bucket sort will matter: so the increasing order according to the last digit, which was performed by the first bucket sort we did.
+    \item This results in exactly what we want: sorted order, where the less significant digits decide the order, when the previous digits are equal.
+    \item This is why we use a \textbf{stable sort} inner algorithm, bucket sort and do the sorting in \textbf{reverse order, from least significant to most significant} digits.
+    \item Each bucket sort was performed in $O(n)$ time and there were $3$ of them, which is still linear, so we are done!
+\end{itemize}

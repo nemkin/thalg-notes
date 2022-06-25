@@ -1,0 +1,12 @@
+\subsection {Session 11, Exercise 7}
+
+\lineparagraph {Exercise}
+
+The value of one element of the originally increasing sequence $a_1,a_2,\dots{},a_n$ has changed, but we do not know which one. How can be the elements sorted again in increasing order in $O(n)$ running time?
+
+\lineparagraph {Solution}
+
+\begin{itemize}
+    \item Simplest solution is to find the element that is not in correct order, using linear search. (It could be that the change will still result in an increasing order, so we might not find one at all and just exit.)
+    \item After we found the element, we insert it into its correct postion (a single step of insertion sort). This is done in $O(n)$, for example by swapping the found element with its neighbours until we reach the correct spot.
+\end{itemize}

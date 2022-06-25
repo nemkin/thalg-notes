@@ -1,0 +1,18 @@
+\subsection {Session 11, Exercise 5}
+
+\lineparagraph {Exercise}
+
+Array $A[1:n]$ contains integer numbers. Let $b$ be a given integer. We want to find indices $i,j\in{} \{1,\dots{},n\}$, such that $A[i] + A[j] = b$. How can this be managed in $O(n\log{}n)$ running time?
+
+\lineparagraph {Solution}
+
+\begin{itemize}
+    \item The naive algorithm would check all pairs in $O(n^2)$ time using nested loops, which is too much. However:
+    \item $O(n\log{}n)$ = we can sort.
+    \item Let's sort the array using merge sort for example, which runs in $O(n\log{}n)$ time.
+    \item Then, instead of checking all $O(n^2)$ pairs, we are only going to iterate in a single loop, using index $i$. The inner loop is going to be replaced by binary search:
+    \item since we know that $A[i] + A[j] = b$, we know exactly that we are looking for the value $A[j] = b-A[i]$.
+    \item So just binary search $b-A[i]$ in the entire array (just make sure $i\neq{}j$),
+    \item or just binary search in $A[i+1:n]$, since we don't need to check $A[1:i-1]$, as any pair that was there was already checked when the $i$ pointer was there in the previous steps.
+    \item (We would be checking all pairs twice if we searched in this part as well.)
+\end{itemize}

@@ -1,0 +1,21 @@
+\subsection {Session 11, Exercise 2}
+
+\lineparagraph {Exercise}
+
+Rational numbers are stored in array $A[1:n]$. Determine in $O(n\log{}n)$ steps
+
+\begin{enumerate}[a)]
+    \item those elements that occur more than once,
+    \item the most frequent values (that is those numbers that no other number occurs more times than them).
+\end{enumerate}
+
+\lineparagraph {Solution}
+
+\begin{itemize}
+    \item $O(n\log{}n)$ means we are allowed to sort, which is useful to detect duplicate elements in an array.
+    \item So let's sort the array using for example merge sort, which runs in $O(n\log{}n)$ time.
+    \item Then, the duplicate values will be next to each other. We can just iterate the array in $O(n)$ time and count the number of duplicates as we go.
+    \item For the first task, whenever we counted at least $2$ from a number, we print it out immediately.
+    \item For the second task, we keep track of the maximum count seen and in the first loop we don't print anything. Then we do this loop one more time, now we know the count we are looking for and whenever we reach this count with a specific number, we print that number out.
+    \item In total we did $O(n\log{}n + 2n) = O(n\log{}n)$ steps, as requested by the task.
+\end{itemize}

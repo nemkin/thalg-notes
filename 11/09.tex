@@ -1,0 +1,15 @@
+\subsection {Session 11, Exercise 9}
+
+
+\lineparagraph {Exercise}
+
+Prove that there exists no comparison based sorting algorithm that compares each element at most 2022 times on every possible input.
+
+\lineparagraph {Solution}
+
+\begin{itemize}
+    \item So in total for $n$ elements it would do at most $\frac{2022n}{2} = 1011n$ comparisons. (The division by $2$ is there because each pair is counted from both individual elements of the pair.)
+    \item We have studied that all comparison based sorting algorithms run in $\Omega(n\log{}n)$ time.
+    \item However $1011n \notin{} \Omega(n\log{}n)$, since no constants $c, n_0$ exist that $c\cdot{}n\log{}n \leq{} 1011n$ for all $n\geq{}n_0$,
+    \item as that would mean $\log{}n\leq{}\frac{1011}{c}$, or $n\leq{}2^{\frac{1011}{c}}$ for all $n\geq{}n_0$, so $n$ would have to be upper bound by a constant, but it can be arbitrarily large, which is a contradiction.
+\end{itemize}

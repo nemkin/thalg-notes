@@ -1,0 +1,19 @@
+\subsection {Session 11, Exercise 3}
+
+\lineparagraph {Exercise}
+
+IT is known for an array $A[1:n]$ that $A[1] \neq{} A[n]$. Give an algorithm using $O(\log{}n)$ comparisons that finds an index $i$ such that $A[i] \neq{} A[i+1]$.
+
+\lineparagraph {Solution}
+
+\begin{itemize}
+    \item $O(\log{}n)$ means we can't even read the entire array once through! What we can do however is binary search.
+    \item The items are not in a sorted order, however the property we are looking for does not require that.
+    \item Let's start with two poiners, $s$ and $e$ (meaning start and end). In the beginning $s=1$ and $e=n$. We know that $A[1] \neq{} A[n]$, so $A[s] \neq{} A[e]$.
+    \item Next, we will move one of the pointers closer to the other, while this property will still hold true!
+    \item This is done by indexing in the middle: $m = \lfloor{}\frac{s + e}{2}\rfloor{}$. Let's compare $A[m]$ to $A[s]$ and $A[e]$. $A[m]$ cannot be equal to both of those, since they are not equal to each other!
+    \item So either $A[m]\neq{}A[s]$, in which case let $e = m$. Or $A[m]\neq{}A[e]$, in which case let $s = m$.
+    \item This means that the property $A[s] \neq{} A[e]$ is still true, while the distance between $s$ and $e$ halved.
+    \item We keep repeating this process, until $s$ and $e$ are right next to each other, when $i=s$ will be the solution.
+    \item This is a general algorithm design technique / formal verification technique, called a \href{https://en.wikipedia.org/wiki/Loop_invariant}{loop invariant}. A loop invariant is a property that is true before starting a loop and in the loop the operations we do keep the loop invariant true. So at the end, the property is still true, while the loop did something useful to us (in this case moved the pointers right next to each other).
+\end{itemize}
