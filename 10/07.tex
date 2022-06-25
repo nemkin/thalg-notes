@@ -2,6 +2,75 @@
 
 \lineparagraph {Exercise}
 
+An $(n \times{} n)$ table contains integer numbers. We want to go from the lower left corner to the upper right corner so that in one step we can move to the neighboring entry to the right or up. The numbers visited during the tour must come in increasing order. Give an $O(n^2)$ running time algorithm that determines
+
+\begin{enumerate}[a)]
+\item how many such tours exist,
+\item what is the largest weight of such a tour if the weight of a tour is the sum of the entries visited.
+\end{enumerate}
 
 \lineparagraph {Solution}
 
+The first task:
+
+\begin{itemize}
+    \item This is very similar to \nameref{session_10_exercise_5}, with the only twist being that sometimes you cannot step from the left or lower square, since the numbers are not in the correct order, but all squares themselves are steppable.
+    \item Let's just say that the integers in the table are in the $A[i,j]$ 2D table.
+    \item So the rule to calculate $T[i,j]$ becomes:
+\end{itemize}
+
+\begin{align*}
+T[i,j] = (A[i, j-1] < A[i,j]) \cdot{} T[i, j-1] + (A[i-1, j] < A[i,j]) \cdot{} T[i-1, j]
+\end{align*}
+
+\begin{itemize}
+    \item And the $<$ operator shall return $0$ instead of $False$ and $1$ instead of $True$, for convenience.
+    \item So when we multiply with $(A[i, j-1] < A[i,j])$ we are essentially saying that we should only add $T[i, j-1]$ to the result if the numbers $A[i, j-1]$ and $A[i,j]$ are in increasing order, so we are allowed to step in this order. Similarly for the other direction.
+    \item The base cases, order to fill, where is the solution, runtime are all the same as in \nameref{session_10_exercise_5}.
+\end{itemize}
+
+The second task:
+
+\begin{itemize}
+    \item Instead of number of ways, now we are looking for maximum weight (maximum sum of visited numbers).
+    \item So now the meaning of $A[i,j]$ is the maximum path weight possible to reach that cell.
+    \item First of all, this means that the plus here should be a maximization instead:
+\end{itemize}
+
+\begin{align*}
+T[i,j] = (A[i, j-1] < A[i,j]) \cdot{} T[i, j-1] \textcolor{red}{+} (A[i-1, j] < A[i,j]) \cdot{} T[i-1, j]
+\end{align*}
+
+\begin{align*}
+T[i,j] = \textcolor{red}{\max(}(A[i, j-1] < A[i,j]) \cdot{} T[i, j-1] \textcolor{red}{,}~ (A[i-1, j] < A[i,j]) \cdot{} T[i-1, j] \textcolor{red}{)}
+\end{align*}
+
+\begin{itemize}
+    \item And assuming that $T[i, j-1]$ and $T[i-1, j]$ already contains the maximum path weight to those cells, we must add the $A[i,j]$ weight of the cell we are stepping onto now:
+\end{itemize}
+
+\begin{align*}
+T[i,j] = \textcolor{red}{\max(}(A[i, j-1] < A[i,j]) \cdot{} (T[i, j-1]+\textcolor{red}{A[i,j]}) \textcolor{red}{,}~ (A[i-1, j] < A[i,j]) \cdot{} (T[i-1, j]+\textcolor{red}{A[i,j]}) \textcolor{red}{)}
+\end{align*}
+
+\begin{itemize}
+    \item Be careful! It is very tempting to do this instead:
+\end{itemize}
+
+\begin{align*}
+T[i,j] = \textcolor{red}{\max(}(A[i, j-1] < A[i,j]) \cdot{} T[i, j-1] \textcolor{red}{,}~ (A[i-1, j] < A[i,j]) \cdot{} T[i-1, j] \textcolor{red}{)} +\textcolor{red}{\lightning} \textcolor{red}{A[i,j]} \textcolor{red}{\lightning}
+\end{align*}
+
+\begin{itemize}
+    \item But this is problematic. If neither $A[i, j-1] < A[i,j]$ nor $A[i-1, j] < A[i,j]$ is true, we are supposed to get a $0$ from this equation, which happens correctly in the previous equation but not in this latter one. So use the previous one.
+    \item And now the base cases will be $T[1,1] = A[1,1]$, and then the first row and column, for $j>1$ (basically just ignore the part of the $max$ from the generic recursive formula that indexes into non-exsistent cells):
+\end{itemize}
+
+\begin{align*}
+T[1,j] =& (A[1, j-1] < A[1,j]) \cdot{} (T[1, j-1] + A[1,j]) \\
+T[j,1] =& (A[j-1, 1] < A[j,1]) \cdot{} (T[j-1, 1] + A[j,1])
+\end{align*}
+
+\begin{itemize}
+    \item Everything else (order to fill, where is the solution, runtime) is the same as previously.
+\end{itemize}
