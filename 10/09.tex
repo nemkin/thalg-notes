@@ -1,7 +1,20 @@
 \subsection {Session 10, Exercise 9}
 
+\label{session_10_exercise_9}
+
 \lineparagraph {Exercise}
 
+We want to find the longest common consecutive subsequence of two character sequences $a_1a_2 \dots{} a_n$ and
+$b_1b_2 \dots{} b_m$. That is, we need to find pair of indices $1 \leq{} i \leq{} n$ and $1 \leq{} j \leq{} m$ such that $a_{i+1} = b_{j+1}, a_{i+2} = b_{j+2}, \dots{}, a_{i+t} = b_{j+t}$ holds for the largest possible $t$. Give an  $O(mn)$ running time algorithm solving this problem.
 
 \lineparagraph {Solution}
 
+\begin{itemize}
+    \item Notice how this is the same problem as in \nameref{session_10_exercise_8}, the only difference is that we are looking for the index pair, for which the maximum length of common subsequence is achieved.
+    \item So at first, we do the same algorithm and calculate the $A$ matrix for the input words $a$ and $b$.
+    \item Then, we find the cell with the maximum value, for example $A[i,j] = k$. However, this $k$ means that starting from $a_i$ and $b_j$, \textbf{backwards} up to $k$ steps the strings are equal. And the exercise is asking for the starting indexes, not the ending. So the answer is not $i$ and $j$, but $i-(k-1)$ and $j-(k-1)$.
+    \item As the saying goes, ''There are two hard things in computer science: cache invalidation, naming things, and off-by-one errors.'' To quickly chek that our indexing is correct, I like to do the following:
+    \item The starting index is $i-(k-1)$, the end is $i$ and this is correct if there are $k$ characters between these two.
+    \item I remember the following formula: Between numbers $a$ and $b$, (counting $a$ and $b$ too), there are exactly $b-a+1$ numbers.
+    \item So between $i-(k-1)=i-k+1$ and $i$ (counting both) there are exactly $i-(i-k+1)+1=i-i+k-1+1=k$ numbers, so this is correct.
+\end{itemize}

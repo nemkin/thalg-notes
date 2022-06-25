@@ -1,7 +1,35 @@
 \subsection {Session 10, Exercise 8}
 
+\label{session_10_exercise_8}
+
 \lineparagraph {Exercise}
 
+Let $s_1, s_2, \dots{} s_n$ and $t_1, t_2, \dots{} t_m$ be two words over alphabet $\{0, 1\}$. Entry $A[i,j]$ of an $n \times{} m$ array $A$ should contain the largest number $k$ such that the last $k$ characters of words $s_1s_2 \dots{} s_i$ and $t_1t_2 \dots{} t_j$ agree (so basically we go from $s_i$ and $t_j$ backwards and count how many characters are the same in the two words and write that number into $A[i,j]$). Give an algorithm that fills array $A$ up in $O(nm)$ steps.
 
 \lineparagraph {Solution}
 
+\begin{itemize}
+    \item The 2D table is kind of already defined for us here ($\rightarrow$ \textbf{Step 1}: What is the DP table?), but how do we step in it?
+    \item When we are at $A[i,j]$ at first we need to check whether $s_i \stackrel{?}{=} t_j$, if no we write $0$, if yes we counted $1$ so far,
+    \item and then we would keep going with $s_{i-1} \stackrel{?}{=} t_{j-1}$ and $s_{i-2} \stackrel{?}{=} t_{j-2}$ and so on, however there is no need to do this, since this calculation was already done when we did $A[i-1, j-1]$.
+    \item So we can just use the value stored there $+1$, for the additional $s_i = t_j$.
+    \item The \textbf{key statement} here would be something like: \textbf{Either the last characters $s_i$ and $t_j$ are the same, or they are not.} If they are the same, then the value is $A[i,j] = A[i-1,j-1] + 1$, if not, then $A[i,j] = 0$.
+    \item So the full equation is:
+\end{itemize}
+
+\begin{align*}
+  A[i,j] = (s_i \stackrel{?}{=} t_j)(A[i-1,j-1] + 1)
+\end{align*}
+
+\begin{itemize}
+    \item Again, just say that $\stackrel{?}{=}$ returns $0$ if the equality is not true, and $1$ if it is true.
+    \item ($\rightarrow$ \textbf{Step 2}: Generic recursive formula.)
+    \item Now,the base case will be wherever we index out of the table with the generic formula, so the first row and the first column of $A$.
+    \item Since in the first row, $A[1,j]$, we can only have a single character from $s$, $s_1$, we are only checking whether that is equal to $t_j$, we cannot go backwards in $s$, this means that $A[1,j] = (s_1 \stackrel{?}{=} t_j)$, $1\leq{}j\leq{}m$.
+    \item Similarly $A[i,1] = (s_i \stackrel{?}{=} t_1)$, $1\leq{}i\leq{}n$.
+    \item ($\rightarrow$ \textbf{Step 3}: Base cases.)
+    \item We fill out the array from the first row to the $n$th and in each row from the first column to the $m$th, so the previous values are always present when we need to use them.
+    \item ($\rightarrow$ \textbf{Step 4}: Order to fill DP table.)
+    \item The solution in this case is the entire $A$ table, since that is what the exercise asked for. ($\rightarrow$ \textbf{Step 5}: Where is the solution?)
+    \item We fill out the $(n \times m)$ table in $nm$ steps, each step looking up a single other value of the table and comparing two characters from the input words, which is $O(1)$ runtime, so the total runtime is indeed $O(nm)$. ($\rightarrow$ \textbf{Step 6}: Runtime complexity.)
+\end{itemize}
