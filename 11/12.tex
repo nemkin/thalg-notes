@@ -2,7 +2,14 @@
 
 \lineparagraph {Exercise}
 
+Determine those binary trees whose vertices are listed by $PreOrder$ walk exactly in opposite order as it is
+done by $PostOrder$ walk.
 
 \lineparagraph {Solution}
 
-
+\begin{itemize}
+    \item Since $PreOrder$ does $node, left(node), right(node)$ and $PostOrder$ does $left(node), right(node), node$, if there was an element in both the left and the right subtree, the order of those would not change relative to each other, so it could not result in a fully reversed order globally.
+    \item So the only way we can get a completely reversed order is if every node has at most one child.
+    \item That is called a linked list. For a linked list, these two walks indeed return exactly the opposite order ($node, child(node)$, vs $child(node), node$).
+    \item So the linked list (the degenerative case of a binary seach tree) is the type of binary tree for which the result of $PostOrder$ and $PreOrder$ is exactly the opposite order.
+\end{itemize}

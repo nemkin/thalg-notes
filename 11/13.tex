@@ -2,7 +2,19 @@
 
 \lineparagraph {Exercise}
 
+$n$ points are given on the plane whose coordinates are $(a_1, b_1), (a_2, b_2), \dots{} ,(a_n, b_n)$, respectively. We want to find a point $P = (x,y)$ on the plane so that the sum $\sum\limits_{i=1}^{n}(|a_i - x| + |b_i - y|)$ is minimal. Give an $O(n\log{}n)$ running time algorithm that determines one such point $P$.
 
 \lineparagraph {Solution}
 
-
+\begin{itemize}
+\item The coordinates $x$ and $y$ are independent of each other. To minimize $\sum\limits_{i=1}^{n}(|a_i - x| + |b_i - y|)$ is the same as minimizing $\sum\limits_{i=1}^{n}(|a_i - x|)$ for $x$ and $\sum\limits_{i=1}^{n}(|b_i - y|)$ for $y$ separately.
+\item To minimize $\sum\limits_{i=1}^{n}(|a_i - x|)$ for an $x$.
+\item Let's imagine $x$ on a $1D$ coordinate axis.
+\item If $x$ is smaller than the smallest $a_i$, by moving $x$ to the right we only decrease the sum.
+\item As long as there are less $a_i$'s to the left of it than to the right of $x$, the sum will keep decreasing as we move $x$ to the right. (The distance will change by the same amount for each individual point, however the ones on the left of $x$ will increase, while the ones on the right will decrease.)
+\item However, if more $a_i$'s are behind $x$ then it is no longer optimal to move $x$ to the right anymore.
+\item If there are an odd number of $a_i$'s, then $x$ has to be equal to the middle one (the median).
+\item If there are an even number of $a_i$'s, then $x$ can be anywhere between the two middle ones. For example, median is defined by the arithmetic average of the two middle $a_i$'s, so in this case we can still chose the median of the $a_i$'s as $x$.
+\item To find the median, we must sort the $a_i$'s, using for example merge sort, which runs in $O(n\log{}n)$ time. Then we select the middle one, or the two middle ones and take their averages for $x$.
+\item We do the exact same thing for $y$.
+\end{itemize}

@@ -2,7 +2,17 @@
 
 \lineparagraph {Exercise}
 
+Give an efficient algorithm that finds the smallest and the second smallest element among $n$ numbers.
 
 \lineparagraph {Solution}
+
+\begin{itemize}
+    \item The smallest can be found in $n-1$ steps.
+    \item Imagine this process as a tournament: whenever two numbers are compared, the smallest one ''wins'' and moves forward.
+    \item The minimum is the one that wins the tournament. The second smallest can only lose to the minimum, so we can trace back who the minimum was compared to and check only those numbers for being the second smallest possible.
+    \item We know that the tournament can be done in $O(\log_2(n))$ rounds, so the second smallest can be between $\log_2(n)$ numbers (that the final winner played with).
+    \item So we find the minimum of these $\log_2(n)$ numbers in $\log_2(n)-1$ comparisons for the second smallest.
+    \item In total we have done $n-1+\log_2(n)-1 = n+\log_2(n)-2$ comparisons.
+\end{itemize}
 
 

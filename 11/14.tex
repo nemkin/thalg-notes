@@ -2,7 +2,29 @@
 
 \lineparagraph {Exercise}
 
+Give an efficient algorithm that finds the smallest and the largest element among $n$ numbers.
 
 \lineparagraph {Solution}
 
+\begin{itemize}
+    \item The array is not necessarily sorted.
+    \item Efficiency in this case means finding an algorithm for the smallest possible number of comparisons.
+\end{itemize}
 
+Firs try:
+\begin{itemize}
+    \item We can use linear search, in $O(n)$ time. (This is better than sorting.)
+    \item We keep track of the minimum and maximum we have seen so far, and for every current index, if that value is smaller than the minimum or greater than the maximum so far, we update those values.
+    \item In the end we'll have the minimum and maximum in the array.
+    \item This will result in $2\cdot{}(n-1)=2n-2$ comparisons, since the first element is not compared to anything, but after that each element will be compared both to the current minimum and maximum.
+    \item Actually, we can even do one less comparisons: select the first two values of the array, compare then with each other and take the smaller as current minimum and the bigger as current maximum. This is $1$ comparison. Then compare the rest of the $n-2$ elements as previously: $2(n-2)+1 = 2n-3$.
+\end{itemize}
+
+Better solution:
+\begin{itemize}
+    \item Let's pair up the elements of the arry with their next neighbours: $A[1]$ pairs with $A[2]$, $A[3]$ pairs wth $A[4]$ and so on, $A[n]$ might not having a pair if $n$ is odd.
+    \item Compare the pairs between each other. This uses $\lfloor{}\frac{n}{2}\rfloor{}$ comparisons.
+    \item Now from each pair, there will be a smaller and a bigger number. Put these into two separate arrays. If $n$ is odd, compare the last $3$ numbers with each other using $3$ comparions to find the minimum and maximum between the $3$.
+    \item Run the previous minimum finding algorithm on the array containing the smaller numbers: the array has $\lfloor{}\frac{n}{2}\rfloor{}$ numbers, so the algorithm will run in $O(\lfloor{}\frac{n}{2}\rfloor{}-1)$. Same for the other one, but find the maximum there.
+    \item In total we have done $\lfloor{}\frac{n}{2}\rfloor{} + 3 + 2(\lfloor{}\frac{n}{2}\rfloor{} - 1) \approx{} 1.5n$ comparisons.
+\end{itemize}
