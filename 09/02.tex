@@ -2,6 +2,22 @@
 
 \lineparagraph {Exercise}
 
+Let us assume that $P\neq{}NP$ and $L_1 \in{} P$. Is it possible that
+
+\begin{enumerate}[a)]
+    \item $L_1$ can be Karp-reduced to an $NP$-complete language $L_2$?
+    \item an $NP$-complete language $L_2$ can be Karp-reduced to $L_1$?
+    \item $L_1 \in{} NP$?
+    
+\end{enumerate}
 
 \lineparagraph {Solution}
 
+\begin{itemize}
+    \item Task a): Yes, almost all Karp-reductions exist from all polynomial languages.
+    \item This is because during the polynomial transformation, we can actually solve the question, if it is in $P$ and then give two mock data, one that is a YES-instance and one that is a NO-instane to the target solver.
+    \item The only reason why this might not be possible if the target solver is the empty language (everything is a NO instance) or the complete $\Sigma^*$ (everything is a YES instance), in which case we won't be able to come up with one of the mock inputs needed.
+    \item Task b): No, because if $L_2 \prec L_1 \in{} P$ exists, then that means that $L_2 \in{} P$ as well (polynomial the Karp-reduction tranformation function + the polynomial solver for $L_1$ becomes a solver for $L_2$).
+    \item This means that we have just solved an $NP$-complete problem in polynomial time, which mans that all problems in $NP$ can be solved in polynomial time (since all Karp-reduction from all problems in $NP$ exist). We know that $P\subseteq{}NP$, so now it becomes $P=NP$, but we assumed that $P\neq{}NP$, which is a contradiction.
+    \item Task c): Yes it is always true, since $L_1\in{}P\subseteq{}NP$.
+\end{itemize}

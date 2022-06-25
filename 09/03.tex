@@ -2,6 +2,20 @@
 
 \lineparagraph {Exercise}
 
+ Is the following problem in P or is it NP-complete? We are given integer numbers $a1, \dots{}, a_n$ and question
+is whether this set of numbers can be partitioned into three parts so that sum of the numbers in each part
+is the same.
 
 \lineparagraph {Solution}
 
+\begin{itemize}
+    \item This smells like an NP-complete problem, because it looks similar to $PARTITION$.
+    \item First prove that it is in NP using the Witness Theorem:
+    \item The witness will be a description of such a partition, which is given by a list of $n$ numbers between $1$ and $3$ the $i$th representing which partition the $a_i$ belongs to. This is polynomial, $O(n)$ size.
+    \item Witness checking will be summing the partitions separately and comparing that they indeed sum to the same number and also that no index number left out (by giving a number other than $1,2,3$ on the input or giving less than $n$ numbers on the input). This can be done in polynomial time.
+    \item Now prove that it is NP-hard by Karp-reducing the well-known $PARTITION$ $NP$-complete problem onto it.
+    \item We can take the sum of all $a_i$'s from the input of $PARTITION$ and divide by $2$. Add this $c$ value to the list of $a_i$'s and give this list to the solver for $L$.
+    \item The solver must put $c$ into a a separate group, since if it tried to put additional numbers next to it, the group would become too big, and the remaining numbers won't be able to balance it out.
+    \item So if there is a $3-way$ partition of these numbers to an equal sum, it can only be done by $c$ being a separate group, meaning that the other two groups will be a $2-way$ partition of the original input.
+    \item The transformation here is polynomial as well, we sum $n$ nubmers and do some additional arithmetic, done in $O(n)$.
+\end{itemize}
