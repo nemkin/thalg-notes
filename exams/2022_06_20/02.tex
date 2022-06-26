@@ -2,6 +2,48 @@
 
 \lineparagraph{Exercise}
 
+Give a context-free grammar for the following language: $\{ a^{2k+3l}b^kc^l ~|~ 0\leq{} k,l \}$.
 
 \lineparagraph{Solution}
 
+\begin{itemize}
+    \item \textbf{\textcolor{red}{KEY IDEA: Any time you need to generate a language where some count of letters should be the same as some other count of letters, you have to generate those letters from the same variable, using the one to the left - one to the right method}}.
+    \item In this case, $a^{2k+3l}b^kc^l = a^{3l}a^{2k}b^{k}c^{l}$, so there needs to be a variable for ''$a^{3k}\dots{}c^k$'' and another variable for ''$a^{2k}b^k$''.
+\end{itemize}
+
+I have seen the following \textbf{wrong} solution so many times:
+
+\begin{align*}
+S \rightarrow& AB\\
+A \rightarrow& aaaSaa ~|~ \varepsilon\\
+B \rightarrow& bBc ~|~ \varepsilon
+\end{align*}
+
+\begin{itemize}
+    \item You cannot guarantee that the count of $aaa$'s will be the same as the count of $b$'s (and similarly for $aa$ and $c$). Since the $A \rightarrow aaaSaa$ rule can be executed a different number of times as the $B \rightarrow bBc$ rule.
+    \item For example I can generate the following word: $S \rightarrow AB \rightarrow aaaSaaB \rightarrow aaaaaaSaaaaB \rightarrow aaaaaaSaaaabBc \rightarrow aaaaaaaaaabBc \rightarrow aaaaaaaaaabc = a^{6+4}b^{1}c^{1}$. The counts are disjoint from each other, because we used different variables!
+\end{itemize}
+
+Instead, you will need the following two variables (and we will talk about the starting variable and how to put them together in a moment):
+
+\begin{align*}
+A \rightarrow& aaaAc ~|~ \varepsilon \\
+B \rightarrow& aaBc ~|~ \varepsilon
+\end{align*}
+
+\begin{itemize}
+    \item The amount of times the $A \rightarrow aaaAc$ rule is executed will correspond to the number $l$ of the input word: if we want $l=2$ for example, aka. $a^{6}c^{2}$, then the rule is executed $2$ times.
+    \item Similarly the amount of times the $B \rightarrow aaAb$ rule is executed will correspond to the number $k$ of the input word: if we want $k=4$ for example, aka. $a^{8}b^{4}$, then the rule is executed $4$ times.
+    \item Now, the only problem is that the ''$a^{2k}b^k$'' part needs to come between the $a$'s and the $c$'s of the ''$a^{3k}\dots{}c^k$'' part of the word. So we cannot make the starting variable $S \rightarrow AB$, because that would result in $a^{3k}c^{k}a^{2l}b^{l}$, which is not the correct order.
+    \item Instead, this can be achieved by changing the $A \rightarrow \varepsilon$ rule into an $A \rightarrow B$ rule, like this:
+\end{itemize}
+
+\begin{align*}
+A \rightarrow& aaaAc ~|~ B \\
+B \rightarrow& aaBc ~|~ \varepsilon
+\end{align*}
+
+\begin{itemize}
+    \item Now the starting variable is $A$, and when the $A \rightarrow aaaAc$ rule generated he external $a$'s and $c$'s, our exit rule for the $A$ variable is to change into a $B$ and start generating the inner $a$'s and $b$'s.
+    \item So to achieve the word $a^{3l}a^{2k}b^{k}c^{l}$, we will execute the rule $A \rightarrow aaaAc$ exactly $l$ times, then we execute the rule $A\rightarrow B$, then we execute the rule $B \rightarrow aaBc$ exactly $k$ times, then we execute the rule $B \rightarrow \varepsilon$ and we are done.
+\end{itemize}

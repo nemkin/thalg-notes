@@ -2,6 +2,17 @@
 
 \lineparagraph{Exercise}
 
+For language $A$ and $B$ over alphabet $\Sigma = \{0,1\}$ let $A \bigodot B$ denote the language, which consists of those words that are obtained by concatenating a word $w \in{} A$ with $w' \in{} B$ that \textbf{has the same length} as $w$, in all possible ways. That is, $A \bigodot B = \{ ww' ~|~ w \in{} A, w' \in{} B, |w| = |w'|\}$. Give regular languages $A$ and $B$, for which $A \bigodot{} B$ is not regular.
 
 \lineparagraph{Solution}
 
+\begin{itemize}
+    \item This exercise is basically asking if you remember the $a^nb^n$ language, or in this case $0^n1^n$.
+    \item $A=0^n$ is regular, because for example I can give the regular expression $0^*$ for it.
+    \item $B=1^n$ is also regular, because I can give the regular expression $1^*$ for it.
+    \item Since only words that are of the same length will be concatenated from $A$ and $B$ this means that only the same number of $0$'s will be concatenated to the same number of $1$'s.
+    \item So the $A \bigodot B$ language is in fact $0^n1^n$, and we have studied this in the lectures that it is not regular (we have seen $a^nb^n$, and we can just substitute $a=0$ and $b=1$).
+    \item It is enough to reference that we have seen this proof in the lectures. If you gave a slightly different language and you also explain why the same proof works in that case, then it is also accepted.
+    \item If your $A \bigodot B$ language is very different, then you will need to prove why it is not regular, using the same indirect technique, but probably different $k+1$ words. See \nameref{3f1} for the proof.
+    \item If you said something along the lines of ''we can't recognize this language without a stack'', then that is good intuition, but not really a proof. :( Make sure to always reference the $a^nb^n$ language, say that we have proven this in the lectures and then show why yourlanguage is the same (e.g. $0=a, 1=b$ in this case).
+\end{itemize}

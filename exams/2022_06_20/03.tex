@@ -2,6 +2,40 @@
 
 \lineparagraph{Exercise}
 
+The input of decision problem $NFA-EMPTY$ is a description of a non-deterministic finite automaton $M$, and the question is to decide whether the language of $M$ is empty. Prove that $NFA-EMPTY \in{} coNP$.
 
 \lineparagraph{Solution}
 
+\begin{itemize}
+    \item Let's start by the definition of $coNP$: the languages of $coNP$ are the complementers of languages in $NP$.
+    \item So to prove that $NFA-EMPTY \in{} coNP$, we must prove that $\overline{NFA-EMPTY} \in{} NP$.
+    \item To prove that a language is in $NP$, we use the Witness Theorem.
+    \item In this case, the language $\overline{NFA-EMPTY}$:
+    \begin{itemize}
+        \item Answers $YES$, if it is given an $NFA$ description on its input that corresponds to an $NFA$, which has at least one accepted word in its language (the complementer to empty language = no accepted words, is having at least one accepted word).
+        \item Answers $NO$ if it is given something that is not an $NFA$ description, or given an $NFA$ description which doesn't have an accepted word (it's language is empty).
+    \end{itemize}
+    \item We need a witness for the $YES$ answer, so given an NFA description we need to 'point out' an accepted word in it.
+\end{itemize}
+
+First a longer approach, that I would like to explain anyways, to help your understanding of the topic and appreciate the quicker answer:
+
+\begin{itemize}
+    \item It is important that the witness size is polynomial, so any accepted word won't do. We can think of an NFA description in the following way: a list of its $n$ states, a list of its $k=|\Sigma|$ sized alphabet, and a description of it's transitions: from any state, to any state, by any letter in the alphabet: $O(n^2k)$.
+    \item So the input size is $O(n+k+n^2k)=O(n^2k)$.
+    \item We need an input word that is in this size limit. Luckily any input word that has more than $n$ characters in it will correspond to a path in the $NFA$ that contains at least one loop (since it will have to return to one of the states to fit into the $NFA$), so we can cut this loop out and keep the non-looped path, corresponding to an input word that has less than $n$ characters in it.
+    \item The witness checking algorithm would be writing out the branching computational tree of the input word and checking if it has an accepted state at the end.
+    \item The witness checking algorithm has to run in polynomial time. If you just naively execute the algorithm we have studied in the class, that will be $O(n^n)$, since in any state, it can branch out to $n$ other branches (for any character we can move to any other state, since it is a nondeterministic automaton), and there will be $n$ steps done.
+    \item However, this branching would contain many duplicate states, since after reading in some characters from the input word, it only matters which of the $n$ states we can end up in, not the many possible paths we could have taken.
+    \item So if we modify the algorithm and just write down after each step, which of the states we could be in, removing duplicates in every case, then the runtime will be just $O(n^3)$: the input word is at most $n$ characters and for each character we can have a list of at most $n$ current states, so we can move to at most $n^2$ states in each step, so $n^3$ steps in total, but in each step we remove the duplicates from $n^2$, reducing the current number of states to just $n$, for the next step.
+    \item So if you write down 'a witness is an accepted word', you would also have to explain all of the above, which is quite a lot, would not recommend.
+\end{itemize}
+
+And then a quicker, simpler approach:
+
+\begin{itemize}
+    \item Just point out a path from the start state to any accepting state. That will correspond to an accepting computation (for the input word corresponding to the edges of the path). The important distinction here is that in the witness itself, we also give the information of which computational branch is the accepting one.
+    \item The length of the witness is $O(n)$, since it's a path in an $n$-state automaton.
+    \item And the witness checking is just seeing if that path indeed exists in the finite automaton. We don't have to worry about non-determinism in this case.
+    \item Actually, finding a path from a given state (vertex) to some other state (vertex) in an NFA (directed graph) can be done using BFS, so actually this problem is in $P$. :)
+\end{itemize}
