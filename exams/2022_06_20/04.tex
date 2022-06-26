@@ -2,6 +2,16 @@
 
 \lineparagraph{Exercise}
 
+The array $A[1:n]$ contains the daily prices of a given share in the way that $A[i]$ is the price on day $i$ (there is only one price on a day). If we buy the share on the $i$th day and sell on the $j$th day ($j>i$), then we realize a profit of $A[j]-A[i]$. Give a dynamic programming algorithm that runs in $O(n)$ time and determines the maximum realizable profit by buying the share on a single day and selling the share on a single day. (For example if $A[1:n] = [5,11,2,6,4,10,1,8]$, then the maximal profit is $8$, realized by buying on the third day and selling on the sixth day.)
 
 \lineparagraph{Solution}
 
+This is not technically a dynamic programming solution, but one that runs in $O(n)$ time and is the simplest (and I have seen this from most papers):
+
+\begin{itemize}
+    \item If we sold on the $i$th day, then we must have bought the shares on one of the days between $1$ and $(i-1)$.
+    \item The best day to buy is the one with the lowest price.
+    \item So we will make a loop with pointer $i$, from $i=2$ to $i=n$, which will represent the current selling date.
+    \item In each step we keep track of the minimum price we have seen before: on $i=2$, $min=A[1]$, and for every other $i$, $min$ is updated by $min=min(min, A[i-1])$. So $min$ will always contain the minimum of $A[1:(i-1)]$.
+    \item Then we check the current best profit $A[i]-min$, and keep track of the maximum we have seen in another $max$ variable, which we print out at the end.
+\end{itemize}

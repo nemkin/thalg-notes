@@ -2,6 +2,16 @@
 
 \lineparagraph{Exercise}
 
+Array $A$ contains positive numbers, not necessarily in sorted order. Give an algorithm that chooses $k$ elements of $A$, so that the sum of the chosen elements is not larger than $k^3$. If there is no such $k$, then the algorithm should note that. The running time must be $O(n\log{}n)$.
 
 \lineparagraph{Solution}
 
+\begin{itemize}
+    \item First thing to notice: $O(n\log{}n)$ means we can sort! It will be useful to us in this case, because:
+    \item We can take any $k$ elements, not necessarily consecutive ones, so their current placement doesn't matter.
+    \item And if we took $k$ elements, it is always better to choose the smallest $k$ elements, since we have an upper limit on their sum.
+    \item So let's sort the array and iterate over it with an $i$ iterator: in each step we keep track of the current sum. For $i=1$, $sum=A[1]$, and when we move $i$, we can update the current sum by $sum = sum + A[i]$.
+    \item Then, in each step, we check if $sum \leq{} i^3$. If for a specific $i$ this is true, then $k=i$ is found and we print the $A[1:i]$ numbers out.
+    \item If for a specific step the sum is too large, we can continue with $i$, since as $i^3$ grows it can be able to upper-estimate the sum again!
+    \item If we have went through the entire array and have not found a solution, we can print out 'NOT POSSIBLE'. This is because if it is not possible for the smallest $k$ elements to sum to $\leq{}k^3$, then by choosing other, larger elements, we just make it worse. So it is definitely not possible in other ways either.
+\end{itemize}
